@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset = "utf-8"/>
+<title>Formation : </title>
+	<link rel ="stylesheet" type ="text/css" 
+	href ="../static/css/bootstrap.min.css"
+	th:href ="@{css/bootstrap.min.css}"/>
+	
+
+</head>
+
+
+<body>
+<p>
+
+
+
+
+</p>
+<div class ="container">
+<form th:action ="@{save}" method ="post">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Title Of The article:</label>
+      <input type="text" class="form-control" name="Title" placeholder="Title" th:value="${formation.Title}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Number of places</label>
+      <input type="number" class="form-control" name="NbPlaces" placeholder="Nomber of places"  th:value="${formation.NbPlaces}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Local</label>
+      <input type="text" class="form-control" name="Local" placeholder="Local"  th:value="${formation.Local}">
+    </div>
+    
+    
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Total hours:</label>
+    <input type="text" class="form-control" name ="TotalHeure" placeholder="1234 Main St" th:value ="${formation.TotalHeure}">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Hours per day:</label>
+    <input type="text" class="form-control" name="TotalHeurePDay" placeholder="Apartment, studio, or floor" th:value ="${formation.TotalHeurePDay}">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">Article Category:</label>
+      <input type="text" class="form-control" name="ArticleCat" th:value ="${formation.ArticleCat}">
+    </div>
+        <div class="form-group col-md-6">
+      <label for="inputCity">Item Price ($ USD):</label>
+      <input type="text" class="form-control" name="prix"  th:value ="${formation.prix}">
+    </div>
+ 
+       <div class="form-group col-md-6">
+      <label for="inputZip">Requirements:</label>
+      <input type="text" class="form-control" name="Requirements" th:value ="${formation.Requirements}">
+    </div>
+    
+        <div class="form-group col-md-6">
+      <label for="inputZip">Description:</label>
+      <input type="text" class="form-control" name="Description" th:value ="${formation.Description}">
+    </div>
+    
+    
+  </div>
+  
+  <button type="submit" class="btn btn-primary">save</button>
+</form>
+</div>
+
+
+</body>
+</html>
