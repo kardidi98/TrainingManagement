@@ -1,7 +1,10 @@
 package org.sid.entities;
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,6 +14,10 @@ import javax.persistence.GeneratedValue;
 
 @Entity
 public class Client implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id 
 	@GeneratedValue
 	private long id;
@@ -19,18 +26,35 @@ public class Client implements Serializable{
 	private String email;
 	private String password;
 	private String type;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Formation> formation;
+	
 	public Client() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Client(String nom, String prenom, String email, String password, String type) {
+	
+	public Client(long id, String nom, String prenom, String email, String password, String type,
+			List<Formation> formation) {
 		super();
+		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.password = password;
 		this.type = type;
+		this.formation = formation;
 	}
+
+	public List<Formation> getFormation() {
+		return formation;
+	}
+
+	public void setFormation(List<Formation> formation) {
+		this.formation = formation;
+	}
+
 	public long getId() {
 		return id;
 	}

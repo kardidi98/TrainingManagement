@@ -98,14 +98,15 @@
 							
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item">
-								<a class="nav-link login-button" th:href="@{login}">Login</a>
-							</li>
+							
 							<li class="nav-item">
 								<a class="nav-link text-white add-button rounded" th:href="@{AddArticle}" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link text-white add-button-local rounded" href="#"><i class="fa fa-plus-circle"></i> Add Local</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link login-button rounded" th:text="${session.user.email}" th:unless="${session==null}" style="margin-left:10px;"></a>
 							</li>
 						</ul>
 					</div>

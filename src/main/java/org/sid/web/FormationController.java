@@ -8,12 +8,14 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.commons.*;
+
 import org.apache.commons.io.IOUtils;
 import org.sid.dao.*;
-
+import org.sid.entities.Client;
 import org.sid.entities.Formation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +34,17 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FormationController {
 	
+	
 	@Autowired
 	private FormationRepository formationRepository;
 	@Value("${dir.images}")
 	private String imageDir;
 	
-	
-	
-	
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
-	public String home(Model model) {		
-		return "home";		
+	public String home(Model model,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		if(session.getAttribute("user")==null) return "home";
+		else return "index";		
 	}
 	@RequestMapping(value="/AddArticle", method = RequestMethod.GET)
 	public String formulaireFormation(Model model) {	
@@ -52,7 +54,9 @@ public class FormationController {
 	
 	
 	@RequestMapping(value="/save", method =RequestMethod.POST)
-	public String save(Model model, Formation formation,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
+	public String save(Model model, Formation formation,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult,HttpServletRequest request) throws IllegalStateException, IOException {
+		HttpSession session =request.getSession(true);
+		formation.setUser((Client) session.getAttribute("user"));
 		if(bindingResult.hasErrors()) {
 			return "dashboard-my-ads";
 		}
@@ -61,6 +65,8 @@ public class FormationController {
 			formation.setSignificantPhoto(file.getOriginalFilename());
 		
 		}
+
+		
 		formationRepository.save(formation);
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
@@ -71,9 +77,12 @@ public class FormationController {
 	}
 	
 	@RequestMapping(value="/listFormation", method =RequestMethod.GET)
-	public String listFormation(Model model) {
+	public String listFormation(Model model,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
 		List<Formation> formation=formationRepository.findAll();
 		model.addAttribute("formation",formation);
+		if(session.getAttribute("user")==null) return "CategoryVisiteur";
+		
 		return "category";
 	}
 	

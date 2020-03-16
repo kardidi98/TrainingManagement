@@ -13,6 +13,4 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 	
-
-	
 }

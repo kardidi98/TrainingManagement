@@ -46,7 +46,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<nav class="navbar navbar-expand-lg navbar-light navigation">
-						<a class="navbar-brand" href="index.html">
+						<a class="navbar-brand" th:href="@{TrainingManagement}">
 							<img src="images/logo.png" alt="" id="logo">
 						</a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -95,13 +95,13 @@
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
-								<a class="nav-link login-button" href="login.html">Login</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-white add-button rounded" href="ad-listing.html" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
+								<a class="nav-link text-white add-button rounded"   th:href="@{AddArticle}"  id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link text-white add-button-local rounded" href="#"><i class="fa fa-plus-circle"></i> Add Local</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link login-button rounded" th:text="${session.user.email}" th:unless="${session==null}" style="margin-left:10px;"></a>
 							</li>
 						</ul>
 					</div>
@@ -158,9 +158,9 @@
 					<h1 class="product-title" th:text="${article.Title}"></h1>
 					<div class="product-meta">
 						<ul class="list-inline">
-							<li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="">Andrew</a></li>
-							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<span th:text="${article.ArticleCat}"></span></li>
-							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<span th:text="${article.Local}"></span></li>
+							<li class="list-inline-item" th:text="'By '+ ${session.user.nom}" th:unless="${session==null}"><i class="fa fa-user-o"></i></li>
+							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category: <span th:text="${article.ArticleCat}"></span></li>
+							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location: <span th:text="${article.Local}"></span></li>
 						</ul>
 					</div>
 
@@ -284,7 +284,7 @@
 								
 							</div>
 							<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-								<h3 class="tab-title">Product Review</h3>
+								<h3 class="tab-title">Review</h3>
 								<div class="product-review">
 									<div class="media">
 										<!-- Avater -->
@@ -342,7 +342,7 @@
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
 						<img class="rounded-circle img-fluid mb-5 px-5" src="images/user/user-thumb.jpg" alt="">
-						<h4><a href="">Jonathon Andrew</a></h4>
+						<h4><a th:text="${session.user.nom} +' ' +${session.user.prenom}" th:unless="${session==null}"></a></h4>
 						<p class="member-time">Member Since Jun 27, 2017</p>
 						
 						<ul class="list-inline mt-15" >

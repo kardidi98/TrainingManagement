@@ -108,7 +108,7 @@
 								<a class="nav-link text-white add-button-local rounded" href="#"><i class="fa fa-plus-circle"></i> Add Local</a>
 							</li>
 							<li class="nav-item" style="margin-left:10px;">
-								<a class="nav-link login-button rounded" th:text="${user.email}"></a>
+								<a class="nav-link login-button rounded" th:text="${session.user.email}" th:unless="${session==null}"></a>
 							</li>
 							
 						</ul>

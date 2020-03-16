@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Resister: TrainingManagement</title>
+  <title>Login: TrainingManagement</title>
 <link type="text/css" href="../static/plugins/bootstrap/css/bootstrap-timepicker.min.css" th:href ="@{plugins/bootstrap/css/bootstrap-timepicker.min.css}"/>
   <script type="text/javascript" src="../static/plugins/bootstrap/js/bootstrap-timepicker.min.js" th:src="@{plugins/bootstrap/js/bootstrap-timepicker.min.js}"></script>
   <!-- DateTimePicker -->
@@ -83,7 +83,7 @@
       <div class="col-lg-5 col-md-8 align-item-center">
         <div class="border" style="box-shadow: 0 0 10px rgb(222, 226, 230);">
           <h3 class="bg-gray p-4">Login Now</h3>
-          <form action="#" >
+          <form action="@{Authentification}" method="post" >
             <fieldset class="p-4">
               <input name="email" type="email" placeholder="Username" class="border p-3 w-100 my-2" required/>
               <input name="password" type="password" placeholder="Password" class="border p-3 w-100 my-2" required/>

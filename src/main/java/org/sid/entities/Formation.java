@@ -3,10 +3,14 @@ package org.sid.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -15,7 +19,6 @@ public class Formation implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	//private Long userId;
 	private String Title;
 	private int NbPlaces;
 	private String difficulty;
@@ -27,8 +30,9 @@ public class Formation implements Serializable {
 	private java.sql.Date firstDay;
 	private java.sql.Date lastDay;
 	private String significantPhoto;
-	
-	
+	@ManyToOne
+	@JoinColumn(name="userId")
+	private Client user;
 	
 	
 	public Formation() {
@@ -36,8 +40,10 @@ public class Formation implements Serializable {
 	}
 	
 	
+
 	public Formation(Long id, String title, int nbPlaces, String difficulty, String articleCat, int prix, String local,
-			String requirements, String description, java.sql.Date  firstDay, java.sql.Date  lastDay, String significantPhoto) {
+			String requirements, String description, java.sql.Date firstDay, java.sql.Date lastDay,
+			String significantPhoto, Client user) {
 		super();
 		this.id = id;
 		Title = title;
@@ -51,7 +57,23 @@ public class Formation implements Serializable {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
 		this.significantPhoto = significantPhoto;
+		this.user = user;
 	}
+
+
+
+	public Client getUser() {
+		return user;
+	}
+
+
+
+	public void setUser(Client user) {
+		this.user = user;
+	}
+
+
+
 	public String getSignificantPhoto() {
 		return significantPhoto;
 	}
