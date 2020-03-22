@@ -43,52 +43,26 @@
 
 </head>
 
-<body class="body-wrapper">
+<body class="body-wrapper" style="background-color: rgba(0, 123, 250,0.3);">
 
 
-  <section>
-    <div class="container" >
-      <div class="row">
-        <div class="col-md-12">
-          <nav class="navbar navbar-expand-lg navbar-light navigation">
-            <center>
-						<a class="navbar-brand" th:href="@{TrainingManagement}">
-							<img src="images/logo.png" alt="" id="logo"/>
-						</a>
-				</center>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto main-nav ">
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{TrainingManagement}">Home</a>
-              </li>
-             
-             
-              
-            </ul>
-            
-          </div>
-        </nav>
-      </div>
-    </div>
-  </div>
-</section>
-<hr>
 <section class="login py-5 border-top-1" >
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-5 col-md-8 align-item-center">
-        <div class="border" style="box-shadow: 0 0 10px rgb(222, 226, 230);">
-          <h3 class="bg-gray p-4">Login Now</h3>
-          <form action="@{Authentification}" method="post" >
+        <div class="border rounded" style="background-color: white; box-shadow: 0 0 10px rgba(128, 128, 128,1);">
+          <center>
+                     <h2 class="bg-gray p-4">Login Now</h2>
+					<a class="navbar-brand" th:href="@{TrainingManagement}">
+					<img src="images/logo.png" alt="" id="logo" width="150"/>
+					</a>
+			</center>
+          <form th:action="@{Authentification}" method="post" >
             <fieldset class="p-4">
-              <input name="email" type="email" placeholder="Username" class="border p-3 w-100 my-2" required/>
+              <input name="email" type="email" placeholder="Email" class="border p-3 w-100 my-2" required/>
               <input name="password" type="password" placeholder="Password" class="border p-3 w-100 my-2" required/>
               <div class="loggedin-forgot">
-                <input type="checkbox" id="keep-me-logged-in">
+                <input type="checkbox" id="keep-me-logged-in" readonly="readonly">
                 <label for="keep-me-logged-in" class="pt-3 pb-2">Keep me logged in</label>
               </div>
               <button type="submit" class="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3">Log in</button>
@@ -126,9 +100,9 @@
         <div class="block">
           <h4>Site Pages</h4>
           <ul>
-            <li><a href="about-us.html">About Us</a></li>
+            <li><a th:href="@{about}">About Us</a></li>
             <li><a href="#categories">Categories</a></li>
-            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a th:href="@{contact-us}">Contact Us</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Others Comments</a></li>
           </ul>

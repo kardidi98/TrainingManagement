@@ -2832,3 +2832,13 @@ button:hover {
 .updateForm{
 	box-shadow: 0 0 20px rgb(222, 226, 230);
 }
+
+.d-inline-block:hover{
+	color:#84B6DE;
+	cursor:pointer;
+}
+.d-inline-block{
+	color:#000;
+	font-weight: bold;
+	font-size: 15px;
+}

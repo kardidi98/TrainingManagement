@@ -71,14 +71,14 @@
                 <!-- Dropdown list -->
                 <div class="dropdown-menu">
                  					<a class="dropdown-item" th:href="@{listFormation}">All</a>
-									<a class="dropdown-item" href="#">Development</a>
-									<a class="dropdown-item" href="#">Programmation</a>
-									<a class="dropdown-item" href="#">Finance & Comptability</a>
-									<a class="dropdown-item" href="#">Business</a>
-									<a class="dropdown-item" href="#">Electronics</a>
-									<a class="dropdown-item" href="#">Personal Development</a>
-									<a class="dropdown-item" href="#">Management</a>
-									<a class="dropdown-item" href="#">Innovation</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance & Comptability</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal Development</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
 
                   
                 </div>
@@ -90,9 +90,9 @@
                 <!-- Dropdown list -->
                 <div class="dropdown-menu">
                 	<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
-                  <a class="dropdown-item" href="about-us.html">About Us</a>
-                  <a class="dropdown-item" href="contact-us.html">Contact Us</a>
-                  <a class="dropdown-item" href="#">User Profile</a>
+                  <a class="dropdown-item" th:href="@{about}">About Us</a>
+					<a class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
+                  <a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
                   
 
                 </div>
@@ -593,9 +593,9 @@
         <div class="block">
           <h4>Site Pages</h4>
           <ul>
-            <li><a href="about-us.html">About Us</a></li>
+            <li><a th:href="@{about}">About Us</a></li>
             <li><a href="#categories">Categories</a></li>
-            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a th:href="@{contact-us}">Contact Us</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Others Comments</a></li>
           </ul>

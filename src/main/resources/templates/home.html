@@ -70,14 +70,14 @@
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
 									<a class="dropdown-item" th:href="@{listFormation}">All</a>
-									<a class="dropdown-item" href="#">Development</a>
-									<a class="dropdown-item" href="#">Programmation</a>
-									<a class="dropdown-item" href="#">Finance & Comptability</a>
-									<a class="dropdown-item" href="#">Business</a>
-									<a class="dropdown-item" href="#">Electronics</a>
-									<a class="dropdown-item" href="#">Personal Development</a>
-									<a class="dropdown-item" href="#">Management</a>
-									<a class="dropdown-item" href="#">Innovation</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance & Comptability</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal Development</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
 
 									
 								</div>
@@ -90,8 +90,8 @@
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
 									
-									<a class="dropdown-item" href="about-us.html">About Us</a>
-									<a class="dropdown-item" href="contact-us.html">Contact Us</a>
+									<a class="dropdown-item" th:href="@{about}">About Us</a>
+									<a class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
 									
 									
 
@@ -105,7 +105,6 @@
 								<a class="nav-link login-button rounded" th:href="@{login}">Login</a>
 							</li>
 						
-							</li>
 						</ul>
 					
 										
@@ -136,19 +135,19 @@
 						<h2>Popular Category</h2>
 						<ul class="list-inline">
 							<li class="list-inline-item">
-								<a href="#"><i class="fa fa-terminal"></i> Development</a>
+								<a th:href="@{listFormationParCategory(cat=('Development'))}"><i class="fa fa-terminal"></i> Development</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#"><i class="fa fa-laptop"></i> Electronics</a>
+								<a th:href="@{listFormationParCategory(cat=('Electronics'))}"><i class="fa fa-laptop"></i> Electronics</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#"><i class="fa fa-keyboard-o"></i> Programmation</a>
+								<a th:href="@{listFormationParCategory(cat=('Programmation'))}"><i class="fa fa-keyboard-o"></i> Programmation</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#"><i class="fa fa-dollar"></i> Finance & Comptability</a>
+								<a th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}"><i class="fa fa-dollar"></i> Finance & Comptability</a>
 							</li>
 							<li class="list-inline-item">
-								<a href="#"><i class="fa fa-briefcase"></i> Business</a>
+								<a th:href="@{listFormationParCategory(cat=('Business'))}"><i class="fa fa-briefcase"></i> Business</a>
 							</li>
 							
 						</ul>
@@ -573,9 +572,9 @@
 				<div class="block">
 					<h4>Site Pages</h4>
 					<ul>
-						<li><a href="about-us.html">About Us</a></li>
-						<li><a href="#categories">Categories</a></li>
-						<li><a href="contact-us.html">Contact Us</a></li>
+						<li><a th:href="@{about}">About Us</a></li>
+            			<li><a href="#categories">Categories</a></li>
+           				 <li><a th:href="@{contact-us}">Contact Us</a></li>
 						<li><a href="#">Blog</a></li>
 						<li><a href="#">Others Comments</a></li>
 					</ul>

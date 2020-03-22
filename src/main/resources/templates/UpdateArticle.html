@@ -71,14 +71,14 @@
                 <!-- Dropdown list -->
                 <div class="dropdown-menu">
                  					<a class="dropdown-item" th:href="@{listFormation}">All</a>
-									<a class="dropdown-item" href="#">Development</a>
-									<a class="dropdown-item" href="#">Programmation</a>
-									<a class="dropdown-item" href="#">Finance & Comptability</a>
-									<a class="dropdown-item" href="#">Business</a>
-									<a class="dropdown-item" href="#">Electronics</a>
-									<a class="dropdown-item" href="#">Personal Development</a>
-									<a class="dropdown-item" href="#">Management</a>
-									<a class="dropdown-item" href="#">Innovation</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance & Comptability</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal Development</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
+									<a class="dropdown-item" th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
 
                   
                 </div>
@@ -90,9 +90,9 @@
                 <!-- Dropdown list -->
                 <div class="dropdown-menu">
                 	<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
-                  <a class="dropdown-item" href="about-us.html">About Us</a>
-                  <a class="dropdown-item" href="contact-us.html">Contact Us</a>
-                  <a class="dropdown-item" href="#">User Profile</a>
+                   <a class="dropdown-item" th:href="@{about}">About Us</a>
+				  <a class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
+                  <a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
                   
 
                 </div>
@@ -128,9 +128,12 @@
         </div>
         <div class="col-lg-6 ">
           <h6 class="font-weight-bold pt-4 pb-1">Title Of The article:</h6>
+          <input name="user_id" type="text" class="border w-100 p-2 bg-white text-capitalize rounded cacher" placeholder="" th:value="${session.user.id}">
           <input type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Ad title go There" name="Title" th:field="${article.Title}">
           <h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
           <div class="row px-3 ">
+          	<input name="id" type="text" class="border w-100 p-2 bg-white text-capitalize rounded cacher" placeholder="" th:field="${article.id}">
+          	
             <input name="NbPlaces" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="25,30,100.." th:field="${article.NbPlaces}">
           </div>
           <div class="row ">
@@ -219,15 +222,15 @@
                          <div class="row px-3">
                           <input th:field="${article.Requirements}" name="Requirements" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Java Basics,...">
                         </div>
-                        <div class="choose-file text-center my-3 py-4 rounded">
-                          <label for="file-upload">
+                        <div class="choose-file text-center my-3 py-4 rounded" >
+                          <label for="file-upload" >
                             <span class="d-block font-weight-bold text-dark">Drop a picture to upload</span>
                             <span class="d-block">or</span>
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select a picture</span>
                             
-                            <span><span class="d-block">Please select a picture reflecting the content of your article</span></span>
-                            <input name="picture" type="file" class="form-control-file d-none" id="file-upload" >
-                            <img th:src="@{getPhoto(id=${article.id})}" class="img-fluid" alt=""/>
+                            <span><span class="d-block" style="margin-bottom:15px;">Please select a picture reflecting the content of your article</span></span>
+                            <input name="picture" type="file" class="form-control-file d-none" id="file-upload" />
+                            <img th:src="@{getPhoto(id=${article.id})}" class="img-fluid rounded" alt="image" style="box-shadow: 0 0 10px grey;"/>
 					            
                           </label>
                         </div>
@@ -583,9 +586,9 @@
         <div class="block">
           <h4>Site Pages</h4>
           <ul>
-            <li><a href="about-us.html">About Us</a></li>
+            <li><a th:href="@{about}">About Us</a></li>
             <li><a href="#categories">Categories</a></li>
-            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a th:href="@{contact-us}">Contact Us</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Others Comments</a></li>
           </ul>

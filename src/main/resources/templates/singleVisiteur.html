@@ -101,7 +101,7 @@
 								<a class="nav-link text-white add-button-local rounded" href="#"><i class="fa fa-plus-circle"></i> Add Local</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link login-button rounded" th:text="${session.user.email}" th:unless="${session==null}" style="margin-left:10px;"></a>
+								<a class="nav-link login-button rounded" th:text="Login" th:href="@{login}"  style="margin-left:10px;"></a>
 							</li>
 						</ul>
 					</div>
@@ -335,7 +335,7 @@
 				<div class="sidebar">
 					<div class="widget price text-left">
 						<p><span id="price_info">Price: </span><span>$</span><span th:text="${article.Prix}"></span></p>
-						<p><span id="hour_info">Days: </span><span th:text="${Duration}"></span></p>
+						<p><span id="hour_info">Hours: </span><span th:text="${Duration}"></span></p>
 						<p><span id="level_info">Difficulty: </span><span  th:text="${article.difficulty}"></span></p>
 						<p><span id="places_info">Places: </span><span th:text="${countPlaces+'/'+article.NbPlaces}"></span></p>
 					</div>
@@ -343,7 +343,7 @@
 					<div class="widget user text-center">
 						<img class="rounded-circle img-fluid mb-5 px-5" src="images/user/user-thumb.jpg" alt="">
 						<h4><a th:text="${formateur.nom} +' ' +${formateur.prenom}"></a></h4>
-						<p class="member-time">Trainer</p>
+						<p class="member-time">Member Since Jun 27, 2017</p>
 						
 						<ul class="list-inline mt-15" >
 							<div class="row">
@@ -390,7 +390,7 @@
 		</div>
 	</div>
 <div>
-	<center><a  th:href="@{SendRequest(id=${article.id})}"><button class="text-white add-button-local rounded" style="margin-top: 30px;">Send Request to attend</button></a></center>
+	<center><a  th:href="@{login}"><button class="text-white add-button-local rounded" style="margin-top: 30px;">Send Request to attend</button></a></center>
 </div>
 	<!-- Container End -->
 </section>
