@@ -244,7 +244,7 @@ public class FormationController {
 		Client client=(Client) session.getAttribute("user");
 		Formation formation=formationRepository.getOne(id);
 		Long countFormation=formationRepository.countByIdFormation(id);
-		List<Long> verifyIfExist=formationRepository.verifyIfAlreadyExist(client.getId());
+		List<Long> verifyIfExist=formationRepository.verifyIfAlreadyExist(client.getId(),id);
 		System.out.println(verifyIfExist.size());
 		if(verifyIfExist.size()==0) {
 			if(formation.equals(null)) {

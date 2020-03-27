@@ -31,8 +31,8 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	public void insertIntoReservation(@Param("userId") Long uId,@Param("trainingId") Long tId);
 	@Query(value="select count(*) from Formationreservee f where training_id like :x",nativeQuery = true)
 	public Long countByIdFormation(@Param("x") Long id);
-	@Query(value="select training_id from Formationreservee f where  user_id like :y",nativeQuery = true)
-	public List<Long> verifyIfAlreadyExist(@Param("y") Long uId);
+	@Query(value="select training_id from Formationreservee f where training_id like :x and  user_id like :y",nativeQuery = true)
+	public List<Long> verifyIfAlreadyExist(@Param("y") Long uId,@Param("x") Long tId);
 	@Query(value="select * from Formation fo  where  id in (select training_id from formationreservee f where user_id like :x)",nativeQuery = true)
 	public List<Formation> findReservedTraining(@Param("x") Long id);
 	@Transactional
