@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.sid.dao.*;
 import org.sid.entities.Client;
 import org.sid.entities.Formation;
-
+import org.sid.entities.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -41,6 +43,8 @@ public class FormationController {
 	private String TrainingPicture;
 	@Autowired
 	private FormationRepository formationRepository;
+	@Autowired
+	private LocalController localController;
 	@Value("${dir.images}")
 	private String imageDir;
 	
@@ -53,18 +57,25 @@ public class FormationController {
 	@RequestMapping(value="/AddArticle", method = RequestMethod.GET)
 	public String formulaireFormation(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
+		List<Local> local=localController.findAll();
+	
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
 		model.addAttribute("formation",new Formation());
+		model.addAttribute("locaux", local);
 		return "Ad-listing";		
 	}
 	
 	
 	@RequestMapping(value="/save", method =RequestMethod.POST)
-	public String save(Model model, Formation formation,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult,HttpServletRequest request) throws IllegalStateException, IOException {
+	public String save(Model model,HttpServletRequest request, Formation formation,@RequestParam("LocalId") Long localId,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
 		HttpSession session =request.getSession(true);
-		formation.setUser((Client) session.getAttribute("user"));
+		Client client=(Client) session.getAttribute("user");
+		formation.setUser(client);
+		Local local=localController.findById(localId);
+		
+		formation.setLocal(local);
 		if(bindingResult.hasErrors()) {
 			return "dashboard-my-ads";
 		}
@@ -126,6 +137,9 @@ public class FormationController {
 		}
 		List<Formation> formation=formationRepository.findByUserId(client.getId());
 		model.addAttribute("myformation",formation);
+		List<Local> local=localController.ListeLocals(client.getId());
+	
+		model.addAttribute("local",local);
 		return "dashboard-my-ads";
 	}
 	
@@ -150,7 +164,7 @@ public class FormationController {
 		Formation article= formationRepository.getOne(id);
 		Client formateur=article.getUser();
 		Long countFormation=formationRepository.countByIdFormation(id);
-		model.addAttribute("countPlaces",countFormation);
+		model.addAttribute("countAvailablePlaces",article.getNbPlaces()-countFormation);
 		model.addAttribute("article",article);
 		model.addAttribute("formateur",formateur);
 		Long Duree=article.getLastDay().getTime()-article.getFirstDay().getTime();
@@ -170,37 +184,53 @@ public class FormationController {
 		Client client=(Client) session.getAttribute("user");
 		Formation a= formationRepository.getOne(id);
 		model.addAttribute("article",a);
+		List<Local> local=localController.findAll();
+		model.addAttribute("locaux",local);
 		TrainingPicture=a.getSignificantPhoto();
 		return "UpdateArticle";
 	}
 	
 	
 	@RequestMapping(value="/UpdateArticle", method =RequestMethod.POST)
-	public String update(Model model, @Valid Formation formation,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult,HttpServletRequest request) throws IllegalStateException, IOException {
+	
+	public String update(Model model,HttpServletRequest request, Formation formation,@RequestParam("localId") Long localId,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
 		HttpSession session =request.getSession(true);
 		formation.setUser((Client) session.getAttribute("user"));
 		
-		
-		
+		Local local=localController.findById(localId);
+		formation.setLocal(local);
 		if(bindingResult.hasErrors()) {
 			return "redirect:editArticle";
 		}
 		if(!(file.isEmpty())) {
 			
 			formation.setSignificantPhoto(file.getOriginalFilename());
+			
 
 		}
 		if((file.isEmpty())) {
 			
 			formation.setSignificantPhoto(TrainingPicture);
-			//file.transferTo(new File(imageDir+formation.getId()));
+			
 		}
-//		
-		formationRepository.save(formation);
+		
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
-			file.transferTo(new File(imageDir+formation.getId()));
+			File f=new File(imageDir+formation.getId());
+			if(f.exists()) {
+					byte[] bytes=file.getBytes();
+					Path path=Paths.get(imageDir+formation.getId());
+					Files.write(path, bytes);		
+			}
+			else 
+				{
+				
+				file.transferTo(new File(imageDir+formation.getId()));
+				}
+			
 		}
+		
+		formationRepository.save(formation);
 		
 		return "redirect:EditAds";	
 	}

@@ -221,13 +221,10 @@
     autoplaySpeed: false,
     nextArrow: '<i class="fa fa-chevron-right arrow-right"></i>',
     prevArrow: '<i class="fa fa-chevron-left arrow-left"></i>',
-    customPaging: function (slider, i) {
-      var image = $(slider.$slides[i]).data('image');
-      return '<img class="img-fluid" src="' + image + '" alt="product-img">';
-    }
+    
   });
 
-
+  
 
   // tooltip
   $(function () {
@@ -278,30 +275,7 @@
     });
 
 
-$("#choose_local1").click(function(e){
-  $(".choosen").fadeIn();
-  document.getElementById("choosen").value=document.getElementById("articletitle1").innerHTML;
-}); 
-$("#choose_local2").click(function(e){
-  $(".choosen").fadeIn();
-  document.getElementById("choosen").value=document.getElementById("articletitle2").innerHTML;
-});
-$("#choose_local3").click(function(e){
-  $(".choosen").fadeIn();
-  document.getElementById("choosen").value=document.getElementById("articletitle3").innerHTML;
-});
-$("#choose_local4").click(function(e){
-  $(".choosen").fadeIn();
-  document.getElementById("choosen").value=document.getElementById("articletitle4").innerHTML;
-});
-$("#choose_local5").click(function(e){
-  $(".choosen").fadeIn();
-  document.getElementById("choosen").value=document.getElementById("articletitle5").innerHTML;
-});
-$("#choose_local6").click(function(e){
-  $(".choosen").fadeIn();
-  document.getElementById("choosen").value=document.getElementById("articletitle6").innerHTML;
-});
+
 
     
 })(jQuery);

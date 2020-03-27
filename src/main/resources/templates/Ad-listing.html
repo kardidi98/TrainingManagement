@@ -101,11 +101,11 @@
             </ul>
             <ul class="navbar-nav ml-auto mt-10">
               <li class="nav-item">
-                <a class="nav-link text-white add-button-local rounded" href="#"><i class="fa fa-plus-circle"></i> Add Local</a>
-              </li>
+					<a class="nav-link text-white add-button-local rounded" th:href="@{AddLocal}"><i class="fa fa-plus-circle"></i> Add Local</a>
+				</li>
               <li class="nav-item">
-								<a class="nav-link login-button rounded" th:unless="${session==null} ? ${session.user.email} : ''" style="margin-left:10px;"></a>
-								<a class="nav-link login-button rounded" th:unless="${session!=null}" style="margin-left:10px;">Login</a>
+					<a class="nav-link login-button rounded" th:text="${session.user.email}" style="margin-left:10px;"></a>
+								
 				
 				</li>
               
@@ -120,15 +120,18 @@
 <section class="bg-gray py-5">
   <div class="container">
     <form id="regForm" th:action ="@{save}" method ="post" enctype="multipart/form-data">
-     <!-- Post Your ad start -->
+    
      
-     
-     <!-- Second form -->
-     <fieldset class="formulaire border border-gary p-4 mb-5 tab" >
+       <!-- Post Your ad start -->
+                
+              
+      <fieldset class="formulaire border border-gary p-4 mb-5 tab" >
       <div class="row ">
         <div class="col-lg-12">
           <h3>Article information</h3>
+          <hr>
         </div>
+        
         <div class="col-lg-6 ">
           <h6 class="font-weight-bold pt-4 pb-1">Title Of The article:</h6>
           <input type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Ad title go There" name="Title" >
@@ -202,7 +205,7 @@
                              <option value="Innovation">Innovation</option>
                            </select>
                            <div class="price">
-                            <h6 class="font-weight-bold pt-4 pb-1">Price (Dh):</h6>
+                            <h6 class="font-weight-bold pt-4 pb-1">Price ($):</h6>
                             <div class="row px-3">
                               <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Price" name="prix" id="Price" >
                               
@@ -234,49 +237,23 @@
                         </div>
                       </div>
                     </div>
-                    <!-- Specify hours Day -->
-                    <div id="SpecifyForm">
-                      
-                    </div>
-                    <button type="button" id="Specify" ><strong id="plus">+</strong>Specify the sessions</button>
-                  </fieldset>
-                  
-                  
-                  <fieldset class="formulaire border border-gary p-4 mb-5 tab">
+                   
+                    </fieldset>
+     
+     <!-- Second form -->
+    <fieldset class="formulaire border border-gary p-4 mb-5 tab">
                     <div class="row" >
                       <div class="col-lg-12">
                         <h3>Search a Place</h3>
+                        <hr>
                       </div>
-                      
-                      
-                      
-                      
-
-                <!-- <div class="rounded"  style="border: 1px solid #C3C3C3;padding: 10px;margin-top: 10px;">
-                  <span class="font-weight-bold pt-4 pb-1" >Day 1:</span>
-                  <div class="row">
-                    <div class="col-sm-6 px-1" style="margin-top: 10px;">
-                      <div class="controls input-append date form_time col-md-12" data-date="" data-date-format="hh:ii" data-link-field="dtp_input" data-link-format="hh:ii">
-                        <span class="font-weight-bold pt-4 pb-1" style="font-size: 15px;">From:</span>
-                        <span class="add-on" style="float: right;"><i class="fa fa-calendar fa-lg"> </i></span>
-                        <input name="Specifyfrom" size="16" type="text" id="Specifyfrom" class="form-control" style="background-color: white;" readonly/>
-                      </div>
-                      <input type="hidden" id="dtp_input" value="" /><br/>
-                    </div>
-                    <div class="col-sm-6 px-1" style="margin-top: 10px;">
-                      <div class="controls input-append date form_time col-md-12" data-date="" data-date-format="hh:ii" data-link-field="dtp_input" data-link-format="hh:ii">
-                        <span class="font-weight-bold pt-4 pb-1" style="font-size: 15px;">to:</span>
-                        <span class="add-on" style="float: right;"><i class="fa fa-calendar fa-lg"> </i></span>
-                        <input name="Specifyto" size="16" type="text" id="Specifyto" class="form-control" style="background-color: white;" readonly/></div><input type="hidden" id="dtp_input" value="" /><br/>
-                      </div>
-                    </div>
-                  </div> -->
-                  
-                  <div class="col-lg-8" >
-                    <div style="margin-top: 20px;">
+         
+                  <div class="col-lg-4" >
+                    <div style="margin-top: 10px;">
                       <span class="font-weight-bold pt-4 pb-1">Choose a City:</span>
-                      <select name="local" id="city" class="w-100 rounded"  >
-                        <option value="Casablanca" >Casablanca</option>
+                      <select  id="city" class="w-100 rounded"  onchange="EditLocal()">
+                        <option value="All">All</option>
+                        <option value="Agadir" >Agadir</option>
                         <option value="Rabat">Rabat</option>
                         <option value="Laayoune">Laayoune</option>
                         <option value="Fès">Fès</option>
@@ -286,10 +263,10 @@
                     </div> 
                   </div>
 
-                  <div class="col-lg-4 choosen cacher" id="choosenArticle">
+                  <div class="col-lg-8 choosen cacher" id="choosenArticle">
                     <h6 class="font-weight-bold pt-4 pb-1">You choosed</h6>
                     <div class="row px-3">
-                      <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="" name="Local" th:value="${formation.Local}" id="choosen" style="font-weight: bold;" readonly>
+                      <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded"  name="LocalId"  id="choosen" style="font-weight: bold;" readonly>
                       
                     </div>
                   </div>
@@ -297,29 +274,31 @@
                 </div>
 
                 <div class="product-grid-list" id="articlelist">
-                  <div class="row mt-30">
-                    <div class="col-sm-12 col-lg-4 col-md-6  article_list "><!-- active -->
+                  <div class="row mt-30" >
+                    <div th:class="'col-sm-12 col-lg-4 col-md-6 cacher local_list All '+${local.ville}"  th:each="local:${locaux}"><!-- active -->
                       
                       <!-- product card -->
-                      <div class="product-item bg-light">
-                        <div class="card">
-                          <div class="thumb-content">
-                            <!-- <div class="price">$200</div> -->
-                            <a href="">
-                              <img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-                            </a>
+                      <div class="product-item bg-light ">
+                        <div class="card rounded" th:id="${'local'+local.id}">
+                          <div  style="height: 300px;">
+                            
+                              <img class="card-img-top img-fluid" th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}" alt="Card image cap">
+                            
                           </div>
+                          <hr>
                           <div class="card-body">
-                            <h4 class="card-title"><span>1400</span> <span>Dh/hour</span></h4>
+                            <h4 class="card-title"><span th:text="${local.prixParHeure}"></span> <span>Dh/hour</span></h4>
+                            <p class="card-text"  align="justify" th:text="'Title : '+${local.intitulee}"></p>
                             <ul class="list-inline product-meta">
                               <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-location-arrow"></i>Casablanca Sidi Belyout</a>
+                                <a href="#" th:text="${local.adresse}"><i class="fa fa-location-arrow"></i></a>
                               </li>
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-info-circle"></i>More Details</a>
+                             	<li class="list-inline-item">
+                                <a href="#" th:text="${local.ville}"><i class="fa fa-location-arrow"></i></a>
                               </li>
                             </ul>
-                            <p class="card-text"  align="justify" id="articletitle1">Studio Luxe 1</p>
+                            <a data-toggle="modal" th:data-target="'#LocalDetails'+${local.id}" style="color:#b0b3bf;"><i class="fa fa-info-circle"></i>	More Details</a>
+                            
                             <div class="product-ratings">
                               <ul class="list-inline">
                                 <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
@@ -333,210 +312,99 @@
                         </div>
                       </div>
                       
-                      <center><a href="#choosenArticle"> <p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" id="choose_local1">Choose</p></a></center>
-                    </div>
-
-
-                    <div class="col-sm-12 col-lg-4 col-md-6  article_list">
-                     
-                      <!-- product card -->
-                      <div class="product-item bg-light">
-                        <div class="card">
-                          <div class="thumb-content">
-                            <!-- <div class="price">$200</div> -->
-                            
-                            <a href="">
-                              <img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-                            </a>
-
-                            
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title"><span>1300</span> <span>Dh/hour</span></h4>
-                            <ul class="list-inline product-meta">
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-location-arrow"></i>Casablanca Racine</a>
-                              </li>
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-info-circle"></i>More Details</a>
-                              </li>
-                            </ul>
-                            <p class="card-text" align="justify" id="articletitle2">Studio Luxe 2</p>
-                            <div class="product-ratings">
-                              <ul class="list-inline">
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <center><a href="#choosenArticle"> <p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" id="choose_local2">Choose</p></a></center>
-
-                    </div>
-                    <div class="col-sm-12 col-lg-4 col-md-6 article_list">
-                     
-                      <!-- product card -->
-                      <div class="product-item bg-light">
-                        <div class="card">
-                          <div class="thumb-content">
-                            <!-- <div class="price">$200</div> -->
-                            
-                            <a href="">
-                              <img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-                            </a>
-
-                            
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title"><span>1200</span> <span>Dh/hour</span></h4>
-                            <ul class="list-inline product-meta">
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-location-arrow"></i>Casablanca Anfa</a>
-                              </li>
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-info-circle"></i>More Details</a>
-                              </li>
-                            </ul>
-                            <p class="card-text" align="justify" id="articletitle3">Studio Luxe 3</p>
-                            <div class="product-ratings">
-                              <ul class="list-inline">
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <center><a href="#choosenArticle"> <p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" id="choose_local3">Choose</p></a></center>
-
-                    </div>
-                    <div class="col-sm-12 col-lg-4 col-md-6 article_list">
-                     
-                      <!-- product card -->
-                      <div class="product-item bg-light">
-                        <div class="card">
-                          <div class="thumb-content">
-                            <!-- <div class="price">$200</div> -->
-                            
-                            <a href="">
-                              <img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-                            </a>
-
-                            
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title"><span>1200</span> <span>Dh/hour</span></h4>
-                            <ul class="list-inline product-meta">
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-location-arrow"></i>Casablanca Californie</a>
-                              </li>
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-info-circle"></i>More Details</a>
-                              </li>
-                            </ul>
-                            <p class="card-text" align="justify" id="articletitle4">Studio Luxe 4</p>
-                            <div class="product-ratings">
-                              <ul class="list-inline">
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <center><a href="#choosenArticle"> <p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" id="choose_local4">Choose</p></a></center>
-
-                    </div>
-                    <div class="col-sm-12 col-lg-4 col-md-6 article_list">
-                     
-                      <!-- product card -->
-                      <div class="product-item bg-light">
-                        <div class="card">
-                          <div class="thumb-content">
-                            <!-- <div class="price">$200</div> -->
-                            
-                            <a href="">
-                              <img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-                            </a>
-
-                            
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title"><span>2400</span> <span>Dh/hour</span></h4>
-                            <ul class="list-inline product-meta">
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-location-arrow"></i>Casablanca Anfa</a>
-                              </li>
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-info-circle"></i>More Details</a>
-                              </li>
-                            </ul>
-                            <p class="card-text" align="justify"  id="articletitle5">Studio Luxe 5</p>
-                            <div class="product-ratings">
-                              <ul class="list-inline">
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <center><a href="#choosenArticle"> <p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" id="choose_local5">Choose</p></a></center>
-
-                    </div>
-                    <div class="col-sm-12 col-lg-4 col-md-6 article_list">
+                      <center>
+	                      <a > 
+	                      	<p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" th:id="${local.id}" onclick="document.getElementById('choosen').value=this.id;$('.card').css('box-shadow','0 0 0');$('#local'+this.id).css('box-shadow','0 0 15px grey');$('#local'+this.id).css('transition','ease 0.3s');$('#local'+this.id).css('transform','scale(1.01)');">
+	                      	Choose
+	                      	</p>
+	                      </a>
+                      </center>
                       
-                      <!-- product card -->
-                      <div class="product-item bg-light">
-                        <div class="card">
-                          <div class="thumb-content">
-                            <!-- <div class="price">$200</div> -->
-                            
-                            <a href="">
-                              <img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
-                            </a>
-
-                            
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title"><span>2100</span> <span>Dh/hour</span></h4>
-                            <ul class="list-inline product-meta">
-                              <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-location-arrow"></i>Casablanca Maarif</a>
-                              </li> <li class="list-inline-item">
-                                <a href="#"><i class="fa fa-info-circle"></i>More Details</a>
-                              </li>
-                            </ul>
-                            <p class="card-text" align="justify" id="articletitle6">Studio Luxe 6</p>
-                            <div class="product-ratings">
-                              <ul class="list-inline">
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <center><a href="#choosenArticle"> <p class="btn-primary rounded choose_local" style="margin-bottom: 15px;" id="choose_local6">Choose</p></a></center>
+                      <!-- Modal -->
+									<div class="modal fade" th:id="'LocalDetails'+${local.id}" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+									  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h1 class="modal-title" id="ModalLongTitle" th:text="'Local: '+${local.intitulee}"></h1>
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									          <span aria-hidden="true">&times;</span>
+									        </button>
+									      </div>
+									      <div class="modal-body">
+									      		<div th:id="'carouselExampleControls'+${local.id}" class="carousel slide" data-ride="carousel">
+													  <div class="carousel-inner">
+													    <div class="carousel-item active rounded">
+													      <img class="d-block ProfuctImages" th:src="@{getLocalPhoto(id=${local.id},subId=${'1'})}">
+													    </div>
+													    <div class="carousel-item rounded">
+													      <img class="d-block ProfuctImages" th:src="@{getLocalPhoto(id=${local.id},subId=${'2'})}" >
+													    </div>
+													    <div class="carousel-item rounded">
+													      <img class="d-block ProfuctImages" th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}">
+													    </div>
+													    <div class="carousel-item rounded">
+													      <img class="d-block ProfuctImages" th:src="@{getLocalPhoto(id=${local.id},subId=${'4'})}" >
+													    </div>
+													    <div class="carousel-item rounded">
+													      <img class="d-block ProfuctImages" th:src="@{getLocalPhoto(id=${local.id},subId=${'5'})}" >
+													    </div>
+													    <div class="carousel-item rounded">
+													      <img class="d-block ProfuctImages" th:src="@{getLocalPhoto(id=${local.id},subId=${'6'})}" >
+													    </div>
+													  </div>
+													  <a class="carousel-control-prev" th:href="'#carouselExampleControls'+${local.id}" role="button" data-slide="prev" >
+													    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: #007BFF;"><i class="fa fa-caret-square-o-left fa-lg"></i></span>
+													    <span class="sr-only">Previous</span>
+													  </a>
+													  <a class="carousel-control-next" th:href="'#carouselExampleControls'+${local.id}" role="button" data-slide="next" >
+													    <span class="carousel-control-next-icon" aria-hidden="true" style="color: #007BFF;"><i class="fa fa-caret-square-o-right fa-lg"></i></span>
+													    <span class="sr-only">Next</span>
+													  </a>
+													</div>
+									      		
+									        	
+												<hr>
+												<div class="container" style="margin-top: 45px;">
+												
+												<ul class="list-group">
+													<h2>Local Details</h2>
+													<br>
+													<li class="list-group-item">
+														<span><span><strong>Description:</strong> </span><span th:text="${local.description}"></span>
+													</li>
+													<li class="list-group-item">
+														<span><span><strong>Type:</strong> </span><span th:text="${local.category}"></span>
+													</li>
+													<li class="list-group-item">
+														<span><span><strong>Surface:</strong> </span><span th:text="${local.superficie}+' m²'"></span>
+														
+													</li>
+													<li class="list-group-item">
+														<span><span><strong>Max Places:</strong> </span><span th:text="${local.NbPlaces}"></span>
+														
+													</li>
+													<li class="list-group-item">
+														<span><span><strong>Address:</strong> </span><span th:text="${local.adresse}+', '+${local.ville}"></span>
+														
+													</li>
+													<li class="list-group-item">
+													  <span><span><strong>Disponibility:</strong> </span><span th:text="${local.disponibiliteFrom}+' To '+${local.disponibiliteA}"></span>
+														
+													</li>
+												</ul>
+												
+												</div>
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        
+									      </div>
+									    </div>
+									  </div>
+									</div>
+                      
                     </div>
+
                     
 
 
@@ -544,7 +412,10 @@
                   </div>
                 </div>
                 <!-- -->
-              </fieldset>     
+              </fieldset> 
+                  
+                  
+          
               
 
               
@@ -750,17 +621,26 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 
-//Add active class to the current button (highlight it)
-/*  var header = document.getElementById("articlelist");
-  var btns = header.getElementsByClassName("article_list");
-  for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-    });
-  }*/
+
+  //*******Afficher les locaux par ville*******
   
+  $(".local_list").fadeIn();
+  function EditLocal(){
+	  var value=document.getElementById("city").value;
+	  if(value=="All") {
+		  
+		  $(".local_list").fadeIn();
+		  }
+	  else {
+		  $(".local_list").hide();
+	  	  $("."+value).fadeIn();
+	  		}
+	 
+	
+  }
+  
+ 
+
 </script>
 </body>
 

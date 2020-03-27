@@ -33,6 +33,9 @@ public class Client implements Serializable{
 	@OneToMany(mappedBy = "user")
 	private List<Formation> formation;
 	
+	@OneToMany(mappedBy = "owner")
+	private List<Local> locaux;
+	
 	@ManyToMany
 	@JoinTable(name="formationreservee",
 	joinColumns = @JoinColumn(name="userId"),

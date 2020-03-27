@@ -31,21 +31,22 @@ public class Formation implements Serializable {
 	private String difficulty;
 	private String ArticleCat;
 	private int Prix;
-	private String Local;
 	private String Requirements;
 	private String Description;
 	private java.sql.Date firstDay;
 	private java.sql.Date lastDay;
 	private String significantPhoto;
+	
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private Client user;
 	
 	@ManyToMany(mappedBy = "formationReservee")
-	
 	private List<Client> clientBeneficiants;
 	
-
+	@OneToOne
+	@JoinColumn(name="local")
+	private Local Local;
 	
 	
 	public Formation() {
@@ -55,7 +56,7 @@ public class Formation implements Serializable {
 
 
 
-	public Formation(Long id, String title, int nbPlaces, String difficulty, String articleCat, int prix, String local,
+	public Formation(Long id, String title, int nbPlaces, String difficulty, String articleCat, int prix, Local local,
 			String requirements, String description, java.sql.Date firstDay, java.sql.Date lastDay,
 			String significantPhoto, Client user, List<Client> clientBeneficiants) {
 		this.id = id;
@@ -161,14 +162,14 @@ public class Formation implements Serializable {
 
 
 
-	public String getLocal() {
+	public Local getLocal() {
 		return Local;
 	}
 
 
 
 
-	public void setLocal(String local) {
+	public void setLocal(Local local) {
 		Local = local;
 	}
 

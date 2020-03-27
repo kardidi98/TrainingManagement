@@ -98,7 +98,7 @@
 								<a class="nav-link text-white add-button rounded"   th:href="@{AddArticle}"  id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white add-button-local rounded" href="#"><i class="fa fa-plus-circle"></i> Add Local</a>
+								<a class="nav-link text-white add-button-local rounded" th:href="@{AddLocal}"><i class="fa fa-plus-circle"></i> Add Local</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link login-button rounded" th:text="${session.user.email}" th:unless="${session==null}" style="margin-left:10px;"></a>
@@ -160,26 +160,26 @@
 						<ul class="list-inline">
 							<li class="list-inline-item" th:text="'By '+ ${formateur.nom}" ><i class="fa fa-user-o"></i></li>
 							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category: <span th:text="${article.ArticleCat}"></span></li>
-							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location: <span th:text="${article.Local}"></span></li>
+							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location: <span th:text="${article.Local.adresse}+', '+${article.Local.ville}"></span></li>
 						</ul>
 					</div>
 
 					<!-- product slider -->
-					<div class="product-slider">
-						<div class="product-slider-item my-4" data-image="images/products/products-1.jpg">
-							<img class="img-fluid w-100" src="images/products/products-1.jpg" alt="product-img">
+					<div class="product-slider" >
+						<div class="product-slider-item " >
+							<img  class="img-fluid ProfuctImages" th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'1'})}" >
 						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-2.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-2.jpg" alt="Second slide">
+						<div class="product-slider-item ">
+							<img class="d-block img-fluid ProfuctImages" th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'2'})}">
 						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-3.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-3.jpg" alt="Third slide">
+						<div class="product-slider-item ">
+							<img class="d-block img-fluid ProfuctImages" th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'3'})}">
 						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-1.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-1.jpg" alt="Third slide">
+						<div class="product-slider-item " >
+							<img class="d-block img-fluid ProfuctImages" th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'4'})}">
 						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-2.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-2.jpg" alt="Third slide">
+						<div class="product-slider-item " >
+							<img class="d-block img-fluid ProfuctImages" th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'5'})}">
 						</div>
 					</div>
 					<!-- product slider -->
@@ -216,20 +216,28 @@
 								
 							</div>
 							<div class="tab-pane fade  " id="pills-local" role="tabpanel" aria-labelledby="pills-local-tab" >
-								<h3 class="tab-title">Local Description</h3>
+								<h3 class="tab-title">Local Details</h3>
 								<table class="table table-bordered product-table">
 									<tbody>
 										<tr>
-											<td class="text-left"  style="color:#000;">Plugs</td>
-											<td>3</td>
+											<td class="text-left"  style="color:#000;">Name</td>
+											<td th:text="${article.Local.intitulee}"></td>
 										</tr>
 										<tr>
-											<td class="text-left"  style="color:#000;">Chair</td>
-											<td>30</td>
+											<td class="text-left"  style="color:#000;">Surface</td>
+											<td th:text="${article.Local.superficie}+' m²'"></td>
 										</tr>
 										<tr>
-											<td class="text-left"  style="color:#000;">Microphone</td>
-											<td>7</td>
+											<td class="text-left"  style="color:#000;">Type</td>
+											<td th:text="${article.Local.category}"></td>
+										</tr>
+										<tr>
+											<td class="text-left"  style="color:#000;">Address</td>
+											<td th:text="${article.Local.adresse}+', '+${article.Local.ville}"></td>
+										</tr>
+										<tr>
+											<td class="text-left"  style="color:#000;">Description</td>
+											<td th:text="${article.Local.description}"></td>
 										</tr>
 										
 									</tbody>
@@ -337,7 +345,8 @@
 						<p><span id="price_info">Price: </span><span>$</span><span th:text="${article.Prix}"></span></p>
 						<p><span id="hour_info">Days: </span><span th:text="${Duration}"></span></p>
 						<p><span id="level_info">Difficulty: </span><span  th:text="${article.difficulty}"></span></p>
-						<p><span id="places_info">Places: </span><span th:text="${countPlaces+'/'+article.NbPlaces}"></span></p>
+						<p><span id="places_info">Max Attendees: </span><span th:text="${article.nbPlaces}"></span></p>
+						<p><span id="places_info">Available Places: </span><span th:text="${countAvailablePlaces}"></span></p>
 					</div>
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
