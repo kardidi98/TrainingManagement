@@ -21,6 +21,10 @@ import org.sid.entities.Formation;
 import org.sid.entities.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -324,7 +328,12 @@ public class LocalController {
 		return "redirect:EditAds";
 	}
 	@RequestMapping(value="/findAll", method =RequestMethod.GET)
-	public List<Local> findAll(){
+	public Page<Local> findAll(Pageable pageable){
+		return localRepository.findAll(pageable);
+	}
+	
+	@RequestMapping(value="/findAllToAdd", method =RequestMethod.GET)
+	public List<Local> findAllToAdd(){
 		return localRepository.findAll();
 	}
 	@RequestMapping(value="/findByCity", method =RequestMethod.GET)

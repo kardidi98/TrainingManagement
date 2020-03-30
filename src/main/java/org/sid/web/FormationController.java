@@ -26,6 +26,7 @@ import org.sid.entities.Formation;
 import org.sid.entities.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,9 +56,9 @@ public class FormationController {
 		else return "index";		
 	}
 	@RequestMapping(value="/AddArticle", method = RequestMethod.GET)
-	public String formulaireFormation(Model model,HttpServletRequest request) {
+	public String AddArticle(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
-		List<Local> local=localController.findAll();
+		List<Local> local=localController.findAllToAdd();
 	
 		if(session.getAttribute("user")==null) {
 			return "login";
@@ -96,9 +97,16 @@ public class FormationController {
 	}
 	
 	@RequestMapping(value="/listFormation", method =RequestMethod.GET)
-	public String listFormation(Model model,HttpServletRequest request) {
+	public String listFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
-		List<Formation> formation=formationRepository.findAll();
+		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
+		int countPages=formation.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
 		
@@ -108,10 +116,17 @@ public class FormationController {
 	
 	
 	@RequestMapping(value="/listFormationParCategory", method =RequestMethod.GET)
-	public String listFormationParCategory(Model model,HttpServletRequest request,String cat) {
+	public String listFormationParCategory(Model model,HttpServletRequest request,@RequestParam(name="cat",defaultValue = "") String cat,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
-		List<Formation> formation=formationRepository.findByArticleCat(cat);
+		Page<Formation> formation=formationRepository.findByArticleCat(cat,PageRequest.of(page,3,Sort.by("firstDay").ascending()));
 		Long countFormation = formationRepository.countByArticleCat(cat);
+		int countPages=formation.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 		
@@ -179,12 +194,20 @@ public class FormationController {
 	}
 	
 	@RequestMapping(value="/editArticle", method =RequestMethod.GET)
-	public String editArticle(Model model,Long id,HttpServletRequest request) {
+	public String editArticle(Model model,Long id,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
 		Formation a= formationRepository.getOne(id);
+		
 		model.addAttribute("article",a);
-		List<Local> local=localController.findAll();
+		Page<Local> local=localController.findAll(PageRequest.of(page, 3, Sort.unsorted()));
+		int countPages=local.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
 		model.addAttribute("locaux",local);
 		TrainingPicture=a.getSignificantPhoto();
 		return "UpdateArticle";

@@ -417,6 +417,16 @@
                   </div>
                 </div>
                 <!-- -->
+                <div class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination" >
+							
+							<li class="page-item" th:each="p:${page}" th:class="${p==pageCourante} ? 'active':''"><a class="page-link" th:text="${p+1}" th:href="@{editArticle(id=${article.id},page=${p})}"></a></li>
+							
+							
+						</ul>
+					</nav>
+				</div>
               </fieldset>  
               
 

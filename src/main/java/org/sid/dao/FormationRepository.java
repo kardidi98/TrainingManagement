@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import org.sid.entities.Client;
 import org.sid.entities.Formation;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,10 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RepositoryRestResource
 public interface FormationRepository extends JpaRepository<Formation, Long> {
+	
 	@Query("select f from Formation f where user_id like :x")
 	public List<Formation> findByUserId(@Param("x") Long id);
 	@Query("select f from Formation f where Article_Cat like :x")
-	public List<Formation> findByArticleCat(@Param("x") String cat);
+	public Page<Formation> findByArticleCat(@Param("x") String cat,Pageable paging);
 	@Query("select count(*) from Formation f where Article_Cat like :x")
 	public Long countByArticleCat(@Param("x") String cat);
 	@Transactional

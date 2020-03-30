@@ -185,7 +185,7 @@
 </div>
 
 
-
+<!-- 
 <div class="widget price-range w-100">
 	<h4 class="widget-header">Price Range</h4>
 	<div class="block">
@@ -225,6 +225,8 @@
 	</div>
 </div>
 
+		-->	
+
 				</div>
 			</div>
 			<div class="col-md-9">
@@ -244,7 +246,7 @@
 				</div>
 				
 				<!-- ad listing list  -->
-				<div class="ad-listing-list mt-20" th:each="formation:${formation}">
+				<div class="ad-listing-list mt-20" th:each="formation:${formation.content}">
 					    <div class="row p-lg-3 p-sm-5 p-4">
 					        <div class="col-lg-4 align-self-center">
 					            <a th:href="@{viewArticle(id=${formation.id})}">
@@ -281,26 +283,15 @@
 					    </div>
 					</div>
 				
-				<br>
+				<hr>
 						
 				<div class="pagination justify-content-center">
 					<nav aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" href="#" aria-label="Previous">
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-								</a>
-							</li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item">
-								<a class="page-link" href="#" aria-label="Next">
-									<span aria-hidden="true">&raquo;</span>
-									<span class="sr-only">Next</span>
-								</a>
-							</li>
+						<ul class="pagination" >
+							
+							<li class="page-item" th:each="p:${page}" th:class="${p==pageCourante} ? 'active':''"><a class="page-link" th:text="${p+1}" th:href="@{listFormation(page=${p})}"></a></li>
+							
+							
 						</ul>
 					</nav>
 				</div>
