@@ -134,8 +134,8 @@
 					<!-- User Widget -->
 					<div class="widget user">
 						<!-- User Image -->
-						<div class="image d-flex justify-content-center">
-							<img src="images/user/user-thumb.jpg" alt="" class="">
+						<div class="image d-flex justify-content-center" >
+							<img th:src="@{getUserPhoto(id=${session.user.id})}" alt="Your Picture" class="">
 						</div>
 						<!-- User Name -->
 						<h5 class="text-center" th:text="${session.user.nom+'  '+session.user.prenom}"></h5>
@@ -155,7 +155,7 @@
 				<!-- Edit Profile Welcome Text -->
 				<div class="widget welcome-message">
 					<h2>Edit profile</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+					<p th:text="${session.user.profile}"></p>
 				</div>
 					<div class="widget dashboard-container my-adslist cacher ">
 					<h2 class="header" style="font-weight:bold;">Reserved Trainings</h2>
@@ -206,32 +206,32 @@
 					<div class="col-lg-6 col-md-6 profile">
 						<div class="widget personal-info">
 							<h3 class="widget-header user">Edit Personal Information</h3>
-							<form action="#">
+							<form th:action="@{updatePersonnaalInfo}" method="post" enctype="multipart/form-data">
 								<!-- First Name -->
 								<div class="form-group">
 									<label for="first-name">First Name</label>
-									<input type="text" class="form-control" id="first-name" th:value="${session.user.nom}">
+									<input type="text" name="firstName" class="form-control" id="first-name" th:value="${session.user.nom}">
 								</div>
 								<!-- Last Name -->
 								<div class="form-group">
 									<label for="last-name">Last Name</label>
-									<input type="text" class="form-control" id="last-name" th:value="${session.user.prenom}">
+									<input type="text" name="lastName" class="form-control" id="last-name" th:value="${session.user.prenom}">
 								</div>
 								<!-- Job -->
 								<div class="form-group">
 										<label for="current-job">Job</label>
-										<input type="text" class="form-control" id="current-job"  th:value="${'Professional Trainer'}">
+										<input type="text" name="job" class="form-control" id="current-job"  th:value="${session.user.job}">
 								</div>
 								<!-- File chooser -->
 								<div class="form-group choose-file d-inline-flex">
 									<i class="fa fa-user text-center px-3"></i>
-									<input type="file" class="form-control-file mt-2 pt-1" id="input-file">
+									<input type="file" name="photo" class="form-control-file mt-2 pt-1" id="photo">
 								 </div>
 								
 								
 								<div class="form-group">
 									<label for="current-address">Address</label>
-									<input type="text" class="form-control" id="current-address"  th:value="${'His Address'}">
+									<input type="text" name="adresse" class="form-control" id="current-address"  th:value="${session.user.Address}">
 								</div>
 								<!-- Submit button -->
 								<button type="submit" class="btn btn-transparent">Save My Changes</button>
@@ -242,7 +242,7 @@
 						<!-- Change Password -->
 					<div class="widget change-password">
 						<h3 class="widget-header user">Edit Password</h3>
-						<form action="#">
+						<form th:action="@{UpdatePassword}" method="post" id="passwordForm">
 							<!-- Current Password -->
 							<div class="form-group">
 								<label for="current-password">Current Password</label>
@@ -251,23 +251,22 @@
 							<!-- New Password -->
 							<div class="form-group">
 								<label for="new-password">New Password</label>
-								<input type="password" class="form-control" id="new-password">
+								<input name="new-password" type="password" class="form-control" id="new-password" onmousedown="$('#nonIndentiaues').hide();">
 							</div>
 							<!-- Confirm New Password -->
 							<div class="form-group">
 								<label for="confirm-password">Confirm New Password</label>
-								<input type="password" class="form-control" id="confirm-password">
+								<input name="confirm-password" type="password" class="form-control" id="confirm-password" onmousedown="$('#nonIndentiaues').hide();">
 							</div>
+							<p class="cacher" style="color:red" id="nonIndentiaues"><strong>Error: Non-identical values</strong></p>
+							
 							<!-- Submit Button -->
-							<button type="submit" class="btn btn-transparent">Change Password</button>
+							<button type="button" class="btn btn-transparent" onclick="if(document.getElementById('new-password').value==document.getElementById('confirm-password').value){$('#passwordForm').submit();} else{$('#nonIndentiaues').fadeIn();};">Change Password</button>
 						</form>
 					</div>
-					</div>
-					<div class="col-lg-6 col-md-6 profile">
-						<!-- Change Email Address -->
 					<div class="widget change-email mb-0">
 						<h3 class="widget-header user">Edit Email Address</h3>
-						<form action="#">
+						<form th:action="@{/UpdateEmail}" method="post">
 							<!-- Current Password -->
 							<div class="form-group">
 								<label for="current-email">Current Email</label>
@@ -276,13 +275,14 @@
 							<!-- New email -->
 							<div class="form-group">
 								<label for="new-email">New email</label>
-								<input type="email" class="form-control" id="new-email">
+								<input name="new-email" type="email" class="form-control" id="new-email">
 							</div>
 							<!-- Submit Button -->
 							<button type="submit" class="btn btn-transparent">Change email</button>
 						</form>
 					</div>
 					</div>
+					
 				
 				</div>
 			</div>
@@ -298,6 +298,21 @@
 <footer class="footer section section-sm">
   <!-- Container Start -->
   <div class="container">
+  
+  	<div class="block">
+			<h2 align="center" style="color:white;">Add A Comment</h2>
+			<br>
+			<form class="form-group" th:action="@{saveComment}" method="post" >
+				<textarea  class="form-control rounded" name="commenting" id="commenting" rows="10" cols="" placeholder="What's in your mind ?" style="color:white;">
+	                
+	            </textarea>
+	           
+		
+		
+			<center style="margin: 40px;"><input type="submit" class="btn btn-primary" name="submitComment" id="submitComment" value="Send" style="background-color: #0076A3;"></center> 
+		
+			</form>
+		</div>	
     <div class="row">
       <div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0">
         <!-- About -->

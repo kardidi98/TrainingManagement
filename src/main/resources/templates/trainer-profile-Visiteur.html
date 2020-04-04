@@ -129,7 +129,7 @@
 					<div class="widget user">
 						<!-- User Image -->
 						<div class="image d-flex justify-content-center">
-							<img src="images/user/user-thumb.jpg" alt="" class="">
+							<img th:src="@{getUserPhoto(id=${trainer.id})}" alt="Trainer Picture" class="">
 						</div>
 						<!-- User Name -->
 						<h5 class="text-center" th:text="${trainer.nom+'  '+trainer.prenom}"></h5>
@@ -141,7 +141,7 @@
 				<!-- Edit Profile Welcome Text -->
 				 <div class="widget welcome-message">
 					<h2>Edit profile</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+					<p th:text="${trainer.profile}"></p>
 				</div> 
 				<!-- Edit Personal Info -->
 				<div class="row">
@@ -168,12 +168,12 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label for="current-job">Job</label>
-										<input type="text" class="form-control" id="current-job" readonly="readonly" th:value="${'Professional Trainer'}">
+										<input type="text" class="form-control" id="current-job" readonly="readonly" th:value="${trainer.job}">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="current-address">Address</label>
-									<input type="text" class="form-control" id="current-address" readonly="readonly" th:value="${'His Address'}">
+									<input type="text" class="form-control" id="current-address" readonly="readonly" th:value="${trainer.Address}">
 								</div>
 							</form>
 						</div>
@@ -194,6 +194,20 @@
 <footer class="footer section section-sm">
 	<!-- Container Start -->
 	<div class="container">
+	<div class="block">
+			<h2 align="center" style="color:white;">Add A Comment</h2>
+			<br>
+			<form class="form-group" th:action="@{saveComment}" method="post" >
+				<textarea  class="form-control rounded" name="commenting" id="commenting" rows="10" cols="" placeholder="What's in your mind ?" style="color:white;">
+	                
+	            </textarea>
+	           
+		
+		
+			<center style="margin: 40px;"><input type="submit" class="btn btn-primary" name="submitComment" id="submitComment" value="Send" style="background-color: #0076A3;"></center> 
+		
+			</form>
+		</div>
 		<div class="row">
 			<div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0">
 				<!-- About -->

@@ -350,9 +350,9 @@
 					</div>
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
-						<img class="rounded-circle img-fluid mb-5 px-5" src="images/user/user-thumb.jpg" alt="">
+						<img class="rounded-circle img-fluid mb-5 px-5" th:src="@{getUserPhoto(id=${formateur.picture})}" alt="">
 						<h4><a th:text="${formateur.nom} +' ' +${formateur.prenom}"></a></h4>
-						<p class="member-time">Trainer</p>
+						<p class="member-time" th:text="${formateur.job}"></p>
 						
 						<ul class="list-inline mt-15" >
 							<div class="row">
@@ -454,6 +454,20 @@
 <footer class="footer section section-sm">
 	<!-- Container Start -->
 	<div class="container">
+	<div class="block">
+			<h2 align="center" style="color:white;">Add A Comment</h2>
+			<br>
+			<form class="form-group" th:action="@{saveComment}" method="post" >
+				<textarea  class="form-control rounded" name="commenting" id="commenting" rows="10" cols="" placeholder="What's in your mind ?" style="color:white;">
+	                
+	            </textarea>
+	           
+		
+		
+			<center style="margin: 40px;"><input type="submit" class="btn btn-primary" name="submitComment" id="submitComment" value="Send" style="background-color: #0076A3;"></center> 
+		
+			</form>
+		</div>
 		<div class="row">
 			<div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0">
 				<!-- About -->
@@ -506,6 +520,7 @@
 <footer class="footer-bottom">
 	<!-- Container Start -->
 	<div class="container">
+		
 		<div class="row">
 			<div class="col-sm-6 col-12">
 				<!-- Copyright -->

@@ -57,7 +57,7 @@
 								<img src="images/logo.png" alt="" id="logo" width="150"/>
 							</a>
 						</center>
-                        <form th:action="@{Registration}" method="post">
+                        <form th:action="@{Registration}" method="post" enctype="multipart/form-data">
                             <fieldset class="p-4">
                                 <div class="row">
                                   <div class="col-sm-6">
@@ -68,21 +68,40 @@
                                     <input type="text" placeholder="LastName*" name="nom" class="border p-3 w-100 my-2" required/>
                                   </div>
                                 </div>
-                                <input type="email" placeholder="Email*" name="email" class="border p-3 w-100 my-2" required/>
-                                <input type="password" placeholder="Password*" name="password" class="border p-3 w-100 my-2" required/>
-                                
-                                <div>
-                                  <select class="w-100 form-control mt-lg-1 mt-md-2" name="type">
-                                    <option value="Customer">Customer</option>
-                                    <option value="Company">Company</option>
-                                    <option value="Provider">Provider</option>
-                                    
-                                  </select>
+                                <div class="row">
+                                  <div class="col-sm-6">
+                                    <input type="email" placeholder="Email*" name="email" class="border p-3 w-100 my-2" required/>
+                                  </div>
+                                  <div class="col-sm-6"> 
+                                       <input type="password" placeholder="Password*" name="password" class="border p-3 w-100 my-2" required/>
+                                 
+                                  </div>
                                 </div>
-                                <div class="loggedin-forgot d-inline-flex my-3">
-                                        <input type="checkbox" id="registering" class="mt-1" required>
-                                        <label for="registering" class="px-2">By registering, you accept our <a class="text-primary font-weight-bold" href="terms-condition.html">Terms & Conditions</a></label>
+                                <div class="row">
+                                  <div class="col-sm-6">
+                                     <input type="text" placeholder="Your job" name="job" class="border p-3 w-100 my-2" required/>
+                                  </div>
+                                  <div class="col-sm-6"> 
+                                  	<div>
+                                  		 <select class="w-100 form-control mt-lg-2 mt-md-2" name="type" >
+		                                    <option value="Customer">Customer</option>
+		                                    <option value="Company">Company</option>
+		                                    <option value="Local Provider">Local Provider</option>
+		                                    <option value="Trainer">Trainer</option>
+		                                  </select>
+                                  	</div>
+                                      
+                                  </div>
                                 </div>
+                               
+                               <input type="text" placeholder="Address" name="address" class="border p-3 w-100 my-2" required/>
+                               <input type="text" placeholder="What's your motovation or your skills briefly ?" name="profile" class="border p-3 w-100 my-2" required/>
+                               
+                                <!-- File chooser -->
+								<div class="form-group choose-file d-inline-flex" >
+									<i class="fa fa-user text-center px-3 cercle" style="font-size: 30px;color: #0076A3;margin-top: 10px;"></i>
+									<input type="file" name="photo" class="form-control-file mt-2 pt-1" id="photo" placeholder="Profile Picture" required="required"/>
+								 </div>
                                 <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
                             </fieldset>
                         </form>

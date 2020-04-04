@@ -321,6 +321,20 @@
 <footer class="footer section section-sm">
   <!-- Container Start -->
   <div class="container">
+  <div class="block">
+			<h2 align="center" style="color:white;">Add A Comment</h2>
+			<br>
+			<form class="form-group" th:action="@{saveComment}" method="post" >
+				<textarea  class="form-control rounded" name="commenting" id="commenting" rows="10" cols="" placeholder="What's in your mind ?" style="color:white;">
+	                
+	            </textarea>
+	           
+		
+		
+			<center style="margin: 40px;"><input type="submit" class="btn btn-primary" name="submitComment" id="submitComment" value="Send" style="background-color: #0076A3;"></center> 
+		
+			</form>
+		</div>
     <div class="row">
       <div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0">
         <!-- About -->
@@ -373,6 +387,7 @@
 <footer class="footer-bottom">
   <!-- Container Start -->
   <div class="container">
+  	
     <div class="row">
       <div class="col-sm-6 col-12">
         <!-- Copyright -->

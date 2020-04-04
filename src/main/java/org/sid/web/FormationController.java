@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import org.apache.commons.io.IOUtils;
 import org.sid.dao.*;
 import org.sid.entities.Client;
+import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
 import org.sid.entities.Local;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,33 @@ public class FormationController {
 	private String TrainingPicture;
 	@Autowired
 	private FormationRepository formationRepository;
+	
+	@Autowired
+	private CommentaireController commentaireController;
+	
 	@Autowired
 	private LocalController localController;
 	@Value("${dir.images}")
 	private String imageDir;
 	
+	@RequestMapping(value="/", method = RequestMethod.GET)
+	public String accueil(Model model,HttpServletRequest request) {
+		List<Commentaire> commentaires=commentaireController.findRecent(5);
+		model.addAttribute("commentaires", commentaires);
+		model.addAttribute("commentaire",new Commentaire());
+		HttpSession session=request.getSession(true);
+		
+		if(session.getAttribute("user")==null) return "home";
+		else return "index";		
+	}
+	
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
+		List<Commentaire> commentaires=commentaireController.findRecent(5);
+		model.addAttribute("commentaires", commentaires);
+		model.addAttribute("commentaire",new Commentaire());
 		HttpSession session=request.getSession(true);
+		
 		if(session.getAttribute("user")==null) return "home";
 		else return "index";		
 	}

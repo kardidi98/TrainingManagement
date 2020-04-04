@@ -274,8 +274,8 @@
 
     });
 
-
-
-
+    document.getElementsByClassName("carousel-item")[0].className="carousel-item active";
+ 
+    
     
 })(jQuery);
