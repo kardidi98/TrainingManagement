@@ -124,6 +124,7 @@ public class FormationController {
 	public String listFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
+		
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
