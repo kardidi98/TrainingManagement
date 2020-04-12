@@ -48,6 +48,9 @@ public class Formation implements Serializable {
 	@JoinColumn(name="local")
 	private Local Local;
 	
+	@OneToMany(mappedBy = "ratingFormation")
+	private List<Rating> ratings;
+	
 	
 	public Formation() {
 		super();
@@ -56,9 +59,10 @@ public class Formation implements Serializable {
 
 
 
+
 	public Formation(Long id, String title, int nbPlaces, String difficulty, String articleCat, int prix, Local local,
 			String requirements, String description, java.sql.Date firstDay, java.sql.Date lastDay,
-			String significantPhoto, Client user, List<Client> clientBeneficiants) {
+			String significantPhoto, Client user, List<Client> clientBeneficiants,List<Rating> rating) {
 		this.id = id;
 		Title = title;
 		NbPlaces = nbPlaces;
@@ -73,7 +77,24 @@ public class Formation implements Serializable {
 		this.significantPhoto = significantPhoto;
 		this.user = user;
 		this.clientBeneficiants = clientBeneficiants;
+		this.ratings=rating;
 	}
+
+
+
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+
+
+
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
 
 
 

@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RepositoryRestResource
 public interface FormationRepository extends JpaRepository<Formation, Long> {
 	
+	@Query(value="select f.*,avg(r.count_stars) from formation f, rating r where traing=id group by traing",nativeQuery =true)
+	public  Page<Formation> findAllAndRating(Pageable paging);
 	@Query("select f from Formation f where user_id like :x")
 	public List<Formation> findByUserId(@Param("x") Long id);
 	@Query("select f from Formation f where Article_Cat like :x")
@@ -41,7 +43,7 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Modifying
 	@Query(value="delete from formationreservee where training_id like :x and user_id like :y",nativeQuery = true)
 	public void deleteMyReservation(@Param("x") Long tId,@Param("y") Long uId);
-
+	
 	
 	
 }

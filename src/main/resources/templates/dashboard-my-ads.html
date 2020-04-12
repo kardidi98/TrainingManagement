@@ -85,28 +85,31 @@
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
-									<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+									
 									<a class="dropdown-item" th:href="@{about}">About Us</a>
 									<a class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
-									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
 									
 
 								</div>
 							</li>
 							
+							
 						</ul>
 						
-						<ul class="navbar-nav ml-auto mt-10">
+						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 16px;">
+							<li class="nav-item dropdown dropdown-slide">
+								<a class="nav-link dropdown-toggle login-button rounded" th:text="${session.user.nom[0]}+${session.user.prenom[0]}" th:unless="${session==null}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								 <span><i class="fa fa-angle-down"></i></span>
+								</a>
+								<!-- Dropdown list -->
+								<div class="dropdown-menu">
+									<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
+									<a class="dropdown-item" th:href="@{home}">Log out</a>
+
+								</div>
+							</li>
 							
-							<li class="nav-item">
-								<a class="nav-link text-white add-button rounded"   th:href="@{AddArticle}"  id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-white add-button-local rounded" th:href="@{AddLocal}"><i class="fa fa-plus-circle"></i> Add Local</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link login-button rounded" th:text="${session.user.email}" th:unless="${session==null}" style="margin-left:10px;"></a>
-							</li>
 						</ul>
 					
 										
@@ -143,7 +146,7 @@
 					<div class="widget user-dashboard-menu">
 						<ul>
 							<li class="">
-								<a id="myLocal" onclick="$('.my-locallist').hide();$('.my-adslist').fadeIn();"><i class="fa fa-user-o"></i> My Ads</a></li>
+								<a id="myLocal" onclick="$('.my-locallist').hide();$('.my-adslist').fadeIn();"><i class="fa fa-user-o"></i> My Training Articles</a></li>
 							<li>
 								<a id="myLocal"  onclick="$('.my-adslist').hide();$('.my-locallist').fadeIn();"><i class="fa fa-map-o"></i> My Locals</a>
 							</li>
@@ -249,6 +252,13 @@
 									</ul>
 								</nav>
 							</div>
+							<hr>
+						<ul class="navbar-nav ml-auto mt-10">
+							<li class="nav-item">
+								<a class="nav-link text-white add-button rounded"   th:href="@{AddArticle}"  id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
+							</li>
+							
+						</ul>
 				</div>
 				<div  class="widget dashboard-container my-locallist cacher">
 					<h2 class="header" style="font-weight:bold;">My Locals</h2>
@@ -382,6 +392,7 @@
 							
 						</tbody>
 					</table>
+						<hr>
 						<div class="pagination justify-content-center">
 							<nav aria-label="Page navigation example">
 								<ul class="pagination" >
@@ -392,6 +403,14 @@
 								</ul>
 							</nav>
 						</div>
+						<ul class="navbar-nav ml-auto mt-10">
+							
+						
+							<li class="nav-item">
+								<a class="nav-link text-white add-button rounded" style="background-color: #007BFF;" th:href="@{AddLocal}"><i class="fa fa-plus-circle"></i> Add Local</a>
+							</li>
+							
+						</ul>
 				</div>
 				
 

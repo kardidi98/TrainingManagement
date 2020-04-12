@@ -680,6 +680,7 @@ ul.pagination .active a {
 .login-button:hover{
   background-color: #F5F5F5;
   color: white;
+  cursor: pointer;
 }
 
 @media (max-width: 400px) {
@@ -731,6 +732,7 @@ ul.pagination .active a {
   color: #fff;
   padding: 8px 20px !important;
   display: inline-block;
+  margin-top: 8px;
 }
 
 .add-button:hover {
@@ -778,6 +780,9 @@ ul.pagination .active a {
   background: #5672f9;
   color: #fff;
   border: 1px solid #5672f9;
+}
+.main-nav:hover{
+	cursor: pointer;
 }
 
 .main-nav .search .input-group .input-group-addon i {
@@ -1437,13 +1442,22 @@ ul.pagination .active a {
   padding: 10px 15px;
 }
 
+#accountType {
+  float: none;
+  display: inline-block;
+  border-radius: 0;
+  margin-top: -1px;
+  margin-bottom: 10px;
+  height: 55px;
+}
+
 .nice-select {
   float: none;
   display: inline-block;
   border-radius: 0;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  height: 55px
+   margin-top: 10px;
+  margin-bottom: 15px;
+  height: 45px;
 }
 
 .nice-select .list {
@@ -1539,7 +1553,11 @@ ul.pagination .active a {
   cursor: pointer;
 }
 
-.product-item .product-ratings .selected i {
+.product-item .product-ratings{
+  color: #5672f9;
+}
+
+.list-inline-item.selected i {
   color: #5672f9;
 }
 
@@ -1622,7 +1640,7 @@ ul.pagination .active a {
 
 .product-slider .slick-dots {
   display: flex;
-  bottom: -50px;
+  bottom: 9px;
 }
 
 .product-slider .slick-dots li {
@@ -1777,7 +1795,8 @@ ul.pagination .active a {
 }
 
 .widget.price {
-  background: rgba(86, 114, 249,0.8);
+  background: rgba(86, 114, 249,0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0,0.3);
 }
 
 .widget.price h4 {
@@ -1859,16 +1878,22 @@ ul.pagination .active a {
   margin-bottom: 25px;
 }
 
-.widget.rate .starrr {
+
+
+.widget.rate .star {
   display: flex;
   justify-content: center;
+  
 }
 
-.widget.rate .starrr i {
+.widget.rate .star i {
   font-size: 20px;
   cursor: pointer;
-  color: #e6b322;
   padding: 0 5px;
+}
+
+.gold {
+  color: #e6b322;
 }
 
 .widget.filter {
@@ -2857,6 +2882,7 @@ button:hover {
 .list-inline-item:hover{
 	cursor:pointer;
 }
+
 
 .carousel-item{
 	border:1px solid #007BFF;

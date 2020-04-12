@@ -95,27 +95,34 @@
                 </a>
                 <!-- Dropdown list -->
                 <div class="dropdown-menu">
-                	<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+                	
                   <a class="dropdown-item" th:href="@{about}">About Us</a>
 					<a class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
-                  <a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
                   
 
                 </div>
               </li>
               
             </ul>
-            <ul class="navbar-nav ml-auto mt-10">
-             <li class="nav-item">
-				<a class="nav-link text-white  add-button rounded"   th:href="@{AddArticle}"  id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
-			</li>
-              <li class="nav-item">
-								<a class="nav-link login-button rounded" th:text="${session.user.email}" style="margin-left:10px;"></a>
-								
-				
-				</li>
-              
-            </ul>
+            <ul class="navbar-nav  ml-auto" style="margin-right: 16px;">
+							<li class="nav-item">
+								<a class="nav-link text-white add-button rounded" th:href="@{AddArticle}" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
+							</li>
+							
+							<li class="nav-item dropdown dropdown-slide" style="margin-left: 10px;margin-top: 8px;">
+								<a class="nav-link dropdown-toggle login-button rounded" th:text="${session.user.nom[0]}+${session.user.prenom[0]}" th:unless="${session==null}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								 <span><i class="fa fa-angle-down"></i></span>
+								</a>
+								<!-- Dropdown list -->
+								<div class="dropdown-menu">
+									<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
+									<a class="dropdown-item" th:href="@{home}">Log out</a>
+
+								</div>
+							</li>
+							
+						</ul>
           </div>
         </nav>
       </div>
@@ -184,7 +191,7 @@
                             
                           </div>
                           <div class="col-lg-6 ">
-                            <h6 class="font-weight-bold pt-3 pb-1">Select Type:</h6>
+                            <h6 class="font-weight-bold pt-4 pb-1">Select Type:</h6>
                             <select name="category" id="inputGroupSelect" class="w-100 rounded">
                               <option value="Duplex">Duplex</option>
                              <option value="Studio">Studio</option>
@@ -194,7 +201,7 @@
                              
                            </select>
                            <div class="price">
-                            <h6 class="font-weight-bold pt-4 pb-1">Price Per Hour ($):</h6>
+                            <h6 class="font-weight-bold pt-1 pb-1">Price Per Hour ($):</h6>
                             <div class="row px-3">
                               <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Price" name="prixParHeure" id="Price" >
                               
@@ -213,7 +220,7 @@
 		                      </select>
 		              
                          <!--  -->
-                         <h6 class="font-weight-bold pt-4 pb-1">Specify your local's address:</h6>
+                         <h6 class="font-weight-bold pt-1 pb-1">Specify your local's address:</h6>
                          <div class="row px-3">
                           <input name="adresse" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="adresse" placeholder="..">
                         </div>

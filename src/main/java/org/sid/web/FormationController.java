@@ -25,6 +25,7 @@ import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
 import org.sid.entities.Local;
+import org.sid.entities.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
@@ -48,6 +49,9 @@ public class FormationController {
 	
 	@Autowired
 	private CommentaireController commentaireController;
+	
+	@Autowired
+	private RatingRepository ratingRepository;
 	
 	@Autowired
 	private LocalController localController;
@@ -135,6 +139,7 @@ public class FormationController {
 	
 	
 	
+	
 	@RequestMapping(value="/listFormationParCategory", method =RequestMethod.GET)
 	public String listFormationParCategory(Model model,HttpServletRequest request,@RequestParam(name="cat",defaultValue = "") String cat,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
@@ -196,6 +201,7 @@ public class FormationController {
 	@RequestMapping(value="/viewArticle", method =RequestMethod.GET)
 	public String viewArticle(Model model,HttpServletRequest request,Long id) {
 		HttpSession session=request.getSession(true);
+		Client client =(Client) session.getAttribute("user");
 		Formation article= formationRepository.getOne(id);
 		Client formateur=article.getUser();
 		Long countFormation=formationRepository.countByIdFormation(id);
@@ -205,6 +211,7 @@ public class FormationController {
 		Long Duree=article.getLastDay().getTime()-article.getFirstDay().getTime();
 		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8)));
 		model.addAttribute("Duration",Duration);
+		
 		if(session.getAttribute("user")==null) 
 			return "singleVisiteur";
 		else {
