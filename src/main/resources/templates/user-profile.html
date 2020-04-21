@@ -51,7 +51,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<nav class="navbar navbar-expand-lg navbar-light navigation">
-						<a class="navbar-brand" href="index.html">
+						<a class="navbar-brand" th:href="@{TrainingManagement}">
 							<img src="images/logo.png" alt="" id="logo">
 						</a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -60,9 +60,7 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item ">
-								<a class="nav-link" th:href="@{TrainingManagement}">Home</a>
-							</li>
+							
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i class="fa fa-angle-down"></i></span>
 								</a>
@@ -96,7 +94,7 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav  ml-auto" style="margin-right: 16px;">
+						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 16px;">
 							<li class="nav-item">
 								<a class="nav-link text-white add-button rounded" th:href="@{AddArticle}" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
 							</li>
@@ -111,7 +109,7 @@
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
-									<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+									<a class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a>
 									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
 									<a class="dropdown-item" th:href="@{home}">Log out</a>
 
@@ -149,7 +147,7 @@
 							<li class="my-1 d-inline-block"><a   onclick="$('.my-adslist').hide();$('.profile').fadeIn();">My Personal Information</a></li>
 
 							<li class="my-1 d-inline-block"><a   onclick="$('.my-adslist').fadeIn();$('.profile').hide();">Reserved Trainings</a></li>
-							<li class="my-1 d-inline-block"><a   th:href="@{EditAds}" onclick="$('.my-adslist').hide();$('.profile').fadeIn();">My Articles</a></li>
+							<li class="my-1 d-inline-block"><a   th:href="@{EditAds}" onclick="$('.my-adslist').hide();$('.profile').fadeIn();">My Posts</a></li>
 						</ul>
 					</div>
 				</div>
@@ -205,11 +203,12 @@
 
 				</div>
 				<!-- Edit Personal Info -->
+				<form th:action="@{updatePersonnaalInfo}" method="post" id="Form" enctype="multipart/form-data">
+							
 				<div class="row">
 					<div class="col-lg-6 col-md-6 profile">
 						<div class="widget personal-info">
 							<h3 class="widget-header user">Edit Personal Information</h3>
-							<form th:action="@{updatePersonnaalInfo}" method="post" enctype="multipart/form-data">
 								<!-- First Name -->
 								<div class="form-group">
 									<label for="first-name">First Name</label>
@@ -228,7 +227,7 @@
 								<!-- File chooser -->
 								<div class="form-group choose-file d-inline-flex">
 									<i class="fa fa-user text-center px-3"></i>
-									<input type="file" name="photo" class="form-control-file mt-2 pt-1" id="photo">
+									<input type="file" name="photo" class="form-control-file mt-2 pt-1" id="photo" >
 								 </div>
 								
 								
@@ -236,16 +235,13 @@
 									<label for="current-address">Address</label>
 									<input type="text" name="adresse" class="form-control" id="current-address"  th:value="${session.user.Address}">
 								</div>
-								<!-- Submit button -->
-								<button type="submit" class="btn btn-transparent">Save My Changes</button>
-							</form>
+								
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 profile">
 						<!-- Change Password -->
 					<div class="widget change-password">
 						<h3 class="widget-header user">Edit Password</h3>
-						<form th:action="@{UpdatePassword}" method="post" id="passwordForm">
 							<!-- Current Password -->
 							<div class="form-group">
 								<label for="current-password">Current Password</label>
@@ -263,13 +259,10 @@
 							</div>
 							<p class="cacher" style="color:red" id="nonIndentiaues"><strong>Error: Non-identical values</strong></p>
 							
-							<!-- Submit Button -->
-							<button type="button" class="btn btn-transparent" onclick="if(document.getElementById('new-password').value==document.getElementById('confirm-password').value){$('#passwordForm').submit();} else{$('#nonIndentiaues').fadeIn();};">Change Password</button>
-						</form>
+							
 					</div>
 					<div class="widget change-email mb-0">
 						<h3 class="widget-header user">Edit Email Address</h3>
-						<form th:action="@{/UpdateEmail}" method="post">
 							<!-- Current Password -->
 							<div class="form-group">
 								<label for="current-email">Current Email</label>
@@ -280,14 +273,19 @@
 								<label for="new-email">New email</label>
 								<input name="new-email" type="email" class="form-control" id="new-email">
 							</div>
-							<!-- Submit Button -->
-							<button type="submit" class="btn btn-transparent">Change email</button>
-						</form>
+							
 					</div>
 					</div>
 					
 				
 				</div>
+				<!-- Submit button -->
+				<div style="text-align: center;margin-top: 40px;">
+				
+					<button type="button" class="btn btn-transparent" 	onclick="if(document.getElementById('new-password').value==document.getElementById('confirm-password').value){$('#Form').submit();} else{$('#nonIndentiaues').fadeIn();};">Save My Changes</button>
+				</div>
+							
+				</form>
 			</div>
 		</div>
 	</div>

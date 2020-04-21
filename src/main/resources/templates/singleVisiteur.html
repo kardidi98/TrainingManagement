@@ -46,7 +46,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<nav class="navbar navbar-expand-lg navbar-light navigation">
-						<a class="navbar-brand" href="index.html">
+						<a class="navbar-brand" th:href="@{TrainingManagement}">
 							<img src="images/logo.png" alt="" id="logo">
 						</a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -55,9 +55,7 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item ">
-								<a class="nav-link" th:href="@{TrainingManagement}">Home</a>
-							</li>
+							
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i class="fa fa-angle-down"></i></span>
 								</a>
@@ -91,7 +89,7 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav ml-auto mt-10 ">
+						<ul class="navbar-nav ml-auto mt-10 main-nav">
 							
 							<li class="nav-item">
 								<a class="nav-link text-white add-button rounded" th:href="@{AddArticle}" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
@@ -373,7 +371,7 @@
 		</div>
 	</div>
 <div>
-	<center><a  th:href="@{login}"><button class="text-white add-button-local rounded" style="margin-top: 30px;">Send Request to attend</button></a></center>
+	<center><a  th:href="@{login}"><button class="text-white add-button-local rounded"  style="margin-top: 30px;">Send Request to attend</button></a></center>
 </div>
 	<!-- Container End -->
 </section>

@@ -126,34 +126,13 @@ public class ClientController {
 	}
 	
 	
-	@RequestMapping(value="/UpdatePassword")
-	public String UpdatePassword(@RequestParam("new-password") String password,HttpServletRequest request) {
-		HttpSession session=request.getSession(true);
-		Client client=(Client) session.getAttribute("user");
-		Client cli=clientRepository.getOne(client.getId());
-		cli.setPassword(password);
-		client.setPassword(password);
-		clientRepository.save(cli);
-		
-		
-		return "redirect:editUserProfile";
-	}
-	
-	@RequestMapping(value="/UpdateEmail")
-	public String UpdateEmail(@RequestParam("new-email") String email,HttpServletRequest request) {
-		HttpSession session=request.getSession(true);
-		Client client=(Client) session.getAttribute("user");
-		Client cli=clientRepository.getOne(client.getId());
-		cli.setEmail(email);
-		client.setEmail(email);
-		clientRepository.save(cli);
-		
-		
-		return "redirect:editUserProfile";
-	}
+
 	
 	@RequestMapping(value="updatePersonnaalInfo")
-	public String updatePersonnaalInfo(@RequestParam("firstName") String prenom,@RequestParam("lastName") String nom,@RequestParam("job") String job,@RequestParam("photo") MultipartFile file,@RequestParam("adresse") String adresse,HttpServletRequest request) throws IOException {
+	public String updatePersonnaalInfo(@RequestParam("firstName") String prenom,@RequestParam("lastName") String nom,
+					@RequestParam("job") String job,@RequestParam("photo") MultipartFile file,
+					@RequestParam("adresse") String adresse,@RequestParam("new-email") String email
+					,@RequestParam("new-password") String password,HttpServletRequest request) throws IOException {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
 		Client cli=clientRepository.getOne(client.getId());
@@ -166,7 +145,21 @@ public class ClientController {
 		client.setAddress(adresse);
 		client.setJob(job);
 		
+		if(email.isEmpty()) {
+			cli.setEmail(client.getEmail());
+		}
+		else {
+			client.setEmail(email);
+			cli.setEmail(email);
+		}
 		
+		if(password.isEmpty()) {
+			cli.setPassword(client.getPassword());
+		}
+		else {
+			cli.setPassword(password);
+			client.setPassword(password);
+		}
 		
 		if(!(file.isEmpty())) {
 			cli.setPicture(file.getOriginalFilename());

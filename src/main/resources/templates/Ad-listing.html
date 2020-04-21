@@ -51,7 +51,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<nav class="navbar navbar-expand-lg navbar-light navigation">
-						<a class="navbar-brand" href="index.html">
+						<a class="navbar-brand" th:href="@{TrainingManagement}">
 							<img src="images/logo.png" alt="" id="logo">
 						</a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -60,9 +60,7 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item ">
-								<a class="nav-link" th:href="@{TrainingManagement}">Home</a>
-							</li>
+							
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i class="fa fa-angle-down"></i></span>
 								</a>
@@ -96,7 +94,7 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav  ml-auto" style="margin-right: 16px;">
+						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 16px;">
 							
 							<li class="nav-item">
 								<a class="nav-link text-white add-button rounded" style="background-color: #007BFF;margin-left: 10px;" th:href="@{AddLocal}"><i class="fa fa-plus-circle"></i> Add Local</a>
@@ -108,7 +106,7 @@
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
-									<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+									<a class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a>
 									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
 									<a class="dropdown-item" th:href="@{home}">Log out</a>
 
@@ -131,7 +129,7 @@
        <!-- Post Your ad start -->
                 
               
-      <fieldset class="formulaire border border-gary p-4 mb-5 tab" >
+      <fieldset class="formulaire border border-gary p-4 mb-5" >
       <div class="row ">
         <div class="col-lg-12">
           <h3>Article information</h3>
@@ -140,10 +138,10 @@
         
         <div class="col-lg-6 ">
           <h6 class="font-weight-bold pt-4 pb-1">Title Of The article:</h6>
-          <input type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Ad title go There" name="Title" >
+          <input type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Ad title go There" name="Title" required="required">
           <h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
           <div class="row px-3 ">
-            <input name="NbPlaces" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="25,30,100.." >
+            <input name="NbPlaces" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="25,30,100.." required="required">
           </div>
           <div class="row ">
             <div class="col-sm-6">
@@ -153,7 +151,7 @@
                 <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
                 <span class="add-on" style="float: right;"><i class="fa fa-calendar fa-lg"> </i></span>
                 
-                <input name="firstDay"  size="16" type="text" id="from" class="form-control" readonly style="background-color: white;"/>
+                <input name="firstDay"  size="16" type="text" id="from" class="form-control" readonly style="background-color: white;" required="required"/>
                 
               </div>
               <input type="hidden" id="dtp_input1" value="" /><br/>
@@ -167,7 +165,7 @@
                 <span class="font-weight-bold pt-4 pb-1">Last Day:</span>
                 <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
                 <span class="add-on" style="float: right;"><i class="fa fa-calendar fa-lg"> </i></span>
-                <input name="lastDay"  size="16" type="text" id="to" class="form-control" style="background-color: white;" readonly/>
+                <input name="lastDay"  size="16" type="text" id="to" class="form-control" style="background-color: white;" readonly required="required"/>
                 
               </div>
               <input type="hidden" id="dtp_input2" value="" /><br/>
@@ -213,7 +211,7 @@
                            <div class="price">
                             <h6 class="font-weight-bold pt-1 pb-1">Price ($):</h6>
                             <div class="row px-3">
-                              <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Price" name="prix" id="Price" >
+                              <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Price" name="prix" id="Price" required="required">
                               
                             </div>
                           </div>
@@ -229,7 +227,7 @@
                          <!--  -->
                          <h6 class="font-weight-bold pt-1 pb-1">Requirements:</h6>
                          <div class="row px-3">
-                          <input name="Requirements" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Java Basics,...">
+                          <input name="Requirements" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Java Basics,..." required="required">
                         </div>
                         <div class="choose-file text-center my-3 py-4 rounded">
                           <label for="file-upload">
@@ -238,7 +236,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select a picture</span>
                             
                             <span><span class="d-block">Please select a picture reflecting the content of your article</span></span>
-                            <input name="picture" type="file" class="form-control-file d-none" id="file-upload">
+                            <input name="picture" type="file" class="form-control-file d-none" id="file-upload" required="required">
                           </label>
                         </div>
                       </div>
@@ -247,7 +245,7 @@
                     </fieldset>
      
      <!-- Second form -->
-    <fieldset class="formulaire border border-gary p-4 mb-5 tab">
+    <fieldset class="formulaire border border-gary p-4 mb-5 ">
                     <div class="row" >
                       <div class="col-lg-12">
                         <h3>Search a Place</h3>
@@ -256,7 +254,7 @@
          
                   <div class="col-lg-4" >
                     <div style="margin-top: 10px;">
-                      <span class="font-weight-bold pt-4 pb-1">Choose a City:</span>
+                      <span class="font-weight-bold pt-4 pb-1">Choose a City</span>
                       <select  id="city" class="w-100 rounded"  onchange="EditLocal()">
                         <option value="All">All</option>
                         <option value="Agadir" >Agadir</option>
@@ -272,7 +270,7 @@
                   <div class="col-lg-8 choosen cacher" id="choosenArticle">
                     <h6 class="font-weight-bold pt-4 pb-1">You choosed</h6>
                     <div class="row px-3">
-                      <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded"  name="LocalId"  id="choosen" style="font-weight: bold;" readonly>
+                      <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded"  name="LocalId"  id="choosen" style="font-weight: bold;" readonly required="required">
                       
                     </div>
                   </div>
@@ -423,23 +421,24 @@
                   
                   
           
+              <div align="right">
+                 	<input type="submit" class="d-block btn bg-primary text-white my-3" value="Post Your Training" id="post">
+                 		
+                </div> 
               
-
               
-              
-              <div style="overflow:auto;">
+              <!-- <div style="overflow:auto;">
                 <div style="float:right;">
                   <button type="button" id="prevBtn" class="rounded"  onclick="nextPrev(-1)">Previous</button>
                   <button type="button" id="nextBtn" class="rounded" onclick="nextPrev(1)">Next</button>
                 </div>
               </div>
               <!-- Circles which indicates the steps of the form: -->
-              <div style="text-align:center;margin-top:40px;">
+              <!--<div style="text-align:center;margin-top:40px;">
                 <span class="step"></span>
                 <span class="step"></span>
                 
-              </div>
-              
+              </div>-->
 
               
               
@@ -555,7 +554,7 @@
 <script src="../static/js/script.js" th:src ="@{js/script.js}"></script>
 
 <script type="text/javascript">
-  var currentTab = 0; // Current tab is set to be the first tab (0)
+/*  var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
 function showTab(n) {
@@ -626,7 +625,7 @@ function fixStepIndicator(n) {
   }
   //... and adds the "active" class on the current step:
   x[n].className += " active";
-}
+}*/
 
 
   //*******Afficher les locaux par ville*******

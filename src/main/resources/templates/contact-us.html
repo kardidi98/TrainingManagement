@@ -59,10 +59,8 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto main-nav ">
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{TrainingManagement}">Home</a>
-              </li>
+            <ul class="navbar-nav  main-nav ">
+              
               <li class="nav-item dropdown dropdown-slide">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i class="fa fa-angle-down"></i></span>
                 </a>
@@ -88,22 +86,19 @@
                 </a>
                 <!-- Dropdown list -->
                 <div class="dropdown-menu">
-                <a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
                   <a class="dropdown-item" th:href="@{about}">About Us</a>
 				  <a class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
-									
-                  <a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
                   
 
                 </div>
               </li>
               
             </ul>
-            <ul class="navbar-nav ml-auto mt-10">
+            <!-- <ul class="navbar-nav ml-auto mt-10">
               <li class="nav-item">
 				<a class="nav-link login-button rounded" th:href="@{login}">Login</a>
 			</li>
-            </ul>
+            </ul>-->
           </div>
         </nav>
       </div>

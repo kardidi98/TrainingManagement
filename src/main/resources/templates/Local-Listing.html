@@ -67,9 +67,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto main-nav ">
-              <li class="nav-item ">
-                <a class="nav-link" th:href="@{TrainingManagement}">Home</a>
-              </li>
+              
               <li class="nav-item dropdown dropdown-slide">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i class="fa fa-angle-down"></i></span>
                 </a>
@@ -104,7 +102,7 @@
               </li>
               
             </ul>
-            <ul class="navbar-nav  ml-auto" style="margin-right: 16px;">
+            <ul class="navbar-nav  ml-auto main-nav" style="margin-right: 16px;">
 							<li class="nav-item">
 								<a class="nav-link text-white add-button rounded" th:href="@{AddArticle}" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
 							</li>
@@ -115,7 +113,7 @@
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
-									<a class="dropdown-item" th:href="@{EditAds}">Edit User Articles</a>
+									<a class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a>
 									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
 									<a class="dropdown-item" th:href="@{home}">Log out</a>
 
@@ -317,7 +315,7 @@
               
                   </fieldset>
                  <div align="right">
-                 	<input type="button" class="d-block btn bg-primary text-white my-3" value="Post Your Article" id="post" onclick="if(document.getElementById('title').value=='' ||document.getElementById('places').value=='' || document.getElementById('disponibliteAPartir').value=='' || document.getElementById('disponibiliteA').value==''|| document.getElementById('Price').value=='' || document.getElementById('adresse').value=='' || document.getElementById('file-upload1').value=='' || document.getElementById('file-upload2').value=='' || document.getElementById('file-upload3').value=='' || document.getElementById('file-upload4').value=='' || document.getElementById('file-upload5').value=='' || document.getElementById('file-upload6').value=='') {Swal.fire({ title: 'Fulfill all the fields please.', type: 'error',confirmButtonColor: '#F95669',animation:true});} else{$('form').submit();}">
+                 	<input type="button" class="d-block btn bg-primary text-white my-3" value="Post Your Local Article" id="post" onclick="if(document.getElementById('title').value=='' ||document.getElementById('places').value=='' || document.getElementById('disponibliteAPartir').value=='' || document.getElementById('disponibiliteA').value==''|| document.getElementById('Price').value=='' || document.getElementById('adresse').value=='' || document.getElementById('file-upload1').value=='' || document.getElementById('file-upload2').value=='' || document.getElementById('file-upload3').value=='' || document.getElementById('file-upload4').value=='' || document.getElementById('file-upload5').value=='' || document.getElementById('file-upload6').value=='') {Swal.fire({ title: 'Fulfill all the fields please.', type: 'error',confirmButtonColor: '#F95669',animation:true});} else{$('form').submit();}">
                  		
                  </div> 
  
