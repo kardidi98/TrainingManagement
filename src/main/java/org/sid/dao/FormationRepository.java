@@ -1,6 +1,7 @@
 package org.sid.dao;
 
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,10 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Modifying
 	@Query(value="delete from formationreservee where training_id like :x and user_id like :y",nativeQuery = true)
 	public void deleteMyReservation(@Param("x") Long tId,@Param("y") Long uId);
+	
+	@Query(value="select * from formation f where f.user_id in (select c.id from client c where nom like :x ) and f.local in (select l.id from local l where ville like:y) and ( :z between f.first_day and last_day)",nativeQuery=true)
+	public Page<Formation> rechercherformation(@Param("x") String TrainerName, @Param("y") String Local,@Param("z") Date date,Pageable paging);
+	
 	
 	
 	

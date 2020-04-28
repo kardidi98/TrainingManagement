@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,6 +56,10 @@ public class FormationController {
 	
 	@Autowired
 	private LocalController localController;
+	
+	@Autowired
+	private ClientRepository clientRepository;
+	
 	@Value("${dir.images}")
 	private String imageDir;
 	
@@ -64,6 +69,11 @@ public class FormationController {
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
 		HttpSession session=request.getSession(true);
+		
+
+		List<Client> TrainerList =clientRepository.findAll();
+		
+		model.addAttribute("TrainerList", TrainerList);
 		
 		if(session.getAttribute("user")==null) return "home";
 		else return "index";		
@@ -75,6 +85,11 @@ public class FormationController {
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
 		HttpSession session=request.getSession(true);
+		
+
+		List<Client> TrainerList =clientRepository.findAll();
+		
+		model.addAttribute("TrainerList", TrainerList);
 		
 		if(session.getAttribute("user")==null) return "home";
 		else return "index";		
@@ -125,6 +140,10 @@ public class FormationController {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
 		
+		List<Client> TrainerList =clientRepository.findAll();
+		
+		model.addAttribute("TrainerList", TrainerList);
+		
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -146,6 +165,12 @@ public class FormationController {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findByArticleCat(cat,PageRequest.of(page,3,Sort.by("firstDay").ascending()));
 		Long countFormation = formationRepository.countByArticleCat(cat);
+		
+
+		List<Client> TrainerList =clientRepository.findAll();
+		
+		model.addAttribute("TrainerList", TrainerList);
+		
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -358,6 +383,38 @@ public class FormationController {
 	//********  Pour la reservation des formations ***************
 	
 
+/*---------------------------------RechercheFormation---------------------------------------------*/
+	
+	@RequestMapping(value="/ChercherFormation" ,method=RequestMethod.POST)
+	public String ChercherFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam("Trainer") String trainerName,@RequestParam("Location") String local,@RequestParam(name="Date",defaultValue = "2020-01-01") java.sql.Date date) {
+		
+		
+		Page<Formation> formation=formationRepository.rechercherformation(trainerName,local,date,PageRequest.of(page,3,Sort.unsorted()));
+		System.out.println(formation.getSize());
+		HttpSession session=request.getSession(true);
+		
+		List<Client> TrainerList =clientRepository.findAll();
+		
+		model.addAttribute("TrainerList", TrainerList);
+		
+		int countPages=formation.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
+		model.addAttribute("formation",formation);
+		if(session.getAttribute("user")==null) return "CategoryVisiteur";
+		
+		return "category";
+		
+		
+		
+		
+	}
+	
+	/*---------------------------------RechercheFormation---------------------------------------------*/
 	
 	
 	

@@ -93,21 +93,23 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 16px;">
-							<li class="nav-item">
-								<a class="nav-link text-white add-button rounded" th:href="@{AddArticle}" id="search_article"><i class="fa fa-plus-circle"></i> Add Training Article</a>
+						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
+							<li class="nav-item w-100" style="margin-bottom: 10px;">
+								<form class="search">
+								  <input class="searchTerm  rounded" placeholder="Search..." />
+								  <input class="searchButton" type="submit" />
+								</form>
 							</li>
 							
-							<li class="nav-item">
-								<a class="nav-link text-white add-button rounded" style="background-color: #007BFF;margin-left: 10px;" th:href="@{AddLocal}"><i class="fa fa-plus-circle"></i> Add Local</a>
-							</li>
 							
-							<li class="nav-item dropdown dropdown-slide" style="margin-left: 10px;margin-top: 8px;">
-								<a class="nav-link dropdown-toggle login-button rounded" th:text="${session.user.nom[0]}+${session.user.prenom[0]}" th:unless="${session==null}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<li class="nav-item dropdown dropdown-slide" style="margin-left: 10px;">
+								<a class="nav-link dropdown-toggle  rounded" th:text="${session.user.nom[0]}+${session.user.prenom[0]}" th:unless="${session==null}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;border: 2px solid #E1E1E1;border-radius: 5px;padding-right: 25px;padding-left: 25px;font-weight:bold;font-weight:bold;">
 								 <span><i class="fa fa-angle-down"></i></span>
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
+									<a class="dropdown-item"th:href="@{AddArticle}" id="search_article">Add Training Article</a>
+									<a class="dropdown-item" th:href="@{AddLocal}">Add Local</a>
 									<a class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a>
 									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
 									<a class="dropdown-item" th:href="@{home}">Log out</a>
@@ -122,34 +124,60 @@
 		</div>
 	</div>
 </section>
+
 <section class="page-search">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Advance Search -->
 				<div class="advance-search">
-					<form>
+					<form th:action="@{ChercherFormation}" method="Post">
 						<div class="form-row">
-							<div class="form-group col-md-2">
-								<input type="text" class="form-control my-2 my-lg-0" id="inputtext4" placeholder="By Trainer">
-							</div>
-							<div class="form-group col-md-2">
-								<input type="text" class="form-control my-2 my-lg-0" id="inputCategory4" placeholder="By Category">
-							</div>
-							<div class="form-group col-md-2">
-								<input type="text" class="form-control my-2 my-lg-0" id="inputLocation4" placeholder="By Location">
-							</div>
-							<div class="form-group col-md-1">
+							<div class="form-group col-md-3"  style="margin-top: -10px;width: 100%;">
+								<select  class="form-control w-100" name="Trainer" required="required" >
+										<option value="default">Select a trainer</option>
+										<option th:each="p:${TrainerList}" th:text="${p.nom}" />
 								
+								</select>	
+						
 							</div>
-							<div class="form-group col-md-2">
-
-								<button type="submit" class="btn btn-primary" style="border: 1px solid white;">Quick Search</button>
+							
+							<div class="form-group col-md-3 " >
+								
+				               <div class="controls  input-append date form_date col-md-12" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="margin-top: -10px;">
+				                
+				                <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
+				                
+				                
+				                <div class="row ">
+				                	<div class="col-sm-12" >
+				                	<input name="Date"  placeholder="By Date" size="16" type="text" id="from" class="form-control" readonly required="required" style="color: white;background-color: #5672F9;height: 45px;"/>
+				                	</div >
+				                	<div class="add-on col-sm-3" style="color:white;position:relative;z-index: 999;margin-top: -38px;margin-left: 215px;">
+				                	<i class="fa fa-calendar fa-lg"> </i>
+				                	</div>
+				                </div>
+				              </div>
+				              <input type="hidden" id="dtp_input1" value="" /><br/>
+				              
+				           
 							</div>
+							<div class="form-group col-md-3" style="margin-top: -10px;">
+								<select  class="form-control w-100 " name="Location" required="required" >
+										<option value="default">Select a location</option>
+										<option value="Rabat">Rabat</option>
+										<option value="Laayoune">Laayoune</option>
+										<option value="Fès">Fès</option>
+										<option value="Kenitra">Kenitra</option>
+										<option value="Agadir">Agadir</option>
+								</select>	
+							</div>
+							
 							<div class="form-group col-md-3">
 
-								<button type="submit" class="btn btn-primary" style="border: 1px solid white;">Advanced Search</button>
+								<button type="submit" class="btn btn-primary" style="border: 1px solid white;height: 45px;margin-left: 15px;">Quick Search</button>
 							</div>
+							
 						</div>
 					</form>
 				</div>
@@ -157,9 +185,10 @@
 		</div>
 	</div>
 </section>
-<section class="section-sm">
-	<div class="container">
-		
+
+
+<section class="container section-sm">
+	
 		<div class="row">
 			<div class="col-md-3">
 				<div class="category-sidebar">
@@ -249,7 +278,11 @@
 						
 					</div>
 				</div>
-				
+			
+				<div th:if="${formation.empty}" style="text-align: center">
+					<br>
+					<h2> No result</h2>
+				</div>
 				<!-- ad listing list  -->
 				<div class="ad-listing-list mt-20" th:each="formation:${formation.content}">
 					    <div class="row p-lg-3 p-sm-5 p-4">
