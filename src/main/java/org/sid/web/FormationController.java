@@ -65,6 +65,9 @@ public class FormationController {
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String accueil(Model model,HttpServletRequest request) {
+		
+		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
+		
 		List<Commentaire> commentaires=commentaireController.findRecent(5);
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
@@ -74,6 +77,9 @@ public class FormationController {
 		List<Client> TrainerList =clientRepository.findAll();
 		
 		model.addAttribute("TrainerList", TrainerList);
+	
+		model.addAttribute("trendyTrainings", trendyTrainings);
+		System.out.println(trendyTrainings.get(0).getTitle());
 		
 		if(session.getAttribute("user")==null) return "home";
 		else return "index";		
@@ -81,6 +87,8 @@ public class FormationController {
 	
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
+		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
+		
 		List<Commentaire> commentaires=commentaireController.findRecent(5);
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
@@ -89,6 +97,8 @@ public class FormationController {
 
 		List<Client> TrainerList =clientRepository.findAll();
 		
+
+		model.addAttribute("trendyTrainings", trendyTrainings);
 		model.addAttribute("TrainerList", TrainerList);
 		
 		if(session.getAttribute("user")==null) return "home";

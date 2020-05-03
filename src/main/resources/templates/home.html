@@ -32,7 +32,7 @@
   <link href="../static/plugins/jquery-nice-select/css/nice-select.css" rel="stylesheet" th:href ="@{plugins/jquery-nice-select/css/nice-select.css}">
   <!-- CUSTOM CSS -->
   <link href="../static/css/style.css" th:href ="@{css/style.css}" rel="stylesheet">
- 
+  <link href="../static/css/animated.css" th:href ="@{css/animated.css}" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -134,11 +134,11 @@
 			<div class="col-md-12">
 				<!-- Header Contetnt -->
 				<div class="content-block">
-					<h1>Search & Learn Near You </h1>
-					<p>Join the millions who find the best places and oppotunities to learn <br> everyday in local communities around the world</p>
+					<h1 class="animated fadeInLeftBig">Search & Learn Near You </h1>
+					<p class="animated fadeInRightBig">Join the millions who find the best places and oppotunities to learn <br> everyday in local communities around the world</p>
 					<div class="short-popular-category-list text-center">
-						<h2>Popular Category</h2>
-						<ul class="list-inline">
+						<h2 class="animated fadeInLeftBig">Popular Category</h2>
+						<ul class="list-inline animated fadeInRightBig">
 							<li class="list-inline-item">
 								<a th:href="@{listFormationParCategory(cat=('Development'))}"><i class="fa fa-terminal"></i> Development</a>
 							</li>
@@ -168,7 +168,7 @@
 									<div class="form-row">
 										<div class="form-group col-md-3">
 											<select class="w-100 form-control mt-lg-1 mt-md-2" name="Trainer" required="required" >
-												<option value="default">Select a location</option>
+												<option value="default">Select a trainer</option>
 												
 												<option th:each="p:${TrainerList}" th:text="${p.nom}" />
 											</select>
@@ -244,36 +244,38 @@
 		</div>
 		<div class="row">
 			<!-- offer 01 -->
-			<div class="col-lg-12">
-				<div class="trending-ads-slide">
-					<div class="col-sm-12 col-lg-4">
+			<div class="col-lg-12" >
+				<div class="trending-ads-slide" th:if="${trendyTrainings.empty==false}">
+					<div class="col-sm-12 col-lg-6" th:each="training:${trendyTrainings}" >
 						<!-- product card -->
-						<div class="product-item bg-light">
-							<div class="card">
-								<div class="thumb-content">
+						<div class="product-item bg-light rounded" >
+							<div class="card" style="width: auto;">
+								<div class="thumb-content" >
 									<!-- <div class="price">$200</div> -->
-									<a href="single.html">
-										<img class="card-img-top img-fluid" src="images/products/product.png" alt="Card image cap">
+									<a th:href="@{viewArticle(id=${training.id})}">
+										<img style="height: 250px;width: 300px;" class="img-fluid"  th:src="@{getPhoto(id=${training.id})}" alt="Card image cap" />
 									</a>
 								</div>
+								<hr>
 								<div class="card-body">
-									<h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
+									<h4 class="card-title"><a th:href="@{viewArticle(id=${training.id})}" th:text="${training.title}"></a></h4>
 									<ul class="list-inline product-meta">
 										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-folder-open-o"></i>Electronics</a>
+											<a href="#"><i class="fa fa-folder-open-o"></i><span th:text="${training.ArticleCat}"></span></a>
 										</li>
 										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-calendar"></i>26th December</a>
+											<a href="#"><i class="fa fa-calendar"></i><span th:text="${training.firstDay}"></span></a>
+										</li>
+										<li class="list-inline-item">
+											<a href="#"><i class="fa fa-location-arrow"></i><span th:text="${training.local.adresse}+', '+${training.local.ville}"></span></a>
 										</li>
 									</ul>
-									<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
 									<div class="product-ratings">
-										<ul class="list-inline">
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+										<ul class="list-inline" th:with="avg=${#aggregates.avg(training.ratings.![countStars])}">
+											
+										    
+										    <li th:each="r: ${#numbers.sequence( 1, 5)}" class="list-inline-item" ><i th:class="${r <= avg} ? 'fa fa-star':'fa fa-star-o'"></i></li>
+					                         
 										</ul>
 									</div>
 								</div>
@@ -283,117 +285,7 @@
 
 
 					</div>
-					<div class="col-sm-12 col-lg-4">
-						<!-- product card -->
-						<div class="product-item bg-light">
-							<div class="card">
-								<div class="thumb-content">
-									<!-- <div class="price">$200</div> -->
-									<a href="single.html">
-										<img class="card-img-top img-fluid" src="images/products/product.png" alt="Card image cap">
-									</a>
-								</div>
-								<div class="card-body">
-									<h4 class="card-title"><a href="single.html">Full Study Table Combo</a></h4>
-									<ul class="list-inline product-meta">
-										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-folder-open-o"></i>Programmation</a>
-										</li>
-										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-										</li>
-									</ul>
-									<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-									<div class="product-ratings">
-										<ul class="list-inline">
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-					</div>
-					<div class="col-sm-12 col-lg-4">
-						<!-- product card -->
-						<div class="product-item bg-light">
-							<div class="card">
-								<div class="thumb-content">
-									<!-- <div class="price">$200</div> -->
-									<a href="single.html">
-										<img class="card-img-top img-fluid" src="images/products/product.png" alt="Card image cap">
-									</a>
-								</div>
-								<div class="card-body">
-									<h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-									<ul class="list-inline product-meta">
-										<li class="list-inline-item">
-											<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-										</li>
-										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-										</li>
-									</ul>
-									<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-									<div class="product-ratings">
-										<ul class="list-inline">
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-					</div>
-					<div class="col-sm-12 col-lg-4">
-						<!-- product card -->
-						<div class="product-item bg-light">
-							<div class="card">
-								<div class="thumb-content">
-									<!-- <div class="price">$200</div> -->
-									<a href="single.html">
-										<img class="card-img-top img-fluid" src="images/products/product.png" alt="Card image cap">
-									</a>
-								</div>
-								<div class="card-body">
-									<h4 class="card-title"><a href="single.html">Full Study Table Combo</a></h4>
-									<ul class="list-inline product-meta">
-										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-folder-open-o"></i>Development</a>
-										</li>
-										<li class="list-inline-item">
-											<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-										</li>
-									</ul>
-									<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-									<div class="product-ratings">
-										<ul class="list-inline">
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-					</div>
+				
 				</div>
 			</div>
 			
@@ -410,7 +302,7 @@
 
 <section class=" section" id="categories">
 	<!-- Container Start -->
-	<div class="container">
+	<div class="container " >
 		<div class="row">
 			<div class="col-12">
 				<!-- Section title -->

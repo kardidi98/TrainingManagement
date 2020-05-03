@@ -28,6 +28,7 @@
   <!-- CUSTOM CSS -->
   <link href="../static/css/style.css" th:href ="@{css/style.css}" rel="stylesheet">
 
+  <link href="../static/css/animated.css" th:href ="@{css/animated.css}" rel="stylesheet">
 
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -150,7 +151,7 @@
 	<div class="container">
 		<div class="row">
 			<!-- Left sidebar -->
-			<div class="col-md-8">
+			<div class="col-md-8 animated fadeInLeftBig">
 				<div class="product-details">
 					<h1 class="product-title" th:text="${article.Title}"></h1>
 					<div class="product-meta">
@@ -301,7 +302,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-4 animated fadeInRightBig">
 				<div class="sidebar">
 					<div class="widget price text-left">
 						<p><span id="price_info">Price: </span><span>$</span><span th:text="${article.Prix}"></span></p>
