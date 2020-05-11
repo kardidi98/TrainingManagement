@@ -156,7 +156,7 @@
                 <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
                 <span class="add-on" style="float: right;"><i class="fa fa-calendar fa-lg"> </i></span>
                 
-                <input name="firstDay"  size="16" type="text" id="from" class="form-control" readonly style="background-color: white;" required="required"/>
+                <input name="firstDay"  size="16" type="text" id="from" class="form-control" readonly style="background-color: white;" required="required" onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();"/>
                 
               </div>
               <input type="hidden" id="dtp_input1" value="" /><br/>
@@ -170,8 +170,7 @@
                 <span class="font-weight-bold pt-4 pb-1">Last Day:</span>
                 <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
                 <span class="add-on" style="float: right;"><i class="fa fa-calendar fa-lg"> </i></span>
-                <input name="lastDay"  size="16" type="text" id="to" class="form-control" style="background-color: white;" readonly required="required"/>
-                
+                <input name="lastDay"  size="16" type="text" id="to" class="form-control" style="background-color: white;" readonly required="required" onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();"/>                
               </div>
               <input type="hidden" id="dtp_input2" value="" /><br/>
             </div>
@@ -246,7 +245,11 @@
                         </div>
                       </div>
                     </div>
-                   
+                   <!-- Specify hours Day -->
+                    <div id="SpecifyForm">
+                      
+                    </div>
+                    <button type="button" id="Specify" ><strong id="plus">+</strong>Specify the sessions</button>
                     </fieldset>
      
      <!-- Second form -->
@@ -281,7 +284,8 @@
                   </div>
 
                 </div>
-
+				
+				
                 <div class="product-grid-list" id="articlelist">
                   <div class="row mt-30" >
                     <div th:class="'col-sm-12 col-lg-4 col-md-6 cacher local_list All '+${local.ville}"  th:each="local:${locaux}"><!-- active -->
@@ -300,15 +304,12 @@
                             <p class="card-text"  align="justify" th:text="'Title : '+${local.intitulee}"></p>
                             <ul class="list-inline product-meta">
                               <li class="list-inline-item">
-                                <a href="#" th:text="${local.adresse}"><i class="fa fa-location-arrow"></i></a>
-                              </li>
-                             	<li class="list-inline-item">
-                                <a href="#" th:text="${local.ville}"><i class="fa fa-location-arrow"></i></a>
-                              </li>
+                                <a href="#" th:text="${local.adresse}+', '+${local.ville}"><i class="fa fa-location-arrow"></i></a>
+                              
                             </ul>
-                            <a data-toggle="modal" th:data-target="'#LocalDetails'+${local.id}" style="color:#b0b3bf;"><i class="fa fa-info-circle"></i>	More Details</a>
+                            <a data-toggle="modal" th:data-target="'#LocalDetails'+${local.id}" style="color:grey;"><i class="fa fa-info-circle"></i>	More Details</a>
                             
-                            <div class="product-ratings">
+                            <!--  <div class="product-ratings">
                               <ul class="list-inline">
                                 <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
                                 <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
@@ -316,7 +317,7 @@
                                 <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
                                 <li class="list-inline-item"><i class="fa fa-star"></i></li>
                               </ul>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>

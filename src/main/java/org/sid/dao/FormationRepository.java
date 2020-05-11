@@ -31,8 +31,14 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Query("select f from Formation f where Article_Cat like :x")
 	public Page<Formation> findByArticleCat(@Param("x") String cat,Pageable paging);
 	
-	@Query("select count(*) from Formation f where Article_Cat like :x")
-	public Long countByArticleCat(@Param("x") String cat);
+	@Query("select count(*) from Formation where Article_Cat like :x")
+	public Long countByArticleCat(@Param("x") String city);
+	
+	@Query(value="select * from Formation where local in (select id from local where ville like :x)",nativeQuery = true)
+	public Page<Formation> findByArticleCity(@Param("x") String city,Pageable paging);
+	
+	@Query(value="select count(*) from Formation f where local in (select id from local where ville like :x)", nativeQuery = true)
+	public Long countByArticleCity(@Param("x") String city);
 	
 	@Transactional
 	@Modifying
@@ -58,6 +64,14 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	
 	@Query(value="select * from formation where first_day like DATE_SUB(CURDATE(), INTERVAL 1 DAY) and CURDATE()", nativeQuery = true)
 	public List<Formation> trendyTrainings();
+
+	@Query(value="select email from client where id in (select user_id from formationreservee where training_id like :x)", nativeQuery = true)
+	public List<String> findParticipants(@Param("x") Long TrainingId);
+
+	@Transactional
+	@Modifying
+	@Query(value="delete from formationreservee where training_id like :x", nativeQuery = true)
+	public void deleteRequests(@Param("x") Long id);
 	
 	
 }

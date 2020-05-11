@@ -27,6 +27,7 @@ import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
 import org.sid.entities.Local;
 import org.sid.entities.Rating;
+import org.sid.mailSender.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
@@ -43,6 +44,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class FormationController {
+	
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	private String TrainingPicture;
 	@Autowired
@@ -79,7 +84,6 @@ public class FormationController {
 		model.addAttribute("TrainerList", TrainerList);
 	
 		model.addAttribute("trendyTrainings", trendyTrainings);
-		System.out.println(trendyTrainings.get(0).getTitle());
 		
 		if(session.getAttribute("user")==null) return "home";
 		else return "index";		
@@ -122,6 +126,16 @@ public class FormationController {
 	public String save(Model model,HttpServletRequest request, Formation formation,@RequestParam("LocalId") Long localId,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
 		HttpSession session =request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
+		
+		String message="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+	            "<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi "+client.getNom()+" "+client.getPrenom()+"</h1>"+
+	            		"<p>" + 
+	            		"	    Thank you for adding a new training. We will make sure your training article appears to the maximum of participants."+
+	            		"</p>"+
+	            		"<p>See you soon.</p></div></div>";
+		
+		
+		
 		formation.setUser(client);
 		Local local=localController.findById(localId);
 		
@@ -140,6 +154,12 @@ public class FormationController {
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
 			file.transferTo(new File(imageDir+formation.getId()));
+		}
+		
+		try {
+			notificationService.sendNotification(client,message);
+		} catch (Exception e) {
+			
 		}
 		
 		return "redirect:EditAds";	
@@ -196,6 +216,33 @@ public class FormationController {
 		return "category";
 	}
 	
+	
+	@RequestMapping(value="/listFormationParVille", method =RequestMethod.GET)
+	public String listFormationParVille(Model model,HttpServletRequest request,@RequestParam(name="city",defaultValue = "") String city,@RequestParam(name="page",defaultValue = "0") int page) {
+		HttpSession session=request.getSession(true);
+		Page<Formation> formation=formationRepository.findByArticleCity(city,PageRequest.of(page,3,Sort.by("first_day").ascending()));
+		Long countFormation = formationRepository.countByArticleCity(city);
+		
+
+		List<Client> TrainerList =clientRepository.findAll();
+		
+		model.addAttribute("TrainerList", TrainerList);
+		
+		int countPages=formation.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
+		model.addAttribute("formation",formation);
+		model.addAttribute("count",countFormation);
+		
+		if(session.getAttribute("user")==null) return "CategoryVisiteur";
+		
+		return "category";
+	}
+	
 	@RequestMapping(value="/countByCategory")
 	@ResponseBody
 	public Long countByCategory(String cat) {
@@ -230,7 +277,18 @@ public class FormationController {
 	@RequestMapping(value="/delete", method =RequestMethod.GET)
 	public String delete(Long id) {
 		
+		
+		Formation formation=formationRepository.getOne(id);
+		
+		List<String> clientsEmails= formationRepository.findParticipants(id);
+		System.out.println(clientsEmails.get(0));
+		try {
+			notificationService.sendNotificationIfArticleRemoved(clientsEmails, formation);
+		} catch (Exception e) {
+			
+		}
 		formationRepository.deleteById(id);
+		formationRepository.deleteRequests(id);
 		return "redirect:EditAds";
 	}
 	

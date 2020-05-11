@@ -20,6 +20,9 @@ import org.sid.dao.ClientRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
+import org.sid.mailSender.NotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -38,6 +41,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ClientController {
+	
+	@Autowired
+	private NotificationService notificationService;
+	
+	
+
 	
 	@Autowired
 	private ClientRepository clientRepository;
@@ -72,6 +81,21 @@ public class ClientController {
 	@RequestMapping(value="/Registration",method=RequestMethod.POST)
 	public String save(Model model ,Client client,@RequestParam(name="photo") MultipartFile picture,HttpSession session,HttpServletRequest request) throws IllegalStateException, IOException {
 		client.setPicture(picture.getOriginalFilename());
+		String message="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+	            "<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Welcome "+client.getNom()+" "+client.getPrenom()+"</h1>"+
+        		"<p>" + 
+        		"	    Thank you for joining <strong>Training Management</strong> community. "+
+        		"We are glad to have you. Thanks to our services, you can find the best places and oppotunities to learn" + 
+        		"everyday in local communities near you."+
+        		"</p>"+
+        		"</div></div>";
+		try {
+			notificationService.sendNotification(client,message);
+		} catch (Exception e) {
+			
+		}
+		
+		
 		clientRepository.save(client);
 		if(!(picture.isEmpty())) {
 			client.setPicture(picture.getOriginalFilename());
@@ -83,7 +107,7 @@ public class ClientController {
 		
 	
 		
-		return "login";
+		return "redirect:login";
 	}
 	@RequestMapping(value="getUserPhoto",produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody

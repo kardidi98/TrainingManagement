@@ -197,12 +197,11 @@
 <div class="widget category-list">
 	<h4 class="widget-header">Nearby</h4>
 	<ul class="category-list">
-		<li><a href="category.html">Casablanca <span></span></a></li>
-		<li><a href="category.html">Rabat <span></span></a></li>
-		<li><a href="category.html">Kenitra  <span></span></a></li>
-		<li><a href="category.html">Fes <span></span></a></li>
-		<li><a href="category.html">Laayoune <span></span></a></li>
-		
+		<li><a th:href="@{listFormationParVille(city=('Casablanca'))}">Casablanca <span></span></a></li>
+		<li><a th:href="@{listFormationParVille(city=('Rabat'))}">Rabat <span></span></a></li>
+		<li><a th:href="@{listFormationParVille(city=('Kenitra'))}">Kenitra  <span></span></a></li>
+		<li><a th:href="@{listFormationParVille(city=('Fès'))}">Fes <span></span></a></li>
+		<li><a th:href="@{listFormationParVille(city=('Laayoune'))}">Laayoune <span></span></a></li>		
 	</ul>
 </div>
 
@@ -255,13 +254,8 @@
 				<div class="category-search-filter">
 					<div class="row">
 						<div class="col-md-6">
-							<strong>Sort</strong>
-							<select>
-								<option>Most Recent</option>
-								<option value="1">Most Popular</option>
-								<option value="2">Lowest Price</option>
-								<option value="4">Highest Price</option>
-							</select>
+							<strong>Found Result : </strong>
+							<span th:text="${count}"></span>
 						</div>
 						
 					</div>

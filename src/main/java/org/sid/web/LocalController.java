@@ -19,6 +19,7 @@ import org.sid.dao.LocalRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Formation;
 import org.sid.entities.Local;
+import org.sid.mailSender.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class LocalController {
+	
+	@Autowired
+	private NotificationService notificationService;
+	
 	private String picture1;
 	private String picture2;
 	private String picture3;
@@ -80,6 +85,15 @@ public class LocalController {
 		local.setCategory(category);
 		local.setVille(city);
 		local.setOwner((Client) session.getAttribute("user"));
+		Client client= (Client) session.getAttribute("user");
+		
+		String message="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+	            "<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi "+client.getNom()+" "+client.getPrenom()+"</h1>"+
+        		"<p>" + 
+        		"	    Thank you for adding a new local. We will make sure your local article appears to the maximum of participants."+
+        		"</p>"+
+        		"<p>See you soon.</p></div></div>";;
+		
 		
 		local.setPicture1(file1.getOriginalFilename());
 		local.setPicture2(file2.getOriginalFilename());
@@ -112,6 +126,12 @@ public class LocalController {
 		local.setPicture6(file6.getOriginalFilename());
 		file6.transferTo(new File(localImageDir+local.getId()+"_6"));
 		
+		
+		try {
+			notificationService.sendNotification(client,message);
+		} catch (Exception e) {
+			
+		}
 	
 		return "redirect:EditAds";	
 	}
@@ -344,6 +364,8 @@ public class LocalController {
 	public Local findById(Long id){
 		return localRepository.getOne(id);
 	}
+	
+	
 	
 	
 
