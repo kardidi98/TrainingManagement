@@ -1,9 +1,12 @@
 package org.sid.mailSender;
 
 import java.util.Properties;
+import java.util.logging.Logger;
 
+import org.apache.commons.logging.Log;
 import org.sid.entities.Client;
 import org.sid.entities.Formation;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +25,8 @@ import javax.mail.internet.MimeMessage;
  
 @Service
 public class NotificationService {
+
+
 
 	private JavaMailSender javaMailSender;
 	

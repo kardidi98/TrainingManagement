@@ -62,7 +62,7 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Query(value="select * from formation f where f.user_id in (select c.id from client c where nom like :x ) and f.local in (select l.id from local l where ville like:y) and ( :z between f.first_day and last_day)",nativeQuery=true)
 	public Page<Formation> rechercherformation(@Param("x") String TrainerName, @Param("y") String Local,@Param("z") Date date,Pageable paging);
 	
-	@Query(value="select * from formation where first_day like DATE_SUB(CURDATE(), INTERVAL 1 DAY) and CURDATE()", nativeQuery = true)
+	@Query(value="select * from formation where first_day like DATE_ADD(CURDATE(), INTERVAL 1 DAY) ", nativeQuery = true)
 	public List<Formation> trendyTrainings();
 
 	@Query(value="select email from client where id in (select user_id from formationreservee where training_id like :x)", nativeQuery = true)

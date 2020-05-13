@@ -85,7 +85,7 @@ public class ClientController {
 	            "<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Welcome "+client.getNom()+" "+client.getPrenom()+"</h1>"+
         		"<p>" + 
         		"	    Thank you for joining <strong>Training Management</strong> community. "+
-        		"We are glad to have you. Thanks to our services, you can find the best places and oppotunities to learn" + 
+        		"We are glad to have you. Thanks to our services, you can find the best places and oppotunities to learn " + 
         		"everyday in local communities near you."+
         		"</p>"+
         		"</div></div>";
