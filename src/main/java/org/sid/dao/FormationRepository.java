@@ -59,8 +59,12 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Query(value="delete from formationreservee where training_id like :x and user_id like :y",nativeQuery = true)
 	public void deleteMyReservation(@Param("x") Long tId,@Param("y") Long uId);
 	
-	@Query(value="select * from formation f where f.user_id in (select c.id from client c where nom like :x ) and f.local in (select l.id from local l where ville like:y) and ( :z between f.first_day and last_day)",nativeQuery=true)
-	public Page<Formation> rechercherformation(@Param("x") String TrainerName, @Param("y") String Local,@Param("z") Date date,Pageable paging);
+	@Query(value="select * from formation f where f.user_id in (select c.id from client c where expertise like :x ) and f.local in (select l.id from local l where ville like:y) and ( f.article_cat like :z)",nativeQuery=true)
+	public Page<Formation> rechercherformation(@Param("x") String Trainer, @Param("y") String Local,@Param("z") String Category,Pageable paging);
+	
+	@Query(value="select * from formation f where f.user_id in (select c.id from client c where expertise like :x ) and f.local in (select l.id from local l where ville like:y) and ( f.article_cat like :z)",nativeQuery=true)
+	public List<Formation> findNomberTrainings(@Param("x") String Trainer, @Param("y") String Local,@Param("z") String Category);
+	
 	
 	@Query(value="select * from formation where first_day like DATE_ADD(CURDATE(), INTERVAL 1 DAY) ", nativeQuery = true)
 	public List<Formation> trendyTrainings();
@@ -72,6 +76,14 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Modifying
 	@Query(value="delete from formationreservee where training_id like :x", nativeQuery = true)
 	public void deleteRequests(@Param("x") Long id);
+	
+	@Query(value="select * from formation f where(  (f.first_day <= :a and f.last_day >= :b) and (f.article_cat like :c) and (f.difficulty like :d) and ((select avg(count_stars) from rating r) >= :e) and (f.local in (select l.id from local l where ville like:f and l.category like :g )) and (f.user_id in (select c.id from client c where expertise like :h )) and (f.prix between :i and :j)  )   ",nativeQuery=true)
+	public Page<Formation> rechercherformationAvancee(@Param("a")Date StartDate,@Param("b") Date EndDate,@Param("c") String Category,@Param("d") String Difficulty,@Param("e") int Rating,@Param("f")String City,@Param("g") String TypeLocal,@Param("h") String Trainer,@Param("i") int MinPrice,@Param("j")int MaxPrice,Pageable paging);
+	
+	@Query(value="select * from formation f where(  (f.first_day <= :a and f.last_day >= :b) and (f.article_cat like :c) and (f.difficulty like :d) and ((select avg(count_stars) from rating r) >= :e) and (f.local in (select l.id from local l where ville like:f and l.category like :g )) and (f.user_id in (select c.id from client c where expertise like :h )) and (f.prix between :i and :j)  )   ",nativeQuery=true)
+	public List<Formation> countResultFormation (@Param("a")Date StartDate,@Param("b") Date EndDate,@Param("c") String Category,@Param("d") String Difficulty,@Param("e") int Rating,@Param("f")String City,@Param("g") String TypeLocal,@Param("h") String Trainer,@Param("i") int MinPrice,@Param("j")int MaxPrice);
+	
+	
 	
 	
 }

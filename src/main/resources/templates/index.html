@@ -93,7 +93,7 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
+						<ul  th:if="${session.user!=null}" class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
 							<li class="nav-item w-100" style="margin-bottom: 10px;">
 								<form class="search">
 								  <input class="searchTerm  rounded" placeholder="Search..." />
@@ -115,6 +115,20 @@
 									<a class="dropdown-item" th:href="@{home}">Log out</a>
 
 								</div>
+							</li>
+							
+							
+							
+						</ul>
+						<ul th:if="${session.user==null}" class="navbar-nav ml-auto mt-10 ">
+							<li class="nav-item w-100" style="margin-right: 10px;">
+								<form class="search">
+								  <input class="searchTerm  rounded" placeholder="Search..." />
+								  <input class="searchButton" type="submit" />
+								</form>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link login-button rounded" th:href="@{login}">Login</a>
 							</li>
 							
 						</ul>
@@ -171,28 +185,25 @@
 									<div class="form-row">
 										<div class="form-group col-md-3">
 											<select class="w-100 form-control mt-lg-1 mt-md-2" name="Trainer" required="required" >
-												<option value="default">Select a trainer</option>
+												<option value="default">Select trainer expertise</option>
 												
-												<option th:each="p:${TrainerList}" th:text="${p.nom}" />
+													<option value="Biginner">Biginner</option>
+													<option value="Medium">Medium</option>
+													<option value="Expert">Expert</option>
+													
 											</select>
 										</div>
 										<div class="form-group col-md-3">
-											
-											<div class="controls input-append date form_date col-md-12" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="margin-top: -6px;">
-				                
-								                <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
-								                
-								                
-								                <div class="row">
-								                	<div class="col-sm-12" >
-								                	<input name="Date"  placeholder="By Date" size="16" type="text" id="from" class="form-control" readonly required="required" style="color: black;background-color: #fff;height: 45px;"/>
-								                	</div >
-								                	<div class="add-on col-sm-3" style="position:relative;z-index: 999;margin-top: -38px;margin-left: 185px;">
-								                	<i class="fa fa-calendar fa-lg"> </i>
-								                	</div>
-								                </div>
-								              </div>
-								              <input type="hidden" id="dtp_input1" value="" /><br/>
+											<select  class="w-100 form-control mt-lg-1 mt-md-2" name="Category" required="required" >
+													<option value="default">Select a Category</option>
+													<option value="Development">Development</option>
+													<option value="Programmation">Programmation</option>
+													<option value="Finance & Comptability">Finance & Comptability</option>
+													<option value="Electronics">Electronics</option>
+													<option value="Personal Development">Personal Development</option>
+													<option value="Management">Management</option>
+													<option value="Innovation">Innovation</option>
+											</select>	
 										</div>
 										<div class="form-group col-md-3">
 											<select  class="w-100 form-control mt-lg-1 mt-md-2" name="Location" required="required" >
@@ -214,7 +225,7 @@
 								
 							</div>
 							<div class="form-group" style="text-align: center;">
-									<button type="button" class="btn btn-primary" style="border: 1px solid white;">Advanced Search</button>
+									<button type="button" class="btn btn-primary" style="border: 1px solid white;"><a th:href="@{advancedSearch}" style="color: white;">Advanced Search</a></button>
 								</div>
 						</div>
 					</div>

@@ -142,8 +142,8 @@ public class ClientController {
 		
 		Client trainer=clientRepository.getOne(id);
 		model.addAttribute("trainer", trainer);
-		
-		if(session.getAttribute("user")==null) return "trainer-profile-Visiteur";
+		model.addAttribute("session", session.getAttribute("user"));
+	
 		
 		
 		return "trainer-profile";

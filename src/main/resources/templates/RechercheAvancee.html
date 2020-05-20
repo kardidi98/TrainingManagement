@@ -15,8 +15,12 @@
 
   <!-- FAVICON -->
   <link href="../static/images/favicon.png" th:href ="@{../images/favicon.png}" rel="shortcut icon">
-
-
+	<style>
+		input.currency {
+		    text-align: right;
+		    padding-right: 15px;
+		}
+	</style>
   <!-- PLUGINS CSS STYLE -->
   <!-- <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet"> -->
   <!-- Bootstrap -->
@@ -94,7 +98,34 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav ml-auto mt-10 ">
+						<ul  th:if="${session.user!=null}" class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
+							<li class="nav-item w-100" style="margin-bottom: 10px;">
+								<form class="search">
+								  <input class="searchTerm  rounded" placeholder="Search..." />
+								  <input class="searchButton" type="submit" />
+								</form>
+							</li>
+							
+							
+							<li class="nav-item dropdown dropdown-slide" style="margin-left: 10px;">
+								<a class="nav-link dropdown-toggle  rounded" th:text="${session.user.nom[0]}+${session.user.prenom[0]}" th:unless="${session==null}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;border: 2px solid #E1E1E1;border-radius: 5px;padding-right: 25px;padding-left: 25px;font-weight:bold;">
+								 <span><i class="fa fa-angle-down"></i></span>
+								</a>
+								<!-- Dropdown list -->
+								<div class="dropdown-menu">
+									<a class="dropdown-item"th:href="@{AddArticle}" id="search_article">Add Training Article</a>
+									<a class="dropdown-item" th:href="@{AddLocal}">Add Local</a>
+									<a class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a>
+									<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a>
+									<a class="dropdown-item" th:href="@{home}">Log out</a>
+
+								</div>
+							</li>
+							
+							
+							
+						</ul>
+						<ul th:if="${session.user==null}" class="navbar-nav ml-auto mt-10 ">
 							<li class="nav-item w-100" style="margin-right: 10px;">
 								<form class="search">
 								  <input class="searchTerm  rounded" placeholder="Search..." />
@@ -112,145 +143,145 @@
 		</div>
 	</div>
 </section>
-<section class="page-search">
+<section class="page-title">
+	<!-- Container Start -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
-				<!-- Advance Search -->
-				<div class="advance-search">
-					<form th:action="@{ChercherFormation}" method="Post">
-						<div class="form-row">
-							<div class="form-group col-md-3"  style="margin-top: -10px;width: 100%;">
-								<select  class="form-control w-100 " name="Trainer" required="required" >
-										<option value="default">Select a trainer</option>
-										<option th:each="p:${TrainerList}" th:text="${p.nom}" />
-								
-								</select>	
-						
-							</div>
-							
-							<div class="form-group col-md-3 " >
-								
-				               <div class="controls input-append date form_date col-md-12" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="margin-top: -10px;">
-				                
-				                <!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
-				                
-				                
-				                <div class="row">
-				                	<div class="col-sm-12" >
-				                	<input name="Date"  placeholder="By Date" size="16" type="text" id="from" class="form-control" readonly required="required" style="color: white;background-color: #5672F9;height: 45px;"/>
-				                	</div >
-				                	<div class="add-on col-sm-3" style="color:white;position:relative;z-index: 999;margin-top: -38px;margin-left: 215px;">
-				                	<i class="fa fa-calendar fa-lg"> </i>
-				                	</div>
-				                </div>
-				              </div>
-				              <input type="hidden" id="dtp_input1" value="" /><br/>
-				              
-				           
-							</div>
-							<div class="form-group col-md-3" style="margin-top: -10px;">
-								<select  class="form-control w-100 " name="Location" required="required" >
-										<option value="default">Select a location</option>
-										<option value="Rabat">Rabat</option>
-										<option value="Laayoune">Laayoune</option>
-										<option value="Fès">Fès</option>
-										<option value="Kenitra">Kenitra</option>
-										<option value="Agadir">Agadir</option>
-								</select>	
-							</div>
-							
-							<div class="form-group col-md-3">
-
-								<button type="submit" class="btn btn-primary" style="border: 1px solid white;height: 45px;margin-left: 15px;">Quick Search</button>
-							</div>
-							
-						</div>
-					</form>
-				</div>
+			<div class="col-md-8 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3>Advanced Search</h3>
 			</div>
 		</div>
 	</div>
+	<!-- Container End -->
 </section>
-<section class="section-sm">
-	<div class="container">
-		
-		<div class="row">
-			<div class="col-md-3">
-				<div class="category-sidebar">
-					<div class="widget category-list">
-	<h4 class="widget-header">All Category</h4>
-	<ul class="category-list">
-		<li><a th:href="@{listFormationParCategory(cat=('Development'))}">Development <span></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation <span ></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Management'))}">Management  <span ></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal Development <span ></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics <span ></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Business'))}">Business<span ></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance & Comptability <span></span></a></li>
-		<li><a th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation <span></span></a></li>
-		
-		
-	</ul>
-</div>
 
-<div class="widget category-list">
-	<h4 class="widget-header">Nearby</h4>
-	<ul class="category-list">
-		<li><a th:href="@{listFormationParVille(city=('Casablanca'))}">Casablanca <span></span></a></li>
-		<li><a th:href="@{listFormationParVille(city=('Rabat'))}">Rabat <span></span></a></li>
-		<li><a th:href="@{listFormationParVille(city=('Kenitra'))}">Kenitra  <span></span></a></li>
-		<li><a th:href="@{listFormationParVille(city=('Fès'))}">Fes <span></span></a></li>
-		<li><a th:href="@{listFormationParVille(city=('Laayoune'))}">Laayoune <span></span></a></li>		
-	</ul>
-</div>
-
-
-<!-- 
-<div class="widget price-range w-100">
-	<h4 class="widget-header">Price Range</h4>
-	<div class="block">
-						<input class="range-track w-100" type="text" data-slider-min="0" data-slider-max="5000" data-slider-step="5"
-						data-slider-value="[0,5000]">
-				<div class="d-flex justify-content-between mt-2">
-						<span class="value">$10 - $5000</span>
-				</div>
-	</div>
-</div>
-
-<div class="widget product-shorting">
-	<h4 class="widget-header">By Condition</h4>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Brand New
-	  </label>
-	</div>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Almost New
-	  </label>
-	</div>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Gently New
-	  </label>
-	</div>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Havely New
-	  </label>
-	</div>
-</div>
-
-		-->	
-
-				</div>
+<!-- *************************************RechercheAvanceeForms***************************************************** -->
+<section class="container section-sm">
+<form th:action="@{AdvancedResearch}" method="post">
+<div class="row">
+<div class="col-md-4">
+<div class="category-sidebar">
+	<h2>Filters</h2>
+	<div class="widget category-list">
+	<!-- **********Date********** -->
+		<h4 class="widget-header">By Date:</h4>
+				<div class="controls  input-append date form_date col-md-12" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="margin-top: -10px;">                
+				  <!-- First DATE -->
+				  <div class="col-sm-12" >
+				             <input name="StartDate"  placeholder="Formation Start Date" size="16" type="text" id="from" class="form-control" readonly required="required" style="color: black;height: 45px; background-color: white;"/>
+				        </div >
+				      <div class="add-on col-sm-3" style="color:white;position:relative;z-index: 999;margin-top: -38px;margin-left: 215px;">
+				        	<i class="fa fa-calendar fa-lg" style="color: black;"> </i>
+				   
+						</div>
 			</div>
-			<div class="col-md-9 animated fadeInRightBig" >
+						<br/>
+						<!-- FINAL DATE -->
+				<div class="controls  input-append date form_date col-md-12" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="margin-top: -10px;">
+						<div class="col-sm-12" >
+				             <input name="EndDate"  placeholder="Formation End Date" size="16" type="text" id="from" class="form-control" readonly required="required" style="color: black;height: 45px; background-color: white;"/>
+				        </div >
+				      <div class="add-on col-sm-3" style="color:white;position:relative;z-index: 999;margin-top: -38px;margin-left: 215px;">
+				        	<i class="fa fa-calendar fa-lg" style="color: black;"> </i>
+				   
+						</div>
+				</div>
+ 		</div>
+	
+	<!-- ***************Date************** -->
+	
+	<!-- ***************Category************** -->
+	
+	<div class="widget category-list">
+		<h4 class="widget-header">By Category:</h4>
+		<ul class="category-list">
+			<select  class="form-control w-100 " name="Category" required="required" >
+					<option value="default">Select a Category</option>
+					<option value="Development">Development</option>
+					<option value="Programmation">Programmation</option>
+					<option value="Finance & Comptability">Finance & Comptability</option>
+					<option value="Electronics">Electronics</option>
+					<option value="Personal Development">Personal Development</option>
+					<option value="Management">Management</option>
+					<option value="Innovation">Innovation</option>
+			</select>
+			<select  class="form-control w-100 " name="Difficulty" required="required" >
+				<option value="default">Select a difficulty</option>
+				<option value="Hard">Hard</option>
+				<option value="Medium">Medium</option>
+				<option value="Easy">Easy</option>
+			</select>
+			
+			<select  class="form-control w-100 " name="Rating" required="required" >
+				<option value="0">Select the rating</option>
+				
+				<option value="1">1 Star</option>
+				<option value="2">2 Stars</option>
+				<option value="3">3 Stars</option>
+				<option value="4">4 Stars</option>
+				<option value="5">5 Stars</option>
+				
+			</select>
+		</ul>
+	</div>
+	<!-- ***************Category************** -->
+
+	<!-- ***************Locations************** -->
+	<div class="widget category-list">
+		<h4 class="widget-header">By Locals:</h4>
+			<select  class="form-control w-100 " name="City" required="required" >
+				<option value="default">Select a city</option>
+				<option value="Rabat">Rabat</option>
+				<option value="Laayoune">Laayoune</option>
+				<option value="Fès">Fès</option>
+				<option value="Kenitra">Kenitra</option>
+				<option value="Agadir">Agadir</option>
+			</select>
+			
+			<select  class="form-control w-100 " name="TypeLocal" required="required" >
+				<option value="default">Select a type of Local</option>
+				<option value="Studio">Studio</option>
+				<option value="Duplex">Duplex</option>
+				<option value="Office">Office</option>
+				<option value="F2">F2</option>
+                <option value="F3">F3</option>
+			</select>
+	
+	</div>
+	<!-- ***************Locations************** -->
+	
+	<!-- ***************Teacher************** -->
+	<div class="widget category-list">
+		<h4 class="widget-header">By Teacher:</h4>
+		<select  class="form-control w-100" name="Trainer" required="required" >
+			<option value="default">Select trainer expertise</option>
+			<option value="Biginner">Biginner</option>
+			<option value="Medium">Medium</option>
+			<option value="Expert">Expert</option>
+																
+		</select>
+	</div>
+	
+	<!-- ***************Teachers************** -->
+	
+	<!-- ***************Prices************** -->
+	<div class="widget category-list">
+		<h4 class="widget-header">By Prices:</h4>
+	        <label>Min Price($)</label><input type="number" name="MinPrice" value="10" min="0" step="1" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+	        <br/>
+	        <label>Max Price($)</label><input type="number" name="MaxPrice" value="50" min="10" step="1" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+	</div>
+	<!-- ***************Prices************** -->
+	<div style="text-align: center; margin-bottom: 10px;">
+		<button type="submit" class="btn btn-primary" style="border: 1px solid white;height: 50px;">Search</button>
+	
+	</div>
+</div>
+</div>
+</form>
+<!-- **************************************************Recherche/Resultats************************************************************************ -->
+			<div class="col-md-8 animated fadeInRightBig">
 				<div class="category-search-filter">
 					<div class="row">
 						<div class="col-md-6">
@@ -260,12 +291,12 @@
 						
 					</div>
 				</div>
-				
+			
 				<div th:if="${formation.empty}" style="text-align: center">
 					<br>
 					<h2> No result</h2>
 				</div>
-				
+				<!-- ad listing list  -->
 				<div class="ad-listing-list mt-20" th:each="formation:${formation.content}">
 					    <div class="row p-lg-3 p-sm-5 p-4">
 					        <div class="col-lg-4 align-self-center">
@@ -300,6 +331,8 @@
 					    </div>
 					</div>
 				
+				<br>
+						
 				<hr>
 						
 				<div class="pagination justify-content-center">
@@ -314,7 +347,6 @@
 				</div>
 		
 		</div>
-	</div>
 </section>
 <!--============================
 =            Footer            =
@@ -389,7 +421,6 @@
 <footer class="footer-bottom">
   <!-- Container Start -->
   <div class="container">
-
     <div class="row">
       <div class="col-sm-6 col-12">
         <!-- Copyright -->

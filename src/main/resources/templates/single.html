@@ -90,7 +90,7 @@
 							</li>
 							
 						</ul>
-						<ul class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
+						<ul  th:if="${session.user!=null}" class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
 							<li class="nav-item w-100" style="margin-bottom: 10px;">
 								<form class="search">
 								  <input class="searchTerm  rounded" placeholder="Search..." />
@@ -112,6 +112,20 @@
 									<a class="dropdown-item" th:href="@{home}">Log out</a>
 
 								</div>
+							</li>
+							
+							
+							
+						</ul>
+						<ul th:if="${session.user==null}" class="navbar-nav ml-auto mt-10 ">
+							<li class="nav-item w-100" style="margin-right: 10px;">
+								<form class="search">
+								  <input class="searchTerm  rounded" placeholder="Search..." />
+								  <input class="searchButton" type="submit" />
+								</form>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link login-button rounded" th:href="@{login}">Login</a>
 							</li>
 							
 						</ul>
@@ -338,7 +352,8 @@
 						  <br>
 						   <form th:action="@{sendRating}" method="post" class="message" style="text-align: center;">
 						   		<input type="text" name="rating" id="rating" style="display: none;" />
-						   		<input type="text" name="user" id="user" style="display: none;" th:value="${session.user.id}"/>
+						   		<input th:if="${session.user!=null}" type="text" name="user" id="user" style="display: none;" th:value="${session.user.id}"/>
+						   		<input th:if="${session.user==null}" type="text" name="user" id="user" style="display: none;" th:value="0"/>
 						   		
 						   		<input type="text" name="trainingRate" id="training" style="display: none;" th:value="${article.id}"/>
 						   		<input type="submit" class="btn btn-primary" id="submitRating" value="Send"/>
@@ -360,14 +375,17 @@
 
 		</div>
 	</div>
+<div th:if="${session.user!=null}">
+	<div th:if="${formateur.email == session.user.email}" style="text-align: center;">
 
-<div th:if="${formateur.email == session.user.email}" style="text-align: center;">
-	
 	<center><a  th:href="@{SendRequest(id=${article.id})}"><button class="text-white add-button-local rounded" disabled="disabled" style="margin-top: 30px;background-color: #c9c3c3; color:black;border:0;">Send Request to attend</button></a></center>
 	Your are the trainer
 </div>
+
 <div th:if="${formateur.email != session.user.email}">
 	<center><a  th:href="@{SendRequest(id=${article.id})}"><button class="text-white add-button-local rounded"  style="margin-top: 30px;">Send Request to attend</button></a></center>
+
+</div>
 </div>
 	<!-- Container End -->
 </section>
