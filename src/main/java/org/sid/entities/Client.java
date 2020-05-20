@@ -35,6 +35,7 @@ public class Client implements Serializable{
 	private String Address;
 	private String profile;
 	private String picture;
+	private String expertise;
 	
 
 	@OneToMany(mappedBy = "user")
@@ -58,9 +59,12 @@ public class Client implements Serializable{
 	
 	
 
+	
+
 	public Client(long id, String nom, String prenom, String email, String password, String type, String job,
-			String address, String profile, String picture, List<Formation> formation, List<Local> locaux,
-			List<Formation> formationReservee, List<Commentaire> commentaires, List<Rating> myRatings) {
+			String address, String profile, String picture, String expertise, List<Formation> formation,
+			List<Local> locaux, List<Formation> formationReservee, List<Commentaire> commentaires,
+			List<Rating> myRatings) {
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -71,6 +75,7 @@ public class Client implements Serializable{
 		Address = address;
 		this.profile = profile;
 		this.picture = picture;
+		this.expertise = expertise;
 		this.formation = formation;
 		this.locaux = locaux;
 		this.formationReservee = formationReservee;
@@ -200,6 +205,15 @@ public class Client implements Serializable{
 
 	public void setMyRatings(List<Rating> myRatings) {
 		this.myRatings = myRatings;
+	}
+	
+	
+	public String getExpertise() {
+		return expertise;
+	}
+
+	public void setExpertise(String expertise) {
+		this.expertise = expertise;
 	}
 
 	public static long getSerialversionuid() {

@@ -156,11 +156,11 @@
 			</div>
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Edit Profile Welcome Text -->
-				<div class="widget welcome-message">
+				<div class="widget welcome-message profile">
 					<h2>Edit profile</h2>
 					<p th:text="${session.user.profile}"></p>
 				</div>
-					<div class="widget dashboard-container my-adslist cacher ">
+				<div class="widget dashboard-container my-adslist cacher ">
 					<h2 class="header" style="font-weight:bold;">Reserved Trainings</h2>
 					<table class="table table-responsive product-dashboard-table">
 						<thead>
@@ -282,7 +282,7 @@
 				
 				</div>
 				<!-- Submit button -->
-				<div style="text-align: center;margin-top: 40px;">
+				<div class="profile" style="text-align: center;margin-top: 40px;">
 				
 					<button type="button" class="btn btn-transparent" 	onclick="if(document.getElementById('new-password').value==document.getElementById('confirm-password').value){$('#Form').submit();} else{$('#nonIndentiaues').fadeIn();};">Save My Changes</button>
 				</div>

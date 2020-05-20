@@ -316,8 +316,13 @@ public class LocalController {
 		
 	
 		localRepository.save(local);
-	
+		List<String> clientsEmails= localRepository.findParticipants(local.getId());
 		
+		try {
+			notificationService.sendNotificationIfArticleUpdated(clientsEmails, local);
+		} catch (Exception e) {
+			
+		}
 		
 	
 		return "redirect:EditAds";	
@@ -344,6 +349,14 @@ public class LocalController {
 	@RequestMapping(value="/deletelocal", method =RequestMethod.GET)
 	public String deletelocal(Long id) {
 		
+		Local local = localRepository.getOne(id);
+		List<String> clientsEmails= localRepository.findParticipants(id);
+		try {
+			notificationService.sendNotificationIfArticleRemoved(clientsEmails, local);
+		} catch (Exception e) {
+			
+		}
+		localRepository.localDeleted(id);
 		localRepository.deleteById(id);
 		return "redirect:EditAds";
 	}

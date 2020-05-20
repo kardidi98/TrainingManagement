@@ -160,12 +160,12 @@ public class ClientController {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
 		Client cli=clientRepository.getOne(client.getId());
-		cli.setNom(nom);
-		cli.setPrenom(prenom);
+		cli.setNom(prenom);
+		cli.setPrenom(nom);
 		cli.setAddress(adresse);
 		cli.setJob(job);
-		client.setNom(nom);
-		client.setPrenom(prenom);
+		client.setNom(prenom);
+		client.setPrenom(nom);
 		client.setAddress(adresse);
 		client.setJob(job);
 		

@@ -259,7 +259,9 @@ public class FormationController {
 			return "login";
 		}
 		List<Formation> formation=formationRepository.findByUserId(client.getId());
+		
 		model.addAttribute("myformation",formation);
+		
 		List<Local> local=localController.ListeLocals(client.getId());
 	
 		model.addAttribute("local",local);
@@ -281,7 +283,7 @@ public class FormationController {
 		Formation formation=formationRepository.getOne(id);
 		
 		List<String> clientsEmails= formationRepository.findParticipants(id);
-		System.out.println(clientsEmails.get(0));
+		
 		try {
 			notificationService.sendNotificationIfArticleRemoved(clientsEmails, formation);
 		} catch (Exception e) {
@@ -296,6 +298,9 @@ public class FormationController {
 	public String viewArticle(Model model,HttpServletRequest request,Long id) {
 		HttpSession session=request.getSession(true);
 		Client client =(Client) session.getAttribute("user");
+		
+
+		
 		Formation article= formationRepository.getOne(id);
 		Client formateur=article.getUser();
 		Long countFormation=formationRepository.countByIdFormation(id);
@@ -375,6 +380,13 @@ public class FormationController {
 		}
 		
 		formationRepository.save(formation);
+		List<String> clientsEmails= formationRepository.findParticipants(formation.getId());
+		
+		try {
+			notificationService.sendNotificationIfArticleUpdated(clientsEmails, formation);
+		} catch (Exception e) {
+			
+		}
 		
 		return "redirect:EditAds";	
 	}

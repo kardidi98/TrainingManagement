@@ -6,8 +6,10 @@ import org.sid.entities.Local;
 
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface  LocalRepository extends JpaRepository<Local, Long>
 {
@@ -17,5 +19,11 @@ public interface  LocalRepository extends JpaRepository<Local, Long>
 	@Query(value="select * from Local l where ville like :x",nativeQuery = true)
 	public List<Local> findByCity(@Param("x") String ville);
 	
-
+	@Query(value="select email from client where id in (select user_id from formation where local like :x)", nativeQuery = true)
+	public List<String> findParticipants(@Param("x") Long Id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="update formation set local = NULL where local like :x",nativeQuery = true)
+	public void  localDeleted(@Param("x") Long id);
 }

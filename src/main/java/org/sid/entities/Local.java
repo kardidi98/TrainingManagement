@@ -37,6 +37,10 @@ public class Local implements Serializable {
 	private double prixParHeure;
 	private java.sql.Date disponibiliteA;
 	private java.sql.Date disponibiliteFrom;
+	private int prises;
+	private int chairs;
+	private int micro;
+	private int projecteur;
 	private String picture1;
 	private String picture2;
 	private String picture3;
@@ -56,6 +60,30 @@ public class Local implements Serializable {
 	
 	
 	
+	public int getPrises() {
+		return prises;
+	}
+	public void setPrises(int prises) {
+		this.prises = prises;
+	}
+	public int getChairs() {
+		return chairs;
+	}
+	public void setChairs(int chairs) {
+		this.chairs = chairs;
+	}
+	public int getMicro() {
+		return micro;
+	}
+	public void setMicro(int micro) {
+		this.micro = micro;
+	}
+	public int getProjecteur() {
+		return projecteur;
+	}
+	public void setProjecteur(int projecteur) {
+		this.projecteur = projecteur;
+	}
 	public Long getNbPlaces() {
 		return NbPlaces;
 	}
@@ -169,28 +197,35 @@ public class Local implements Serializable {
 		this.disponibiliteA = disponibiliteA;
 	}
 	
-	public Local(Long id, String intitulee, double superficie, String description, String ville, String adresse,
-			double prixParHeure, java.sql.Date disponibliteAPartir, java.sql.Date disponibiliteA, String picture1, String picture2,
-			String picture3, String picture4, String picture5, String picture6,String category,Client owner,List<Formation> formations,Long NbPlaces) {
+	
+	public Local(Long id, String intitulee, double superficie, String description, String ville, Long nbPlaces,
+			String adresse, String category, double prixParHeure, java.sql.Date disponibiliteA,
+			java.sql.Date disponibiliteFrom, int prises, int chairs, int micro, int projecteur, String picture1,
+			String picture2, String picture3, String picture4, String picture5, String picture6, Client owner,
+			List<Formation> formations) {
 		this.id = id;
 		this.intitulee = intitulee;
 		this.superficie = superficie;
 		this.description = description;
 		this.ville = ville;
+		NbPlaces = nbPlaces;
 		this.adresse = adresse;
+		this.category = category;
 		this.prixParHeure = prixParHeure;
-		this.disponibiliteFrom = disponibliteAPartir;
 		this.disponibiliteA = disponibiliteA;
+		this.disponibiliteFrom = disponibiliteFrom;
+		this.prises = prises;
+		this.chairs = chairs;
+		this.micro = micro;
+		this.projecteur = projecteur;
 		this.picture1 = picture1;
 		this.picture2 = picture2;
 		this.picture3 = picture3;
 		this.picture4 = picture4;
 		this.picture5 = picture5;
 		this.picture6 = picture6;
-		this.category=category;
-		this.owner=owner;
-		this.formations=formations;
-		this.NbPlaces=NbPlaces;
+		this.owner = owner;
+		this.formations = formations;
 	}
 	public Local() {
 		super();

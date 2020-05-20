@@ -149,10 +149,10 @@
         </div>
         <div class="col-lg-6 ">
           <h6 class="font-weight-bold pt-4 pb-1">Title:</h6>
-          <input type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Local Title" name="intitulee" id="title">
+          <input type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Local Title" name="intitulee" id="title" required="required">
           <h6 class="font-weight-bold pt-4 pb-1">Max of places:</h6>
           <div class="row px-3 ">
-            <input name="NbPlaces" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="25,30,100.." id="places">
+            <input name="NbPlaces" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="25,30,100.." id="places" required="required">
           </div>
           <div class="row ">
             <div class="col-sm-6">
@@ -188,10 +188,8 @@
           
         </div>
                           
-                            
-                            
-                            <h6 class="font-weight-bold pt-4 pb-2">Description:</h6>
-                            <textarea name="description" id="describe" class="border p-3 w-100 rounded" rows="8" placeholder="Why choose your local ?" ></textarea>
+						<h6 class="font-weight-bold pt-4 pb-2">Description:</h6>
+                            <textarea name="description" id="describe" class="border p-3 w-100 rounded" rows="8" placeholder="Why choose your local ?" required="required"></textarea>
                             
                           </div>
                           <div class="col-lg-6 ">
@@ -207,7 +205,7 @@
                            <div class="price">
                             <h6 class="font-weight-bold pt-1 pb-1">Price Per Hour ($):</h6>
                             <div class="row px-3">
-                              <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Price" name="prixParHeure" id="Price" >
+                              <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="Price" name="prixParHeure" id="Price" required="required">
                               
                             </div>
                           </div>
@@ -224,14 +222,53 @@
 		                      </select>
 		              
                          <!--  -->
-                         <h6 class="font-weight-bold pt-1 pb-1">Specify your local's address:</h6>
-                         <div class="row px-3">
-                          <input name="adresse" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="adresse" placeholder="..">
-                        </div>
-                        <h6 class="font-weight-bold pt-4 pb-1">Surface (m²):</h6>
-                         <div class="row px-3">
-                          <input name="superficie" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="superficie" placeholder="..">
-                        </div>
+                         <div class="row">
+                         	<div class="col-sm-6">
+                         		<h6 class="font-weight-bold pt-1 pb-1">Specify your local's address:</h6>
+		                         <div class="row px-3">
+		                          <input name="adresse" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="adresse" placeholder=".." required="required">
+		                        </div>
+                         	</div>
+                         	<div class="col-sm-6">
+                         		<h6 class="font-weight-bold pt-1 pb-1">Surface (m²):</h6>
+		                         <div class="row px-3">
+		                         
+		                          <input name="superficie" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="superficie" placeholder=".." required="required">
+		                        </div>
+                         	</div>
+                         </div>
+                         
+                         <div class="row">
+                         	<div class="col-sm-6">
+                         		<h6 class="font-weight-bold pt-1 pb-1">Chairs:</h6>
+		                         <div class="row px-3">
+		                          <input name="chairs" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="chairs" placeholder="0, 4, ..." required="required">
+		                        </div>
+                         	</div>
+                         	<div class="col-sm-6">
+                         		<h6 class="font-weight-bold pt-1 pb-1">video projectors:</h6>
+		                         <div class="row px-3">
+		                         
+		                          <input name="projecteur" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="projecteur" placeholder="0, 4, ..." required="required">
+		                        </div>
+                         	</div>
+                         </div>
+                         
+                        <div class="row">
+                         	<div class="col-sm-6">
+                         		<h6 class="font-weight-bold pt-1 pb-1">Electrical outlets:</h6>
+		                         <div class="row px-3">
+		                          <input name="prises" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="prises" placeholder="0, 4, ..." required="required">
+		                        </div>
+                         	</div>
+                         	<div class="col-sm-6">
+                         		<h6 class="font-weight-bold pt-1 pb-1">Microphones:</h6>
+		                         <div class="row px-3">
+		                         
+		                          <input name="micro" type="text" class="border w-100 p-2 bg-white text-capitalize rounded" id="micro" placeholder="0, 4, ..." required="required">
+		                        </div>
+                         	</div>
+                         </div>
                        
                       </div>
                     </div>
@@ -247,7 +284,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select your picture</span>
                             
                             <span><span class="d-block">Please select a picture of your local</span></span>
-                            <input name="photo1" type="file"  class="form-control-file d-none" id="file-upload1">
+                            <input name="photo1" type="file"  class="form-control-file d-none" id="file-upload1" required="required">
                           </label>
                         </div>
                     	</div>
@@ -259,7 +296,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select another pictures</span>
                             
                             <span><span class="d-block">Please select a picture of your local</span></span>
-                            <input name="photo2" type="file"  class="form-control-file d-none" id="file-upload2">
+                            <input name="photo2" type="file"  class="form-control-file d-none" id="file-upload2" required="required">
                           </label>
                         </div>
                     	</div>
@@ -271,7 +308,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select another pictures</span>
                             
                             <span><span class="d-block">Please select a picture of your local</span></span>
-                            <input name="photo3" type="file"  class="form-control-file d-none" id="file-upload3">
+                            <input name="photo3" type="file"  class="form-control-file d-none" id="file-upload3" required="required">
                           </label>
                         </div>
                     	</div>
@@ -287,7 +324,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select your picture</span>
                             
                             <span><span class="d-block">Please select a picture of your local</span></span>
-                            <input name="photo4" type="file"  class="form-control-file d-none" id="file-upload4">
+                            <input name="photo4" type="file"  class="form-control-file d-none" id="file-upload4" required="required">
                           </label>
                         </div>
                     	</div>
@@ -299,7 +336,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select another pictures</span>
                             
                             <span><span class="d-block">Please select a picture of your local</span></span>
-                            <input name="photo5" type="file"  class="form-control-file d-none" id="file-upload5">
+                            <input name="photo5" type="file"  class="form-control-file d-none" id="file-upload5" required="required">
                           </label>
                         </div>
                     	</div>
@@ -311,7 +348,7 @@
                             <span class="d-block btn bg-primary text-white my-3 select-files">Select one more</span>
                             
                             <span><span class="d-block">Please select a picture of your local</span></span>
-                            <input name="photo6" type="file"  class="form-control-file d-none" id="file-upload6">
+                            <input name="photo6" type="file"  class="form-control-file d-none" id="file-upload6" required="required">
                           </label>
                         </div>
                     	</div>

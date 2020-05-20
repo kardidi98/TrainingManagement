@@ -466,7 +466,7 @@
 
                         <div class="carousel-inner px-5 pb-4">
                             <!-- Carousel slide-->
-                            <div class="carousel-item" th:each="comment:${commentaires}">
+                            <div class="carousel-item" th:each="comment,id:${commentaires}">
                                 <div class="media">
                                 	<img class="rounded-circle img-thumbnail" th:src="@{getUserPhoto(id=${comment.client.id})}" alt="" width="75">
                                 	<div class="container media-body">
@@ -477,8 +477,12 @@
                                         <strong><span class="" th:text="${comment.client.nom}+' '+${comment.client.prenom}"></span></strong><span title="Source Title" th:text="' At '+${comment.dateEcriture}"></span>
                                     </div>
                                 </div>
+                                <br>
+                                <div style="display: flex;justify-content: center;">
+                                	<span th:text="${id.index+1}+'/'+${#arrays.length(commentaires)}"></span>
+                                </div>
                             </div>
-
+							
                      
                         </div>
 

@@ -108,40 +108,17 @@
 		</div>
 	</div>
 </section>
-<section class="page-search">
+<section class="page-title">
+	<!-- Container Start -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
-				<!-- Advance Search -->
-				<div class="advance-search">
-					<form>
-						<div class="form-row">
-							<div class="form-group col-md-2">
-								<input type="text" class="form-control my-2 my-lg-0" id="inputtext4" placeholder="By Trainer">
-							</div>
-							<div class="form-group col-md-2">
-								<input type="text" class="form-control my-2 my-lg-0" id="inputCategory4" placeholder="By Category">
-							</div>
-							<div class="form-group col-md-2">
-								<input type="text" class="form-control my-2 my-lg-0" id="inputLocation4" placeholder="By Location">
-							</div>
-							<div class="form-group col-md-1">
-								
-							</div>
-							<div class="form-group col-md-2">
-
-								<button type="submit" class="btn btn-primary" style="border: 1px solid white;">Quick Search</button>
-							</div>
-							<div class="form-group col-md-3">
-
-								<button type="submit" class="btn btn-primary" style="border: 1px solid white;">Advanced Search</button>
-							</div>
-						</div>
-					</form>
-				</div>
+			<div class="col-md-8 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3>Training Details</h3>
 			</div>
 		</div>
 	</div>
+	<!-- Container End -->
 </section>
 <!--===================================
 =            Store Section            =
@@ -158,12 +135,12 @@
 						<ul class="list-inline">
 							<li class="list-inline-item" th:text="'By '+ ${formateur.nom}" ><i class="fa fa-user-o"></i></li>
 							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category: <span th:text="${article.ArticleCat}"></span></li>
-							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location: <span th:text="${article.Local.adresse}+', '+${article.Local.ville}"></span></li>
+							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location: <span th:if="${article.Local}==null" th:text="${'Unkonwn'}"></span><span th:if="${article.Local}!=null" th:text="${article.Local.adresse}+', '+${article.Local.ville}"></span></li>
 						</ul>
 					</div>
 
 					<!-- product slider -->
-					<div class="product-slider" style="margin-bottom: 0px;">
+					<div th:if="${article.Local}!=null" class="product-slider" style="margin-bottom: 0px;">
 						<div class="product-slider-item " >
 							<img  class="img-fluid ProfuctImages" th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'1'})}" >
 						</div>
@@ -188,7 +165,7 @@
 								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
 								aria-selected="true">Training Details</a>
 							</li>
-							<li class="nav-item">
+							<li th:if="${article.Local}!=null" class="nav-item">
 								<a class="nav-link" id="pills-local-tab" data-toggle="pill" href="#pills-local" role="tab" aria-controls="pills-local"
 								aria-selected="true">Local Details</a>
 							</li>
@@ -204,13 +181,13 @@
 						
 
 						</ul>
-						<div class="tab-content" id="pills-tabContent">
+						<div  class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" align="justify">
 								<h3 class="tab-title">Description</h3>
 								<p th:text="${article.Description}" style="color:#000;"></p>
 								
 							</div>
-							<div class="tab-pane fade  " id="pills-local" role="tabpanel" aria-labelledby="pills-local-tab" >
+							<div th:if="${article.Local}!=null" class="tab-pane fade  " id="pills-local" role="tabpanel" aria-labelledby="pills-local-tab" >
 								<h3 class="tab-title">Local Description</h3>
 								<table class="table table-bordered product-table">
 									<tbody>
@@ -223,6 +200,10 @@
 											<td th:text="${article.Local.superficie}+' m²'"></td>
 										</tr>
 										<tr>
+											<td class="text-left"  style="color:#000;">Price</td>
+											<td th:text="${article.Local.description}"></td>
+										</tr>
+										<tr>
 											<td class="text-left"  style="color:#000;">Type</td>
 											<td th:text="${article.Local.category}"></td>
 										</tr>
@@ -230,11 +211,15 @@
 											<td class="text-left"  style="color:#000;">Address</td>
 											<td th:text="${article.Local.adresse}+', '+${article.Local.ville}"></td>
 										</tr>
+										
 										<tr>
 											<td class="text-left"  style="color:#000;">Description</td>
 											<td th:text="${article.Local.description}"></td>
 										</tr>
-										
+										<tr>
+											<td class="text-left"  style="color:#000;">Other Properties</td>
+											<td th:text="'Chairs: '+${article.Local.chairs}+', Electrical Outlets: '+${article.Local.prises}+', Microphones: '+${article.Local.micro}+', Projectors: '+${article.Local.projecteur}+'.'"></td>
+										</tr>
 									</tbody>
 								</table>
 								<div>

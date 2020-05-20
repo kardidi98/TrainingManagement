@@ -285,7 +285,11 @@
                   
 				<div class="col-lg-8 choosen cacher" id="choosenArticle">
                     <h6 class="font-weight-bold pt-4 pb-1">You choosed</h6>
-                    <div class="row px-3">
+                    <div class="row px-3" th:if="${article.Local}==null">
+                      <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded"  name="localId"  id="choosen" style="font-weight: bold;" readonly required="required">
+                      
+                    </div>
+                    <div class="row px-3" th:if="${article.Local}!=null">
                       <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded"  name="localId"  id="choosen" style="font-weight: bold;" readonly th:value="${article.Local.id}">
                       
                     </div>
@@ -400,6 +404,10 @@
 														
 													</li>
 													<li class="list-group-item">
+														<span><span><strong>Price Per Hour:</strong> </span><span th:text="${local.prixParHeure}+' $'"></span>
+														
+													</li>
+													<li class="list-group-item">
 														<span><span><strong>Max Places:</strong> </span><span th:text="${local.NbPlaces}"></span>
 														
 													</li>
@@ -409,6 +417,10 @@
 													</li>
 													<li class="list-group-item">
 													  <span><span><strong>Disponibility:</strong> </span><span th:text="${local.disponibiliteFrom}+' To '+${local.disponibiliteA}"></span>
+														
+													</li>
+													<li class="list-group-item">
+														<span><span><strong>Other Properties:</strong> </span><span th:text="'Chairs: '+${local.chairs}+', Electrical Outlets: '+${local.prises}+', Microphones: '+${local.micro}+', Projectors: '+${local.projecteur}+'.'"></span>
 														
 													</li>
 												</ul>

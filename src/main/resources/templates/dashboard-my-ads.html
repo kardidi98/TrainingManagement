@@ -219,7 +219,8 @@
 									<h3 class="title" th:text="${formation.Title}"></h3>
 									<span class="add-id"><span th:text="'ID:    ' +${formation.id}"></span></span>
 									
-									<span class="location" ><span th:text="'Location:    '+${formation.Local.adresse}+','+${formation.Local.ville}"></span ></span>
+									<span  th:if="${formation.Local}==null" class="location" ><span th:text="${'Location: Not Yet.'}"></span ></span>
+									<span  th:if="${formation.Local}!=null" class="location" ><span th:text="'Location:    '+${formation.Local.adresse}+','+${formation.Local.ville}"></span ></span>
 								</td>
 								<td class="product-category"><span class="categories" th:text="${formation.ArticleCat}"></span></td>
 								<td class="action" data-title="Action">
@@ -371,6 +372,10 @@
 														
 													</li>
 													<li class="list-group-item">
+														<span><span><strong>Price Per Hour:</strong> </span><span th:text="${local.prixParHeure}+' $'"></span>
+														
+													</li>
+													<li class="list-group-item">
 														<span><span><strong>Max Places:</strong> </span><span th:text="${local.NbPlaces}"></span>
 														
 													</li>
@@ -380,6 +385,10 @@
 													</li>
 													<li class="list-group-item">
 													  <span><span><strong>Disponibility:</strong> </span><span th:text="${local.disponibiliteFrom}+' To '+${local.disponibiliteA}"></span>
+														
+													</li>
+													<li class="list-group-item">
+														<span><span><strong>Other Properties:</strong> </span><span th:text="'Chairs: '+${local.chairs}+', Electrical Outlets: '+${local.prises}+', Microphones: '+${local.micro}+', Projectors: '+${local.projecteur}+'.'"></span>
 														
 													</li>
 												</ul>
