@@ -44,75 +44,56 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class FormationController {
-	
-	
+
+
 	@Autowired
 	private NotificationService notificationService;
-	
+
 	private String TrainingPicture;
 	@Autowired
 	private FormationRepository formationRepository;
-	
+
 	@Autowired
 	private CommentaireController commentaireController;
-	
+
 	@Autowired
 	private RatingRepository ratingRepository;
-	
+
 	@Autowired
 	private LocalController localController;
-	
+
 	@Autowired
 	private ClientRepository clientRepository;
-	
+
 	@Value("${dir.images}")
 	private String imageDir;
-	
-	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String accueil(Model model,HttpServletRequest request) {
-		
-		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
-		
-		List<Commentaire> commentaires=commentaireController.findRecent(5);
-		model.addAttribute("commentaires", commentaires);
-		model.addAttribute("commentaire",new Commentaire());
-		HttpSession session=request.getSession(true);
-		
 
-		List<Client> TrainerList =clientRepository.findTrainers();
-		
-		model.addAttribute("TrainerList", TrainerList);
-	
-		model.addAttribute("trendyTrainings", trendyTrainings);
-		model.addAttribute("session", session.getAttribute("user"));
-		
-		return "index";		
-	}
-	
+
+
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
 		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
-		
+
 		List<Commentaire> commentaires=commentaireController.findRecent(5);
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
 		HttpSession session=request.getSession(true);
-		
+
 
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 
 		model.addAttribute("trendyTrainings", trendyTrainings);
 		model.addAttribute("TrainerList", TrainerList);
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "index";		
 	}
 	@RequestMapping(value="/AddArticle", method = RequestMethod.GET)
 	public String AddArticle(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		List<Local> local=localController.findAllToAdd();
-	
+
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
@@ -120,60 +101,60 @@ public class FormationController {
 		model.addAttribute("locaux", local);
 		return "Ad-listing";		
 	}
-	
-	
+
+
 	@RequestMapping(value="/save", method =RequestMethod.POST)
 	public String save(Model model,HttpServletRequest request, Formation formation,@RequestParam("LocalId") Long localId,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
 		HttpSession session =request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
-		
+
 		String message="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
-	            "<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi "+client.getNom()+" "+client.getPrenom()+"</h1>"+
-	            		"<p>" + 
-	            		"	    Thank you for adding a new training. We will make sure your training article appears to the maximum of participants."+
-	            		"</p>"+
-	            		"<p>See you soon.</p></div></div>";
-		
-		
-		
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi "+client.getNom()+" "+client.getPrenom()+"</h1>"+
+				"<p>" + 
+				"	    Thank you for adding a new training. We will make sure your training article appears to the maximum of participants."+
+				"</p>"+
+				"<p>See you soon.</p></div></div>";
+
+
+
 		formation.setUser(client);
 		Local local=localController.findById(localId);
-		
+
 		formation.setLocal(local);
 		if(bindingResult.hasErrors()) {
 			return "dashboard-my-ads";
 		}
-		
+
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
-		
+
 		}
 
-		
+
 		formationRepository.save(formation);
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
 			file.transferTo(new File(imageDir+formation.getId()));
 		}
-		
+
 		try {
 			notificationService.sendNotification(client,message);
 		} catch (Exception e) {
-			
+
 		}
-		
+
 		return "redirect:EditAds";	
 	}
-	
+
 	@RequestMapping(value="/listFormation", method =RequestMethod.GET)
 	public String listFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
 		List<Formation> countformation=formationRepository.findAll();
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 		model.addAttribute("TrainerList", TrainerList);
-		
+
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -183,27 +164,27 @@ public class FormationController {
 		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
-		
+
 
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "category";
 	}
-	
-	
-	
-	
+
+
+
+
 	@RequestMapping(value="/listFormationParCategory", method =RequestMethod.GET)
 	public String listFormationParCategory(Model model,HttpServletRequest request,@RequestParam(name="cat",defaultValue = "") String cat,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findByArticleCat(cat,PageRequest.of(page,3,Sort.by("firstDay").ascending()));
 		Long countFormation = formationRepository.countByArticleCat(cat);
-		
+
 
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 		model.addAttribute("TrainerList", TrainerList);
-		
+
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -213,25 +194,25 @@ public class FormationController {
 		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
-		
+
 
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "category";
 	}
-	
-	
+
+
 	@RequestMapping(value="/listFormationParVille", method =RequestMethod.GET)
 	public String listFormationParVille(Model model,HttpServletRequest request,@RequestParam(name="city",defaultValue = "") String city,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findByArticleCity(city,PageRequest.of(page,3,Sort.by("first_day").ascending()));
 		Long countFormation = formationRepository.countByArticleCity(city);
-		
+
 
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 		model.addAttribute("TrainerList", TrainerList);
-		
+
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -241,21 +222,21 @@ public class FormationController {
 		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
-		
+
 
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "category";
 	}
-	
+
 	@RequestMapping(value="/countByCategory")
 	@ResponseBody
 	public Long countByCategory(String cat) {
-	
+
 		return  formationRepository.countByArticleCat(cat);
 	}
-	
-	
+
+
 	@RequestMapping(value="/EditAds", method =RequestMethod.GET)
 	public String EditMyAds(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
@@ -264,48 +245,48 @@ public class FormationController {
 			return "login";
 		}
 		List<Formation> formation=formationRepository.findByUserId(client.getId());
-		
+
 		model.addAttribute("myformation",formation);
-		
+
 		List<Local> local=localController.ListeLocals(client.getId());
-	
+
 		model.addAttribute("local",local);
 		return "dashboard-my-ads";
 	}
-	
+
 	@RequestMapping(value="getPhoto",produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getPhoto(Long id) throws FileNotFoundException, IOException {
 		File f=new File(imageDir+id);
 		return IOUtils.toByteArray(new FileInputStream(f));
 	}
-	
-	
+
+
 	@RequestMapping(value="/delete", method =RequestMethod.GET)
 	public String delete(Long id) {
-		
-		
+
+
 		Formation formation=formationRepository.getOne(id);
-		
+
 		List<String> clientsEmails= formationRepository.findParticipants(id);
-		
+
 		try {
 			notificationService.sendNotificationIfArticleRemoved(clientsEmails, formation);
 		} catch (Exception e) {
-			
+
 		}
 		formationRepository.deleteById(id);
 		formationRepository.deleteRequests(id);
 		return "redirect:EditAds";
 	}
-	
+
 	@RequestMapping(value="/viewArticle", method =RequestMethod.GET)
 	public String viewArticle(Model model,HttpServletRequest request,Long id) {
 		HttpSession session=request.getSession(true);
 		Client client =(Client) session.getAttribute("user");
-		
 
-		
+
+
 		Formation article= formationRepository.getOne(id);
 		Client formateur=article.getUser();
 		Long countFormation=formationRepository.countByIdFormation(id);
@@ -317,17 +298,17 @@ public class FormationController {
 		model.addAttribute("Duration",Duration);
 
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "single";
-		
+
 	}
-	
+
 	@RequestMapping(value="/editArticle", method =RequestMethod.GET)
 	public String editArticle(Model model,Long id,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
 		Formation a= formationRepository.getOne(id);
-		
+
 		model.addAttribute("article",a);
 		Page<Local> local=localController.findAll(PageRequest.of(page, 3, Sort.unsorted()));
 		int countPages=local.getTotalPages();
@@ -341,62 +322,62 @@ public class FormationController {
 		TrainingPicture=a.getSignificantPhoto();
 		return "UpdateArticle";
 	}
-	
-	
+
+
 	@RequestMapping(value="/UpdateArticle", method =RequestMethod.POST)
-	
+
 	public String update(Model model,HttpServletRequest request, Formation formation,@RequestParam("localId") Long localId,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
 		HttpSession session =request.getSession(true);
 		formation.setUser((Client) session.getAttribute("user"));
-		
+
 		Local local=localController.findById(localId);
 		formation.setLocal(local);
 		if(bindingResult.hasErrors()) {
 			return "redirect:editArticle";
 		}
 		if(!(file.isEmpty())) {
-			
+
 			formation.setSignificantPhoto(file.getOriginalFilename());
-			
+
 
 		}
 		if((file.isEmpty())) {
-			
+
 			formation.setSignificantPhoto(TrainingPicture);
-			
+
 		}
-		
+
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
 			File f=new File(imageDir+formation.getId());
 			if(f.exists()) {
-					byte[] bytes=file.getBytes();
-					Path path=Paths.get(imageDir+formation.getId());
-					Files.write(path, bytes);		
+				byte[] bytes=file.getBytes();
+				Path path=Paths.get(imageDir+formation.getId());
+				Files.write(path, bytes);		
 			}
 			else 
-				{
-				
+			{
+
 				file.transferTo(new File(imageDir+formation.getId()));
-				}
-			
+			}
+
 		}
-		
+
 		formationRepository.save(formation);
 		List<String> clientsEmails= formationRepository.findParticipants(formation.getId());
-		
+
 		try {
 			notificationService.sendNotificationIfArticleUpdated(clientsEmails, formation);
 		} catch (Exception e) {
-			
+
 		}
-		
+
 		return "redirect:EditAds";	
 	}
-	
-	
+
+
 	//********  Pour la reservation des formations ***************
-	
+
 	@RequestMapping(value="/SendRequest", method =RequestMethod.GET)
 	public String SendRequest(Model model,Long id,HttpServletRequest request) throws SQLException {
 		HttpSession session=request.getSession(true);
@@ -420,33 +401,33 @@ public class FormationController {
 		}
 		else
 			return "redirect:DejaPostuler";
-		
+
 	}
-	
+
 	@RequestMapping(value="/DejaPostuler", method =RequestMethod.GET)
 	public String DejaPostuler(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		List<Formation> formation=formationRepository.findAll();
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
-		
+
 		return "DejaPostuler";
 	}
-	
+
 	@RequestMapping(value="/PlacesPleines", method =RequestMethod.GET)
 	public String PlacesPleines(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		List<Formation> formation=formationRepository.findAll();
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
-		
+
 		return "PlacesPleines";
 	}
 	@RequestMapping(value="/editUserProfile",method=RequestMethod.GET)
 	public String editUserProfile(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
-		
+
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
@@ -454,32 +435,32 @@ public class FormationController {
 		model.addAttribute("myformation",formation);
 		return "user-profile";
 	}
-	
+
 	@RequestMapping(value="/deleteMyReservation", method =RequestMethod.GET)
 	public String deleteMyReservation(Long tId,Long uId) {
-		
+
 		//System.out.println(tId);
 		formationRepository.deleteMyReservation(tId,uId);
 		return "redirect:editUserProfile";
 	}
-	
-	//********  Pour la reservation des formations ***************
-	
 
-/*---------------------------------RechercheFormation---------------------------------------------*/
-	
+	//********  Pour la reservation des formations ***************
+
+
+	/*---------------------------------RechercheFormation---------------------------------------------*/
+
 	@RequestMapping(value="/ChercherFormation" ,method=RequestMethod.POST)
 	public String ChercherFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam("Trainer") String trainerName,@RequestParam("Location") String local,@RequestParam(name="Category",defaultValue = "All") String cat) {
-		
-		
+
+
 		Page<Formation> formation=formationRepository.rechercherformation(trainerName,local,cat,PageRequest.of(page,3,Sort.unsorted()));
 		List<Formation> countformation=formationRepository.findNomberTrainings(trainerName,local,cat);
 		HttpSession session=request.getSession(true);
-		
+
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 		model.addAttribute("TrainerList", TrainerList);
-		
+
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -490,23 +471,23 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "category";
-		
-		
-		
-		
+
+
+
+
 	}
-	
+
 	@RequestMapping(value="/advancedSearch",method=RequestMethod.GET)
 	public String advancedSearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		HttpSession session=request.getSession(true);
 		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
 		List<Formation> countformation=formationRepository.findAll();
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 		model.addAttribute("TrainerList", TrainerList);
-		
+
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -517,22 +498,22 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
 		model.addAttribute("session", session.getAttribute("user"));
-		
-		
+
+
 		return "RechercheAvancee";
 	}
-	
+
 	@RequestMapping(value="/AdvancedResearch",method=RequestMethod.POST)
 	public String AdvancedResearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
-		
+
 		Page<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice, PageRequest.of(page,5,Sort.unsorted()));
 		List<Formation> countformation = formationRepository.countResultFormation(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		HttpSession session=request.getSession(true);
-		
+
 		List<Client> TrainerList =clientRepository.findTrainers();
-		
+
 		model.addAttribute("TrainerList", TrainerList);
-		
+
 		int countPages=formation.getTotalPages();
 		int[] pages=new int[countPages];
 		for(int i=0;i<countPages;i++) {
@@ -544,11 +525,11 @@ public class FormationController {
 
 		model.addAttribute("count",countformation.size());
 		model.addAttribute("session", session.getAttribute("user"));
-		
+
 		return "RechercheAvancee";
 	}
 	/*---------------------------------RechercheFormation---------------------------------------------*/
-	
-	
-	
+
+
+
 }

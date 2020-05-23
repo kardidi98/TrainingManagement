@@ -12,8 +12,8 @@ public interface  RatingRepository extends JpaRepository<Rating, Long>
 	@Query(value="select * from rating where traing like :x and user like :y",nativeQuery = true)
 	public Rating findRatingByUserAndTraining(@Param("x") long id_training,@Param("y") long id_user);
 
-	
-	
-	
+
+
+
 
 }

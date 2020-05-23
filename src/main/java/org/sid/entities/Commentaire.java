@@ -21,7 +21,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 public class Commentaire implements Serializable {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String contenu;
 	

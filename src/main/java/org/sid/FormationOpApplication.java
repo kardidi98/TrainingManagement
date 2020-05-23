@@ -1,5 +1,6 @@
 
 package org.sid;
+import org.sid.dao.AdminRepository;
 import org.sid.dao.ClientRepository;
 import org.sid.dao.CommentaireRepository;
 import org.sid.dao.FormationRepository;
@@ -22,13 +23,15 @@ public class FormationOpApplication extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {
 		
-	
+		
+			
 		ApplicationContext ctx =SpringApplication.run(FormationOpApplication.class, args);
 		FormationRepository formationdao =ctx.getBean(FormationRepository.class);
 		ClientRepository clientRepository=ctx.getBean(ClientRepository.class);
 		LocalRepository localRepository=ctx.getBean(LocalRepository.class);
 		CommentaireRepository commentaireRepository= ctx.getBean(CommentaireRepository.class);
 		RatingRepository ratingRepository=ctx.getBean(RatingRepository.class);
+		AdminRepository adminRepository =ctx.getBean(AdminRepository.class);
 	}
 
 }

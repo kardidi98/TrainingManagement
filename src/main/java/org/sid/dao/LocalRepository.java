@@ -15,13 +15,13 @@ public interface  LocalRepository extends JpaRepository<Local, Long>
 {
 	@Query(value="select * from Local l where owner like :x",nativeQuery = true)
 	public List<Local> findByUserId(@Param("x") Long id);
-	
+
 	@Query(value="select * from Local l where ville like :x",nativeQuery = true)
 	public List<Local> findByCity(@Param("x") String ville);
-	
+
 	@Query(value="select email from client where id in (select user_id from formation where local like :x)", nativeQuery = true)
 	public List<String> findParticipants(@Param("x") Long Id);
-	
+
 	@Transactional
 	@Modifying
 	@Query(value="update formation set local = NULL where local like :x",nativeQuery = true)

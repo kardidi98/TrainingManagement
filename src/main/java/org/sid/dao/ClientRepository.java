@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RepositoryRestResource
 public interface ClientRepository extends JpaRepository<Client, Long> {
 	@Query("select c from Client c where email like :x")
-	public List<Client> findByEmail(@Param("x") String email);
-	
+	public Client findByEmail(@Param("x") String email);
+
 	@Query("select c from Client c ")
 	public List<Client> findTrainers();
-	
+
 }

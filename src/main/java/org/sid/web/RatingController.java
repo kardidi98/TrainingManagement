@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RatingController {
 	@Autowired
 	private RatingRepository ratingRepository;
-	
+
 	@Autowired
 	private FormationRepository formationRepository;
-	
+
 	@RequestMapping(value="sendRating")
 	public String sendRating(Model model,Rating rating,@RequestParam("trainingRate") Long training, @RequestParam(name="rating",defaultValue = "0") int countStar, HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
-		
+
 		if(session.getAttribute("user")==null) { return "redirect:/login";}
 		else {
 			Client client=(Client) session.getAttribute("user");
@@ -41,8 +41,8 @@ public class RatingController {
 			ratingRepository.save(rating);
 			return "redirect:viewArticle?id="+training;
 		}
-		
-		 
-		
+
+
+
 	}
 }

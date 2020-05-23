@@ -2960,3 +2960,24 @@ button:hover {
 li .fa-star{
 	color:yellow;
 }
+
+section .dashboard{
+	display: flex;
+    justify-content:center;
+    margin-right: 2.75rem;
+    margin-left: 2.75rem;
+}
+.col-auto .fa{
+	color: #E8E9EC;
+}
+
+.highcharts-credits {
+	display: none;
+}
+#bar, #pie{
+	box-shadow: 0 0 10px rgba(0,0,0,0.2);
+	border-radius: 5px;
+	margin:20px;
+	padding: 20px;
+}
+

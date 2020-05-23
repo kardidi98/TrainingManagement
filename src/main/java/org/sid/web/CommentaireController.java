@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.BeanUtils;
 @Controller
 public class CommentaireController {
-	
+
 	@Autowired
 	private CommentaireRepository commentaireRepository;
-	
+
 
 	@RequestMapping(value ="/saveComment", method =RequestMethod.POST)
 	public String saveComment (Model model,@RequestParam(name="commenting") String contenu,HttpServletRequest request ) {
@@ -33,18 +33,18 @@ public class CommentaireController {
 		Client client=(Client) session.getAttribute("user");
 		Commentaire commentaire=new Commentaire();
 		commentaire.setClient(null);
-		
+
 		if(client!=null) {
 			commentaire.setClient(client);
 		}
-		
-		
+
+
 		commentaire.setContenu(contenu);
 		commentaire.setDateEcriture(new java.sql.Date(new java.util.Date().getTime()));
-		
+
 		commentaireRepository.save(commentaire);
 		return "redirect:TrainingManagement";
-		
+
 	}
 
 
@@ -52,10 +52,10 @@ public class CommentaireController {
 		List<Commentaire> commentaires=commentaireRepository.findRecent(n);
 		return commentaires;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }
