@@ -180,7 +180,8 @@
 	<!--===================================
 =            Store Section            =
 ====================================-->
-	<section class="section bg-gray">
+
+	<section th:if="${article!=null}" class="section bg-gray">
 		<!-- Container Start -->
 		<div class="container ">
 			<div class="row">
@@ -498,19 +499,28 @@
 
 
 						<div class="review-submit">
-							<form action="#" class="row">
+							<form th:action="@{ContactTrainer}" method="post" class="row">
 								<div class="col-lg-6">
 									<input type="text" name="name" id="name" class="form-control"
 										placeholder="Name">
 								</div>
 								<div class="col-lg-6">
 									<input type="email" name="email" id="email"
-										class="form-control" placeholder="Email">
+										class="form-control" placeholder="Email" required="required">
 								</div>
-
+								<div class="col-lg-6">
+									<input type="email" name="emailTrainer" id="emailTrainer"
+										class="form-control" required="required"
+										style="display: none;" th:value="${formateur.email}">
+								</div>
+								<div class="col-lg-6">
+									<input type="text" name="articleid" id="articleid"
+										class="form-control" required="required"
+										style="display: none;" th:value="${article.id}">
+								</div>
 								<div class="col-12">
-									<textarea name="review" id="review" rows="8"
-										class="form-control" placeholder="Message"></textarea>
+									<textarea name="message" id="review" rows="8"
+										class="form-control" placeholder="Message" required="required"></textarea>
 								</div>
 								<div class="col-lg-8"></div>
 								<div class="col-lg-4">

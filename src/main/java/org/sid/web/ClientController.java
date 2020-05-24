@@ -47,7 +47,6 @@ public class ClientController {
 
 
 
-
 	@Autowired
 	private ClientRepository clientRepository;
 	@Value("${dir.userimages}")
@@ -219,16 +218,39 @@ public class ClientController {
 	}
 
 
+	@RequestMapping(value="/ContactTrainer",method=RequestMethod.POST)
+	public String ContactTrainer(Model model,HttpServletRequest request,@RequestParam(name="articleid") String articleid,@RequestParam(name="name",defaultValue = "Unkown") String name,@RequestParam(name="emailTrainer") String emailTrainer,@RequestParam(name="email",defaultValue = "Unkown") String email,@RequestParam("message") String message) {
+		String msg="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi dear trainer</h1>"+
+				"<p>" + 
+				"You can find below the message sent by one of our Customers:"+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Name:</strong> </td>"+"<td>"+name+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Email: </strong></td>"+email+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Message: </strong></td>"+"<td>"+message+"</td>"
+				+ "</tr>"
+
+	            		+ "</tbody>"+
+
+	            		"</table>"+
+	            		"<p>Thank you and see you soon.</p></div></div>";
 
 
+		try {
+			notificationService.ContactTrainer(emailTrainer,msg);
+		} catch (Exception e) {
 
+		}
 
-
-
-
-
-
-
+		return "redirect:/viewArticle?id="+articleid;
+	}
 
 
 
