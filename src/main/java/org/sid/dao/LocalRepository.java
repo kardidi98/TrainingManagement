@@ -26,4 +26,7 @@ public interface  LocalRepository extends JpaRepository<Local, Long>
 	@Modifying
 	@Query(value="update formation set local = NULL where local like :x",nativeQuery = true)
 	public void  localDeleted(@Param("x") Long id);
+	
+	@Query(value="select * from local where disponibilite_from>=CURDATE() ", nativeQuery = true)
+	public List<Local> findByTodaysDate();
 }

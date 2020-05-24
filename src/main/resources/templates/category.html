@@ -307,48 +307,7 @@
 						</ul>
 					</div>
 
-
-					<!-- 
-<div class="widget price-range w-100">
-	<h4 class="widget-header">Price Range</h4>
-	<div class="block">
-						<input class="range-track w-100" type="text" data-slider-min="0" data-slider-max="5000" data-slider-step="5"
-						data-slider-value="[0,5000]">
-				<div class="d-flex justify-content-between mt-2">
-						<span class="value">$10 - $5000</span>
-				</div>
-	</div>
-</div>
-
-<div class="widget product-shorting">
-	<h4 class="widget-header">By Condition</h4>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Brand New
-	  </label>
-	</div>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Almost New
-	  </label>
-	</div>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Gently New
-	  </label>
-	</div>
-	<div class="form-check">
-	  <label class="form-check-label">
-	    <input class="form-check-input" type="checkbox" value="">
-	    Havely New
-	  </label>
-	</div>
-</div>
-
-		-->
+					-->
 				</div>
 			</div>
 			<div class="col-md-9 animated fadeInRightBig">
@@ -415,7 +374,35 @@
 
 				<hr>
 
-				<div class="pagination justify-content-center">
+				<div th:if="${ByCategory==true}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{listFormationParCategory(cat=(${formation.content[0].ArticleCat}),page=${p})}"></a></li>
+
+						</ul>
+					</nav>
+				</div>
+				<div th:if="${ByCity==true}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{listFormationParVille(city=(${formation.content[0].local.ville}),page=${p})}"></a></li>
+
+						</ul>
+					</nav>
+				</div>
+				<div
+					th:if="${ByCity==false && ByCategory==false && FromSearch==false}"
+					class="pagination justify-content-center">
 					<nav aria-label="Page navigation example">
 						<ul class="pagination">
 
@@ -424,10 +411,23 @@
 								class="page-link" th:text="${p+1}"
 								th:href="@{listFormation(page=${p})}"></a></li>
 
+						</ul>
+					</nav>
+				</div>
+				<div th:if="${FromSearch==true}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{chercherformation(page=${p},Trainer=${formation.content[0].user.expertise},Location=(${formation.content[0].local.ville}),Category=(${formation.content[0].ArticleCat}))}"></a></li>
 
 						</ul>
 					</nav>
 				</div>
+
 
 			</div>
 		</div>

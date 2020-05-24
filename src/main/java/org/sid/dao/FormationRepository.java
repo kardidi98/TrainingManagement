@@ -83,6 +83,9 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 	@Query(value="select * from formation f where(  (f.first_day <= :a and f.last_day >= :b) and (f.article_cat like :c) and (f.difficulty like :d) and ((select avg(count_stars) from rating r) >= :e) and (f.local in (select l.id from local l where ville like:f and l.category like :g )) and (f.user_id in (select c.id from client c where expertise like :h )) and (f.prix between :i and :j)  )   ",nativeQuery=true)
 	public List<Formation> countResultFormation (@Param("a")Date StartDate,@Param("b") Date EndDate,@Param("c") String Category,@Param("d") String Difficulty,@Param("e") int Rating,@Param("f")String City,@Param("g") String TypeLocal,@Param("h") String Trainer,@Param("i") int MinPrice,@Param("j")int MaxPrice);
 
+	@Query(value="select * from formation where first_day>=CURDATE() ", nativeQuery = true)
+	public List<Formation> findByTodaysDate();
+
 
 
 

@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Formation implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -36,22 +36,22 @@ public class Formation implements Serializable {
 	private java.sql.Date firstDay;
 	private java.sql.Date lastDay;
 	private String significantPhoto;
-	
+
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private Client user;
-	
+
 	@ManyToMany(mappedBy = "formationReservee")
 	private List<Client> clientBeneficiants;
-	
+
 	@OneToOne
 	@JoinColumn(name="local")
 	private Local Local;
-	
+
 	@OneToMany(mappedBy = "ratingFormation")
 	private List<Rating> ratings;
-	
-	
+
+
 	public Formation() {
 		super();
 	}
@@ -298,17 +298,17 @@ public class Formation implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -405,16 +405,28 @@ input.currency {
 			<br>
 
 			<hr>
-
-			<div class="pagination justify-content-center">
+			<div th:if="${FromAdvancedSearch==true}"
+				class="pagination justify-content-center">
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
 
 						<li class="page-item" th:each="p:${page}"
 							th:class="${p==pageCourante} ? 'active':''"><a
 							class="page-link" th:text="${p+1}"
-							th:href="@{listFormation(page=${p})}"></a></li>
+							th:href="@{advancedresearch(page=${p},StartDate=${formation.content[0].firstDay},EndDate=${formation.content[0].lastDay},Category=(${formation.content[0].ArticleCat}),Difficulty=${formation.content[0].difficulty},Rating=${Rating},City=${formation.content[0].local.ville},TypeLocal=${formation.content[0].local.Category},Trainer=${formation.content[0].user.expertise},MinPrice=${MinPrice},MaxPrice=${MaxPrice})}"></a></li>
 
+					</ul>
+				</nav>
+			</div>
+			<div th:if="${FromAdvancedSearch==false}"
+				class="pagination justify-content-center">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+
+						<li class="page-item" th:each="p:${page}"
+							th:class="${p==pageCourante} ? 'active':''"><a
+							class="page-link" th:text="${p+1}"
+							th:href="@{advancedSearch(page=${p})}"></a></li>
 
 					</ul>
 				</nav>

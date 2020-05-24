@@ -20,4 +20,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 	@Query("select c from Client c ")
 	public List<Client> findTrainers();
 
+	@Query("select c from Client c where type like :x")
+	public List<Client> findByType(@Param("x") String type);
+
 }

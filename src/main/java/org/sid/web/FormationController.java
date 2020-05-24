@@ -68,7 +68,10 @@ public class FormationController {
 	@Value("${dir.images}")
 	private String imageDir;
 
-
+	private boolean ByCategory=false;
+	private boolean ByCity=false;
+	private boolean FromSearch=false;
+	private boolean FromAdvancedSearch=false;
 
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
@@ -148,8 +151,11 @@ public class FormationController {
 
 	@RequestMapping(value="/listFormation", method =RequestMethod.GET)
 	public String listFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
+		ByCategory=false;
+		ByCity=false;
+		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
+		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,4,Sort.by("firstDay").ascending()));
 		List<Formation> countformation=formationRepository.findAll();
 		List<Client> TrainerList =clientRepository.findTrainers();
 
@@ -165,7 +171,9 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
 
-
+		model.addAttribute("ByCategory",ByCategory);
+		model.addAttribute("ByCity",ByCity);
+		model.addAttribute("FromSearch",FromSearch);
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -176,8 +184,11 @@ public class FormationController {
 
 	@RequestMapping(value="/listFormationParCategory", method =RequestMethod.GET)
 	public String listFormationParCategory(Model model,HttpServletRequest request,@RequestParam(name="cat",defaultValue = "") String cat,@RequestParam(name="page",defaultValue = "0") int page) {
+		ByCategory=true;
+		ByCity=false;
+		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findByArticleCat(cat,PageRequest.of(page,3,Sort.by("firstDay").ascending()));
+		Page<Formation> formation=formationRepository.findByArticleCat(cat,PageRequest.of(page,4,Sort.by("firstDay").ascending()));
 		Long countFormation = formationRepository.countByArticleCat(cat);
 
 
@@ -195,7 +206,9 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
-
+		model.addAttribute("ByCategory",ByCategory);
+		model.addAttribute("ByCity",ByCity);
+		model.addAttribute("FromSearch",FromSearch);
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -204,8 +217,11 @@ public class FormationController {
 
 	@RequestMapping(value="/listFormationParVille", method =RequestMethod.GET)
 	public String listFormationParVille(Model model,HttpServletRequest request,@RequestParam(name="city",defaultValue = "") String city,@RequestParam(name="page",defaultValue = "0") int page) {
+		ByCategory=false;
+		ByCity=true;
+		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findByArticleCity(city,PageRequest.of(page,3,Sort.by("first_day").ascending()));
+		Page<Formation> formation=formationRepository.findByArticleCity(city,PageRequest.of(page,4,Sort.by("first_day").ascending()));
 		Long countFormation = formationRepository.countByArticleCity(city);
 
 
@@ -223,7 +239,9 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
-
+		model.addAttribute("ByCategory",ByCategory);
+		model.addAttribute("ByCity",ByCity);
+		model.addAttribute("FromSearch",FromSearch);
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -450,11 +468,13 @@ public class FormationController {
 	/*---------------------------------RechercheFormation---------------------------------------------*/
 
 	@RequestMapping(value="/ChercherFormation" ,method=RequestMethod.POST)
-	public String ChercherFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam("Trainer") String trainerName,@RequestParam("Location") String local,@RequestParam(name="Category",defaultValue = "All") String cat) {
+	public String ChercherFormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam("Trainer") String Trainer,@RequestParam("Location") String Location,@RequestParam(name="Category",defaultValue = "All") String Category) {
+		ByCategory=false;
+		ByCity=false;
+		FromSearch=true;
 
-
-		Page<Formation> formation=formationRepository.rechercherformation(trainerName,local,cat,PageRequest.of(page,3,Sort.unsorted()));
-		List<Formation> countformation=formationRepository.findNomberTrainings(trainerName,local,cat);
+		Page<Formation> formation=formationRepository.rechercherformation(Trainer,Location,Category,PageRequest.of(page,7,Sort.unsorted()));
+		List<Formation> countformation=formationRepository.findNomberTrainings(Trainer,Location,Category);
 		HttpSession session=request.getSession(true);
 
 		List<Client> TrainerList =clientRepository.findTrainers();
@@ -469,6 +489,47 @@ public class FormationController {
 		model.addAttribute("pageCourante", page);
 		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
+
+		model.addAttribute("ByCategory",ByCategory);
+		model.addAttribute("ByCity",ByCity);
+		model.addAttribute("FromSearch",FromSearch);
+
+		model.addAttribute("count",countformation.size());
+		model.addAttribute("session", session.getAttribute("user"));
+
+		return "category";
+
+
+
+
+	}
+	@RequestMapping(value="/chercherformation" ,method=RequestMethod.GET)
+	public String cherchercormation(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam("Trainer") String Trainer,@RequestParam("Location") String Location,@RequestParam(name="Category",defaultValue = "All") String Category) {
+		ByCategory=false;
+		ByCity=false;
+		FromSearch=true;
+
+		Page<Formation> formation=formationRepository.rechercherformation(Trainer,Location,Category,PageRequest.of(page,7,Sort.unsorted()));
+		List<Formation> countformation=formationRepository.findNomberTrainings(Trainer,Location,Category);
+		HttpSession session=request.getSession(true);
+
+		List<Client> TrainerList =clientRepository.findTrainers();
+
+		model.addAttribute("TrainerList", TrainerList);
+
+		int countPages=formation.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
+		model.addAttribute("formation",formation);
+
+		model.addAttribute("ByCategory",ByCategory);
+		model.addAttribute("ByCity",ByCity);
+		model.addAttribute("FromSearch",FromSearch);
+
 		model.addAttribute("count",countformation.size());
 		model.addAttribute("session", session.getAttribute("user"));
 
@@ -481,8 +542,9 @@ public class FormationController {
 
 	@RequestMapping(value="/advancedSearch",method=RequestMethod.GET)
 	public String advancedSearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
+		FromAdvancedSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,3,Sort.by("firstDay").ascending()));
+		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,4,Sort.by("firstDay").ascending()));
 		List<Formation> countformation=formationRepository.findAll();
 		List<Client> TrainerList =clientRepository.findTrainers();
 
@@ -497,6 +559,8 @@ public class FormationController {
 		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
+		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 
@@ -505,7 +569,7 @@ public class FormationController {
 
 	@RequestMapping(value="/AdvancedResearch",method=RequestMethod.POST)
 	public String AdvancedResearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
-
+		FromAdvancedSearch=true;
 		Page<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice, PageRequest.of(page,5,Sort.unsorted()));
 		List<Formation> countformation = formationRepository.countResultFormation(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		HttpSession session=request.getSession(true);
@@ -524,6 +588,44 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 
 		model.addAttribute("count",countformation.size());
+
+
+		model.addAttribute("MinPrice",MinPrice);
+		model.addAttribute("MaxPrice",MaxPrice);
+		model.addAttribute("Rating",Rating);
+		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
+
+		model.addAttribute("session", session.getAttribute("user"));
+
+		return "RechercheAvancee";
+	}
+	@RequestMapping(value="/advancedresearch",method=RequestMethod.GET)
+	public String advancedresearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
+		FromAdvancedSearch=true;
+		Page<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice, PageRequest.of(page,5,Sort.unsorted()));
+		List<Formation> countformation = formationRepository.countResultFormation(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
+		HttpSession session=request.getSession(true);
+
+		List<Client> TrainerList =clientRepository.findTrainers();
+
+		model.addAttribute("TrainerList", TrainerList);
+
+		int countPages=formation.getTotalPages();
+		int[] pages=new int[countPages];
+		for(int i=0;i<countPages;i++) {
+			pages[i]=i;
+		}
+		model.addAttribute("pageCourante", page);
+		model.addAttribute("page", pages);
+		model.addAttribute("formation",formation);
+		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
+		model.addAttribute("MinPrice",MinPrice);
+		model.addAttribute("MaxPrice",MaxPrice);
+		model.addAttribute("Rating",Rating);
+		model.addAttribute("count",countformation.size());
+
+
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "RechercheAvancee";

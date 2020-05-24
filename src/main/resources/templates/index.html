@@ -302,7 +302,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="section-title">
-						<h2>Trending Offers</h2>
+						<h2>Tomorrow's Offers</h2>
 					</div>
 				</div>
 			</div>
@@ -314,7 +314,7 @@
 							th:each="training:${trendyTrainings}">
 							<!-- product card -->
 							<div class="product-item bg-light rounded">
-								<div class="card" style="width: auto;">
+								<div class="card" style="width: 300px;;">
 									<div class="thumb-content">
 										<!-- <div class="price">$200</div> -->
 										<a th:href="@{viewArticle(id=${training.id})}"> <img
