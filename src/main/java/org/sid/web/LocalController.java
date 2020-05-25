@@ -126,9 +126,39 @@ public class LocalController {
 				local.setPicture6(file6.getOriginalFilename());
 				file6.transferTo(new File(localImageDir+local.getId()+"_6"));
 
+				String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+						"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
+						"<p>" + 
+						"<strong>Mr. "+client.getNom()+" "+client.getPrenom()+"</strong> has just added a new local: "+
+						"</p>"+
+						"<table>"
+						+ "<tbody>"
+						+ "<tr>"
+						+ "<td><strong>Name: </strong></td>"+"<td>"+local.getIntitulee()+"</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td><strong>Surface: </strong></td>"+"<td>"+local.getSuperficie()+" m²</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td><strong>Price Per Hour: </strong></td>"+"<td>"+local.getPrixParHeure()+" $</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td><strong>Type: </strong></td>"+"<td>"+local.getCategory()+"</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td><strong>Address: </strong></td>"+"<td>"+local.getAdresse()+", "+local.getVille()+"</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td><strong>Description: </strong></td>"+"<td>"+local.getDescription()+"</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td><strong>Other Properties: </strong></td>"+"<td>"+"Chairs: "+local.getChairs()+", Electrical Outlets: "+local.getPrises()+", Microphones: "+local.getMicro()+", Projectors: "+local.getProjecteur()+'.'+"</td>"
+						+ "</tr>"
+						+ "</tbody>"+"<p>Go check other information.</p>";
 
 				try {
 					notificationService.sendNotification(client,message);
+					notificationService.sendNotificationToAdmin(messageToAdmin);
 				} catch (Exception e) {
 
 				}
@@ -308,18 +338,51 @@ public class LocalController {
 
 
 		HttpSession session=request.getSession(true);
+		Client client =(Client) session.getAttribute("user");
 		local.setDisponibiliteFrom(dateFrom);
 		local.setCategory(category);
 		local.setVille(ville);
 		local.setOwner((Client) session.getAttribute("user"));
 
-
+		
+		
 
 		localRepository.save(local);
+		
+		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
+				"<p>" + 
+				"<strong>Mr. "+client.getNom()+" "+client.getPrenom()+"</strong> has just updated his local: "+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Name: </strong></td>"+"<td>"+local.getIntitulee()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Surface: </strong></td>"+"<td>"+local.getSuperficie()+" m²</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Price Per Hour: </strong></td>"+"<td>"+local.getPrixParHeure()+" $</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Type: </strong></td>"+"<td>"+local.getCategory()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Address: </strong></td>"+"<td>"+local.getAdresse()+", "+local.getVille()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Description: </strong></td>"+"<td>"+local.getDescription()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Other Properties: </strong></td>"+"<td>"+"Chairs: "+local.getChairs()+", Electrical Outlets: "+local.getPrises()+", Microphones: "+local.getMicro()+", Projectors: "+local.getProjecteur()+'.'+"</td>"
+				+ "</tr>"
+				+ "</tbody>"+"<p>Go check other information.</p>";
 		List<String> clientsEmails= localRepository.findParticipants(local.getId());
 
 		try {
 			notificationService.sendNotificationIfArticleUpdated(clientsEmails, local);
+			notificationService.sendNotificationToAdmin(messageToAdmin);
 		} catch (Exception e) {
 
 		}
@@ -347,12 +410,43 @@ public class LocalController {
 
 
 	@RequestMapping(value="/deletelocal", method =RequestMethod.GET)
-	public String deletelocal(Long id) {
-
+	public String deletelocal(Long id,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		Client client =(Client) session.getAttribute("user");
 		Local local = localRepository.getOne(id);
+		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
+				"<p>" + 
+				"<strong>Mr. "+client.getNom()+" "+client.getPrenom()+"</strong> has just deleted his local: "+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Name: </strong></td>"+"<td>"+local.getIntitulee()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Surface: </strong></td>"+"<td>"+local.getSuperficie()+" m²</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Price Per Hour: </strong></td>"+"<td>"+local.getPrixParHeure()+" $</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Type: </strong></td>"+"<td>"+local.getCategory()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Address: </strong></td>"+"<td>"+local.getAdresse()+", "+local.getVille()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Description: </strong></td>"+"<td>"+local.getDescription()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Other Properties: </strong></td>"+"<td>"+"Chairs: "+local.getChairs()+", Electrical Outlets: "+local.getPrises()+", Microphones: "+local.getMicro()+", Projectors: "+local.getProjecteur()+'.'+"</td>"
+				+ "</tr>"
+				+ "</tbody>";
 		List<String> clientsEmails= localRepository.findParticipants(id);
 		try {
 			notificationService.sendNotificationIfArticleRemoved(clientsEmails, local);
+			notificationService.sendNotificationToAdmin(messageToAdmin);
 		} catch (Exception e) {
 
 		}
@@ -361,8 +455,8 @@ public class LocalController {
 		return "redirect:EditAds";
 	}
 	@RequestMapping(value="/findAll", method =RequestMethod.GET)
-	public Page<Local> findAll(Pageable pageable){
-		return localRepository.findAll(pageable);
+	public List<Local> findAll(){
+		return localRepository.findAll();
 	}
 
 	@RequestMapping(value="/findAllToAdd", method =RequestMethod.GET)

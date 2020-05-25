@@ -118,8 +118,6 @@ public class FormationController {
 				"</p>"+
 				"<p>See you soon.</p></div></div>";
 
-
-
 		formation.setUser(client);
 		Local local=localController.findById(localId);
 
@@ -139,9 +137,48 @@ public class FormationController {
 			formation.setSignificantPhoto(file.getOriginalFilename());
 			file.transferTo(new File(imageDir+formation.getId()));
 		}
+		
+		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
+				"<p>" + 
+				"<strong>Mr. "+client.getNom()+" "+client.getPrenom()+"</strong> has just added a new training:"+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Title:</strong> </td>"+"<td>"+formation.getTitle()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Location: </strong></td>"+"<td>"+formation.getLocal().getAdresse()+", "+formation.getLocal().getVille()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Price: </strong></td>"+"<td>"+formation.getPrix()+" $</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Category: </strong></td>"+"<td>"+formation.getArticleCat()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Requirements: </strong></td>"+"<td>"+formation.getRequirements()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Difficuty: </strong></td>"+"<td>"+formation.getDifficulty()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Description: </strong></td>"+"<td>"+formation.getDescription()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>From: </strong></td>"+"<td>"+formation.getFirstDay()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>To: </strong></td>"+"<td>"+formation.getLastDay()+"</td>"
+				+ "</tr>"
+				+ "</tbody>"+"<p>Go check other information.</p>";
+
+	
 
 		try {
 			notificationService.sendNotification(client,message);
+			notificationService.sendNotificationToAdmin(messageToAdmin);
 		} catch (Exception e) {
 
 		}
@@ -281,15 +318,54 @@ public class FormationController {
 
 
 	@RequestMapping(value="/delete", method =RequestMethod.GET)
-	public String delete(Long id) {
-
-
+	public String delete(Long id,HttpServletRequest request) {
+		
+		HttpSession session=request.getSession(true);
+		Client client =(Client) session.getAttribute("user");
 		Formation formation=formationRepository.getOne(id);
+		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
+				"<p>" + 
+				"<strong>Mr. "+client.getNom()+" "+client.getPrenom()+"</strong> has just deleted his training: "+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Title:</strong> </td>"+"<td>"+formation.getTitle()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Location: </strong></td>"+"<td>"+formation.getLocal().getAdresse()+", "+formation.getLocal().getVille()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Price: </strong></td>"+"<td>"+formation.getPrix()+" $</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Category: </strong></td>"+"<td>"+formation.getArticleCat()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Requirements: </strong></td>"+"<td>"+formation.getRequirements()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Difficuty: </strong></td>"+"<td>"+formation.getDifficulty()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Description: </strong></td>"+"<td>"+formation.getDescription()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>From: </strong></td>"+"<td>"+formation.getFirstDay()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>To: </strong></td>"+"<td>"+formation.getLastDay()+"</td>"
+				+ "</tr>"
+				+ "</tbody>";
+		
+		
 
 		List<String> clientsEmails= formationRepository.findParticipants(id);
 
 		try {
 			notificationService.sendNotificationIfArticleRemoved(clientsEmails, formation);
+			notificationService.sendNotificationToAdmin(messageToAdmin);
 		} catch (Exception e) {
 
 		}
@@ -328,14 +404,8 @@ public class FormationController {
 		Formation a= formationRepository.getOne(id);
 
 		model.addAttribute("article",a);
-		Page<Local> local=localController.findAll(PageRequest.of(page, 3, Sort.unsorted()));
-		int countPages=local.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		List<Local> local=localController.findAll();
+		
 		model.addAttribute("locaux",local);
 		TrainingPicture=a.getSignificantPhoto();
 		return "UpdateArticle";
@@ -346,6 +416,7 @@ public class FormationController {
 
 	public String update(Model model,HttpServletRequest request, Formation formation,@RequestParam("localId") Long localId,@RequestParam(name="picture") MultipartFile file, BindingResult bindingResult) throws IllegalStateException, IOException {
 		HttpSession session =request.getSession(true);
+		Client client=(Client) session.getAttribute("user");
 		formation.setUser((Client) session.getAttribute("user"));
 
 		Local local=localController.findById(localId);
@@ -382,10 +453,50 @@ public class FormationController {
 		}
 
 		formationRepository.save(formation);
+		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
+				"<p>" + 
+				"<strong>Mr. "+client.getNom()+" "+client.getPrenom()+"</strong> has just updated his training: "+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Title:</strong> </td>"+"<td>"+formation.getTitle()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Location: </strong></td>"+"<td>"+formation.getLocal().getAdresse()+", "+formation.getLocal().getVille()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Price: </strong></td>"+"<td>"+formation.getPrix()+" $</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Category: </strong></td>"+"<td>"+formation.getArticleCat()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Requirements: </strong></td>"+"<td>"+formation.getRequirements()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Difficuty: </strong></td>"+"<td>"+formation.getDifficulty()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Description: </strong></td>"+"<td>"+formation.getDescription()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>From: </strong></td>"+"<td>"+formation.getFirstDay()+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>To: </strong></td>"+"<td>"+formation.getLastDay()+"</td>"
+				+ "</tr>"
+				+ "</tbody>"+"<p>Go check other information.</p>";
+		
+		
+		
 		List<String> clientsEmails= formationRepository.findParticipants(formation.getId());
 
 		try {
 			notificationService.sendNotificationIfArticleUpdated(clientsEmails, formation);
+
+			notificationService.sendNotificationToAdmin(messageToAdmin);
 		} catch (Exception e) {
 
 		}

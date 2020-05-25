@@ -36,6 +36,7 @@ public class Client implements Serializable{
 	private String profile;
 	private String picture;
 	private String expertise;
+	private String blocked;
 	
 
 	@OneToMany(mappedBy = "user")
@@ -59,10 +60,10 @@ public class Client implements Serializable{
 	
 	
 
-	
+
 
 	public Client(long id, String nom, String prenom, String email, String password, String type, String job,
-			String address, String profile, String picture, String expertise, List<Formation> formation,
+			String address, String profile, String picture, String expertise, String blocked, List<Formation> formation,
 			List<Local> locaux, List<Formation> formationReservee, List<Commentaire> commentaires,
 			List<Rating> myRatings) {
 		this.id = id;
@@ -76,11 +77,20 @@ public class Client implements Serializable{
 		this.profile = profile;
 		this.picture = picture;
 		this.expertise = expertise;
+		this.blocked = blocked;
 		this.formation = formation;
 		this.locaux = locaux;
 		this.formationReservee = formationReservee;
 		this.commentaires = commentaires;
 		this.myRatings = myRatings;
+	}
+
+	public String getBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(String blocked) {
+		this.blocked = blocked;
 	}
 
 	public Client() {

@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Training Management</title>
+<title>Administrator: View Training</title>
 
 <!-- FAVICON -->
 <link href="../static/images/favicon.png"
@@ -46,23 +46,24 @@
 	rel="stylesheet">
 
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+
+<style type="text/css">
+ul li.active {
+	font-weight: bold;
+}
+
+</style>
 
 </head>
 
 <body class="body-wrapper">
 
-	<section>
+	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<nav class="navbar navbar-expand-lg navbar-light navigation">
-						<a class="navbar-brand" th:href="@{TrainingManagement}"> <img
+						<a class="navbar-brand" th:href="@{/}"> <img
 							src="images/logo.png" alt="" id="logo">
 						</a>
 						<button class="navbar-toggler" type="button"
@@ -72,55 +73,52 @@
 							<span class="navbar-toggler-icon"></span>
 						</button>
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav ml-auto main-nav ">
+							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item dropdown dropdown-slide"><a
-									class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i
-											class="fa fa-angle-down"></i></span>
-								</a> <!-- Dropdown list -->
-									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
+								<li class="nav-item"><a class="nav-link "
+									id="Statistics" th:href="@{/}">Charts</a></li>
+								<li class="nav-item "><a class="nav-link" id="comments"
+									th:href="@{Comments}">Comments</a></li>
 
+							</ul>
 
-									</div></li>
+							<ul class="navbar-nav  main-nav " id="dropdownlinks">
 								<li class="nav-item dropdown dropdown-slide"><a
 									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false"> More <span><i
+									aria-expanded="false"> Users <span><i
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{about}">About Us</a> <a
-											class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
+										<a class="dropdown-item" id="Users"
+											th:href="@{Customers}">Customers</a> <a
+											class="dropdown-item" id="Trainers"
+											th:href="@{Trainers}">Trainers</a> <a
+											class="dropdown-item" id="fournisseurs"
+											th:href="@{LocalProviders}">Local Providers</a>
+
 
 									</div></li>
 
+								<li class="nav-item dropdown dropdown-slide"><a
+									class="nav-link dropdown-toggle" href="#"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Trainings/Locals <span><i
+											class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+
+										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a> <a
+											class="dropdown-item" th:href="@{Locals}">Locals</a>
+
+									</div></li>
+
+
 							</ul>
-							<ul th:if="${session.user!=null}"
-								class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
-								<li class="nav-item w-100" style="margin-bottom: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
-										<input class="searchButton" type="submit" />
-									</form>
-								</li>
+							<ul class="navbar-nav  ml-auto main-nav"
+								style="margin-right: 0px;">
+
 
 
 								<li class="nav-item dropdown dropdown-slide"
@@ -133,38 +131,23 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{AddArticle}"
-											id="search_article">Add Training Article</a> <a
-											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
-											class="dropdown-item" th:href="@{EditAds}">Edit User
-											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
-											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
-											out</a>
+
+										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
 									</div></li>
 
 
-							</ul>
-							<ul th:if="${session.user==null}"
-								class="navbar-nav ml-auto mt-10 ">
-								<li class="nav-item w-100" style="margin-right: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
-										<input class="searchButton" type="submit" />
-									</form>
-								</li>
-								<li class="nav-item"><a
-									class="nav-link login-button rounded" th:href="@{login}">Login</a>
-								</li>
 
 							</ul>
+
 						</div>
 					</nav>
 				</div>
 			</div>
 		</div>
+	
 	</section>
-	<section class="page-title">
+	<section class="page-title sections">
 		<!-- Container Start -->
 		<div class="container">
 			<div class="row">
@@ -180,7 +163,7 @@
 =            Store Section            =
 ====================================-->
 
-	<section th:if="${article!=null}" class="section bg-gray">
+	<section th:if="${article!=null}" class="section sections bg-gray" >
 		<!-- Container Start -->
 		<div class="container ">
 			<div class="row">
@@ -205,25 +188,25 @@
 						<!-- product slider -->
 						<div th:if="${article.Local}!=null" class="product-slider"
 							style="margin-bottom: 0px;">
-							<div class="product-slider-item ">
+							<div class="product-slider-item " >
 								<img class="img-fluid ProfuctImages"
-									th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'1'})}">
+									th:src="@{getLocalPicture(id=${article.Local.id},subId=${'1'})}" >
 							</div>
 							<div class="product-slider-item ">
 								<img class="d-block img-fluid ProfuctImages"
-									th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'2'})}">
+									th:src="@{getLocalPicture(id=${article.Local.id},subId=${'2'})}">
 							</div>
 							<div class="product-slider-item ">
 								<img class="d-block img-fluid ProfuctImages"
-									th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'3'})}">
+									th:src="@{getLocalPicture(id=${article.Local.id},subId=${'3'})}">
 							</div>
 							<div class="product-slider-item ">
 								<img class="d-block img-fluid ProfuctImages"
-									th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'4'})}">
+									th:src="@{getLocalPicture(id=${article.Local.id},subId=${'4'})}">
 							</div>
 							<div class="product-slider-item ">
 								<img class="d-block img-fluid ProfuctImages"
-									th:src="@{getLocalPhoto(id=${article.Local.id},subId=${'5'})}">
+									th:src="@{getLocalPicture(id=${article.Local.id},subId=${'5'})}">
 							</div>
 						</div>
 						<!-- product slider -->
@@ -391,53 +374,12 @@
 							<img class="rounded-circle img-fluid mb-5 px-5"
 								th:src="@{getUserPhoto(id=${formateur.id})}" alt="">
 							<h4>
-								<a th:text="${formateur.nom} +' ' +${formateur.prenom}"></a>
+								<a th:text="${formateur.nom} +' ' +${formateur.prenom}+' / ID='+${formateur.id}"></a>
 							</h4>
 							<p class="member-time" th:text="${formateur.job}"></p>
-
-							<ul class="list-inline mt-15">
-								<div class="row">
-									<div class="col-sm-6">
-										<li class="list-inline-item"><a
-											th:href="@{editTrainerProfil(id=${formateur.id})}"
-											class="btn btn-contact d-inline-block  btn-primary px-lg-4 my-1 px-md-3"
-											style="color: white;">Profile</a></li>
-									</div>
-									<div class="col-sm-5">
-										<li class="list-inline-item"><a href=""
-											class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3"
-											data-toggle="modal" data-target="#send_msg_to"
-											style="color: white;">Contact</a></li>
-									</div>
-								</div>
-
-
-							</ul>
 						</div>
 
-						<div class="widget rate">
-
-							<h5 class="widget-header text-center">Your rating</h5>
-
-							<div class="star">
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i>
-							</div>
-							<br>
-							<form th:action="@{sendRating}" method="post" class="message"
-								style="text-align: center;">
-								<input type="text" name="rating" id="rating"
-									style="display: none;" /> <input th:if="${session.user!=null}"
-									type="text" name="user" id="user" style="display: none;"
-									th:value="${session.user.id}" /> <input
-									th:if="${session.user==null}" type="text" name="user" id="user"
-									style="display: none;" th:value="0" /> <input type="text"
-									name="trainingRate" id="training" style="display: none;"
-									th:value="${article.id}" /> <input type="submit"
-									class="btn btn-primary" id="submitRating" value="Send" />
-							</form>
-						</div>
+						
 
 						<!-- Coupon Widget -->
 						<!-- <div class="widget coupon text-center">
@@ -454,117 +396,23 @@
 
 			</div>
 		</div>
-		<div th:if="${session.user!=null}">
-			<div th:if="${formateur.email == session.user.email}"
-				style="text-align: center;">
-
-				<center>
-					<a th:href="@{SendRequest(id=${article.id})}"><button
-							class="text-white add-button-local rounded" disabled="disabled"
-							style="margin-top: 30px; background-color: #c9c3c3; color: black; border: 0;">Send
-							Request to attend</button></a>
-				</center>
-				Your are the trainer
-			</div>
-
-			<div th:if="${formateur.email != session.user.email}">
-				<center>
-					<a th:href="@{SendRequest(id=${article.id})}"><button
-							class="text-white add-button-local rounded"
-							style="margin-top: 30px;">Send Request to attend</button></a>
-				</center>
-
-			</div>
-		</div>
+	
 		<!-- Container End -->
 	</section>
 
 
 
-	<!-- Modal -->
-	<div class="modal fade" id="send_msg_to" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title tab-title" id="ModalLabel">Contact me</h3>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="review-submission">
-
-
-						<div class="review-submit">
-							<form th:action="@{ContactTrainer}" method="post" class="row">
-								<div class="col-lg-6">
-									<input type="text" name="name" id="name" class="form-control"
-										placeholder="Name">
-								</div>
-								<div class="col-lg-6">
-									<input type="email" name="email" id="email"
-										class="form-control" placeholder="Email" required="required">
-								</div>
-								<div class="col-lg-6">
-									<input type="email" name="emailTrainer" id="emailTrainer"
-										class="form-control" required="required"
-										style="display: none;" th:value="${formateur.email}">
-								</div>
-								<div class="col-lg-6">
-									<input type="text" name="articleid" id="articleid"
-										class="form-control" required="required"
-										style="display: none;" th:value="${article.id}">
-								</div>
-								<div class="col-12">
-									<textarea name="message" id="review" rows="8"
-										class="form-control" placeholder="Message" required="required"></textarea>
-								</div>
-								<div class="col-lg-8"></div>
-								<div class="col-lg-4">
-									<button type="submit" class="btn btn-primary"
-										style="color: white; margin-top: 10px;">Sumbit</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
 
 	<!--============================
 =            Footer            =
 =============================-->
 
-
-	<footer class="footer section section-sm">
+	<footer th:if="${session.user!=null}" class="footer section section-sm">
 		<!-- Container Start -->
 		<div class="container">
-			<div class="block">
-				<h2 align="center" style="color: white;">Add A Comment</h2>
-				<br>
-				<form class="form-group" th:action="@{saveComment}" method="post">
-					<textarea class="form-control rounded" name="commenting"
-						id="commenting" rows="10" cols=""
-						placeholder="What's in your mind ?" style="color: white;">
-	                
-	            </textarea>
 
-
-
-					<center style="margin: 40px;">
-						<input type="submit" class="btn btn-primary" name="submitComment"
-							id="submitComment" value="Send"
-							style="background-color: #0076A3;">
-					</center>
-
-				</form>
-			</div>
 			<div class="row">
-				<div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0">
+				<div class="col-lg-6 col-md-7 offset-md-1 offset-lg-0">
 					<!-- About -->
 					<div class="block about">
 						<!-- footer logo -->
@@ -577,20 +425,7 @@
 							ex ea commodo consequat.</p>
 					</div>
 				</div>
-				<!-- Link list -->
-				<div class="col-lg-3 offset-lg-1 col-md-3">
-					<div class="block">
-						<h4>Site Pages</h4>
-						<ul>
-							<li><a th:href="@{about}">About Us</a></li>
-							<li><a href="#categories">Categories</a></li>
-							<li><a th:href="@{contact-us}">Contact Us</a></li>
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">Others Comments</a></li>
-						</ul>
-					</div>
-				</div>
-
+				<div class="col-lg-1 col-md-7"></div>
 
 				<!-- Promotion -->
 				<div class="col-lg-4 col-md-7">
@@ -614,10 +449,9 @@
 		<!-- Container End -->
 	</footer>
 	<!-- Footer Bottom -->
-	<footer class="footer-bottom">
+	<footer th:if="${session.user!=null}" class="footer-bottom">
 		<!-- Container Start -->
 		<div class="container">
-
 			<div class="row">
 				<div class="col-sm-6 col-12">
 					<!-- Copyright -->
@@ -625,9 +459,9 @@
 						<p>
 							Copyright ©
 							<script>
-						var CurrentYear = new Date().getFullYear()
-						document.write(CurrentYear)
-					</script>
+								var CurrentYear = new Date();
+								document.write(CurrentYear.getFullYear())
+							</script>
 							. All Rights Reserved, by <a class="text-primary" href="#logo">T.M</a>
 							team
 						</p>
@@ -737,6 +571,7 @@ function reset() {
 }
 
 </script>
+
 
 </body>
 

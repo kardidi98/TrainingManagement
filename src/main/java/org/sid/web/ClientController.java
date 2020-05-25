@@ -88,13 +88,20 @@ public class ClientController {
 				"everyday in local communities near you."+
 				"</p>"+
 				"</div></div>";
+		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administrators</h1>"+
+				"<p>" + 
+				"Mr. "+client.getNom()+" "+client.getPrenom()+" has just subscribed to our Web site. Go check more information about him"+
+				"</p>"+
+				"</div></div>";
 		try {
 			notificationService.sendNotification(client,message);
+			notificationService.sendNotificationToAdmin(messageToAdmin);
 		} catch (Exception e) {
 
 		}
 
-
+		client.setBlocked("unblocked");
 		clientRepository.save(client);
 		if(!(picture.isEmpty())) {
 			client.setPicture(picture.getOriginalFilename());

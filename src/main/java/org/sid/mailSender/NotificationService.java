@@ -382,5 +382,95 @@ public class NotificationService {
 		}
 
 	}
+	public void sendNotificationToTrainer(String email, Formation formation)  throws MailException{
+
+		final String username = "ghikkprojet@gmail.com";
+		final String password = "ghikkghikk";
+		final String host= "smtp.gmail.com";
+		final int port=587;
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			
+				String msg="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+						"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi dear Trainer</h1>"+
+						"<p>" + 
+						"Your training entitled <strong>"+formation.getTitle()+"</strong> has been canceled by The administrator <strong>"+formation.getUser().getNom()+" "+formation.getUser().getPrenom()+".</strong>"+
+						"</p>"+
+						"<p>Thank you and see you soon.</p></div></div>";
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("ghikkprojet@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(email));
+				message.setSubject("Welcome to Training Management");
+				message.setContent(msg,"text/html");
+
+				Transport transport = session.getTransport("smtp");
+				transport.connect (host, port,username,password);
+				transport.sendMessage(message, message.getAllRecipients());
+				transport.close(); 
+			
+
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+
+		
+	}
+	public void sendNotificationToAdmin(String msg)  throws MailException{
+		final String username = "ghikkprojet@gmail.com";
+		final String password = "ghikkghikk";
+		final String host= "smtp.gmail.com";
+		final int port=587;
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("ghikkprojet@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse("ghikkprojet@gmail.com"));
+				message.setSubject("Welcome to Training Management");
+				message.setContent(msg,"text/html");
+
+				Transport transport = session.getTransport("smtp");
+				transport.connect (host, port,username,password);
+				transport.sendMessage(message, message.getAllRecipients());
+				transport.close(); 
+			
+
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
 
 }
