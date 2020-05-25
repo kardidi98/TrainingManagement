@@ -15,6 +15,9 @@ public interface  LocalRepository extends JpaRepository<Local, Long>
 {
 	@Query(value="select * from Local l where owner like :x",nativeQuery = true)
 	public List<Local> findByUserId(@Param("x") Long id);
+	
+	@Query("SELECT DISTINCT l.ville FROM Local l")
+	public List<String> getLocalsVilles();
 
 	@Query(value="select * from Local l where ville like :x",nativeQuery = true)
 	public List<Local> findByCity(@Param("x") String ville);

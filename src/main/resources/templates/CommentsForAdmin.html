@@ -112,13 +112,13 @@ ul li.active {
 
 								<li class="nav-item "><a class="nav-link "
 									id="Statistics" th:href="@{/}">Charts</a></li>
-								<li class="nav-item active"><a class="nav-link" id="comments"
+								<li class="nav-item dropactive"><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
 
 							</ul>
 
 							<ul class="navbar-nav  main-nav " id="dropdownlinks">
-								<li class="nav-item dropdown dropdown-slide"><a
+								<li class="nav-item  dropdown dropdown-slide"><a
 									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Users <span><i
@@ -458,9 +458,9 @@ ul li.active {
 		var btns = header.getElementsByClassName("nav-item");
 		for (var i = 0; i < btns.length; i++) {
 			btns[i].addEventListener("click", function() {
-				var current = document.getElementsByClassName("active");
+				var current = document.getElementsByClassName("dropactive");
 				if(current[0]){
-					current[0].className = current[0].className.replace(" active",
+					current[0].className = current[0].className.replace(" dropactive",
 					"");
 				}
 				
@@ -471,8 +471,8 @@ ul li.active {
 			var header = document.getElementById("navglob");
 			var btns = header.getElementsByClassName("nav-item");
 			for (var i = 0; i < btns.length; i++) {
-					var current = document.getElementsByClassName("active");
-					current[0].className = current[0].className.replace(" active",
+					var current = document.getElementsByClassName("dropactive");
+					current[0].className = current[0].className.replace(" dropactive",
 							"");
 				
 			}

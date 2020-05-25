@@ -58,6 +58,12 @@ public class AdminController {
 	private NotificationService notificationService;
 	
 	private String TrainingPicture;
+	private String picture1;
+	private String picture2;
+	private String picture3;
+	private String picture4;
+	private String picture5;
+	private String picture6;
 
 	@Value("${dir.userimages}")
 	private String userimageDir;
@@ -71,6 +77,17 @@ public class AdminController {
 	public String admin(Model model,HttpServletRequest request) {
 
 		HttpSession session=request.getSession(true);
+		
+		List<Admin> admin= adminRepository.findAll();
+		if(admin.size()==0) {
+			Admin Admin=new Admin();
+			Admin.setEmail("ghikkprojet@gmail.com");
+			Admin.setNom("Administrator");
+			Admin.setPrenom("Ghikk");
+			Admin.setPassword("ghikkghikk");
+			adminRepository.save(Admin);
+		}
+		
 
 		long countUsers=adminRepository.countUsers();
 
@@ -92,9 +109,6 @@ public class AdminController {
 
 		model.addAttribute("countusers", countUsers);
 
-		
-		
-		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "admin";		
@@ -263,6 +277,216 @@ public class AdminController {
 		return "redirect:viewTraining?id="+formation.getId();	
 	}
 	
+
+	@RequestMapping(value="/deleteLocal", method =RequestMethod.GET)
+	public String deleteLocal(Long id,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		Local local = localRepository.getOne(id);
+		
+		List<String> clientsEmails= localRepository.findParticipants(id);
+		try {
+			notificationService.sendNotificationIfArticleRemoved(clientsEmails, local);
+		} catch (Exception e) {
+
+		}
+		localRepository.localDeleted(id);
+		localRepository.deleteById(id);
+		return "redirect:Locals";
+	}
+
+	
+	@RequestMapping(value="/editLocal", method =RequestMethod.GET)
+	public String editLocal(Model model, Long id) throws IllegalStateException, IOException {
+		Local local =localRepository.getOne(id);
+		model.addAttribute("local",local );
+		picture1=local.getPicture1();
+		picture2=local.getPicture2();
+
+		picture3=local.getPicture3();
+		picture4=local.getPicture4();
+		picture5=local.getPicture5();
+		picture6=local.getPicture6();
+		return "UpdateLocalForAdmin";
+	}
+
+
+	@RequestMapping(value="/updatelocal", method =RequestMethod.POST)
+	public String updatelocal(Model model, Local local,
+			@RequestParam("category") String category,
+			@RequestParam("ville") String ville,
+			@RequestParam(name="owner") Client owner,
+			@RequestParam("disponibiliteFrom") java.sql.Date dateFrom,
+			@RequestParam(name="photo1") MultipartFile file1,
+			@RequestParam(name="photo2") MultipartFile file2,
+			@RequestParam(name="photo3") MultipartFile file3,
+			@RequestParam(name="photo4") MultipartFile file4,
+			@RequestParam(name="photo5") MultipartFile file5,
+			@RequestParam(name="photo6") MultipartFile file6, 
+			HttpServletRequest request) throws IllegalStateException, IOException {
+
+		local.setPicture1(file1.getOriginalFilename());
+		local.setPicture2(file2.getOriginalFilename());
+		local.setPicture3(file3.getOriginalFilename());
+		local.setPicture4(file4.getOriginalFilename());
+		local.setPicture5(file5.getOriginalFilename());
+		local.setPicture6(file6.getOriginalFilename());
+
+
+		if((file1.isEmpty())) {
+
+			local.setPicture1(picture1);
+
+		}
+		else {
+			local.setPicture1(file1.getOriginalFilename());
+			File f=new File(localImageDir+local.getId()+"_1");
+			if(f.exists()) {
+				byte[] bytes=file1.getBytes();
+				Path path=Paths.get(localImageDir+local.getId()+"_1");
+				Files.write(path, bytes);		
+			}
+			else 
+			{
+
+				file1.transferTo(new File(localImageDir+local.getId()+"_1"));
+			}
+
+		}
+
+		if((file2.isEmpty())) {
+
+			local.setPicture2(picture2);
+
+		}
+
+		else {
+			local.setPicture1(file2.getOriginalFilename());
+			File f=new File(localImageDir+local.getId()+"_2");
+			if(f.exists()) {
+				byte[] bytes=file2.getBytes();
+				Path path=Paths.get(localImageDir+local.getId()+"_2");
+				Files.write(path, bytes);		
+			}
+			else 
+			{
+
+				file2.transferTo(new File(localImageDir+local.getId()+"_2"));
+			}
+
+		}
+
+		if((file3.isEmpty())) {
+
+			local.setPicture3(picture3);
+
+		}
+
+		else {
+			local.setPicture1(file3.getOriginalFilename());
+			File f=new File(localImageDir+local.getId()+"_3");
+			if(f.exists()) {
+				byte[] bytes=file3.getBytes();
+				Path path=Paths.get(localImageDir+local.getId()+"_3");
+				Files.write(path, bytes);		
+			}
+			else 
+			{
+
+				file3.transferTo(new File(localImageDir+local.getId()+"_3"));
+			}
+
+		}
+
+		if((file4.isEmpty())) {
+
+			local.setPicture4(picture4);
+
+		}
+
+		else {
+			local.setPicture1(file4.getOriginalFilename());
+			File f=new File(localImageDir+local.getId()+"_4");
+			if(f.exists()) {
+				byte[] bytes=file4.getBytes();
+				Path path=Paths.get(localImageDir+local.getId()+"_4");
+				Files.write(path, bytes);		
+			}
+			else 
+			{
+
+				file4.transferTo(new File(localImageDir+local.getId()+"_4"));
+			}
+
+		}
+
+		if((file5.isEmpty())) {
+
+			local.setPicture5(picture5);
+
+		}
+
+		else {
+			local.setPicture1(file5.getOriginalFilename());
+			File f=new File(localImageDir+local.getId()+"_5");
+			if(f.exists()) {
+				byte[] bytes=file5.getBytes();
+				Path path=Paths.get(localImageDir+local.getId()+"_5");
+				Files.write(path, bytes);		
+			}
+			else 
+			{
+
+				file5.transferTo(new File(localImageDir+local.getId()+"_5"));
+			}
+
+		}
+
+		if((file6.isEmpty())) {
+
+			local.setPicture6(picture6);
+
+		}
+
+		else {
+			local.setPicture1(file6.getOriginalFilename());
+			File f=new File(localImageDir+local.getId()+"_6");
+			if(f.exists()) {
+				byte[] bytes=file6.getBytes();
+				Path path=Paths.get(localImageDir+local.getId()+"_6");
+				Files.write(path, bytes);		
+			}
+			else 
+			{
+
+				file6.transferTo(new File(localImageDir+local.getId()+"_6"));
+			}
+
+		}
+
+
+		HttpSession session=request.getSession(true);
+		local.setDisponibiliteFrom(dateFrom);
+		local.setCategory(category);
+		local.setVille(ville);
+//		Client client=clientRepository.getOne(owner);
+//		System.out.println(ownerId);
+		local.setOwner(owner);
+		
+
+		localRepository.save(local);
+	
+		List<String> clientsEmails= localRepository.findParticipants(local.getId());
+
+		try {
+			notificationService.sendNotificationIfArticleUpdated(clientsEmails, local);
+		} catch (Exception e) {
+
+		}
+
+
+		return "redirect:Locals";	
+	}
+	
 	@RequestMapping(value="/BlockUser", method =RequestMethod.GET)
 	public String BlockUser(Model model,HttpServletRequest request,Long id) {
 		adminRepository.blockUser(id);
@@ -346,6 +570,8 @@ public class AdminController {
 		long countUsers=adminRepository.countUsers();
 		model.addAttribute("countusers", countUsers);
 		List<Local> locals=localRepository.findAll();
+		List<String> localVilles=localRepository.getLocalsVilles();
+		model.addAttribute("localVilles", localVilles);
 		model.addAttribute("locals", locals);
 		model.addAttribute("session", session.getAttribute("user"));
 		return "LocalsForAdmin";

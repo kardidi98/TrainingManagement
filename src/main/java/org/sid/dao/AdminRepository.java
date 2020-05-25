@@ -36,6 +36,7 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	public void UnblockUser(@Param("x") Long id);
 	
 	
+	
 
 
 

@@ -3021,4 +3021,7 @@ section .dashboard{
   color: #fff;
   border-bottom:3px solid #fff;
 }
-
+.main-nav .nav-item.dropactive .nav-link {
+  color: blue;
+  font-weight: bold;
+}
