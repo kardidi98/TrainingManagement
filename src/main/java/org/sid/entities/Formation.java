@@ -52,6 +52,11 @@ public class Formation implements Serializable {
 	private List<Rating> ratings;
 
 
+	public String getIntituleeNoSpace() {
+		return Title.replaceAll("\\s+","");
+		
+	}
+	
 	public Formation() {
 		super();
 	}

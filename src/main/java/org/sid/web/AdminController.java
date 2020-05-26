@@ -26,6 +26,7 @@ import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
 import org.sid.entities.Local;
 import org.sid.mailSender.NotificationService;
+import org.sid.services.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -52,6 +53,8 @@ public class AdminController {
 	private FormationRepository formationRepository;
 	@Autowired
 	private LocalRepository localRepository;
+	@Autowired
+	private LocalService localService;
 	@Autowired
 	private LocalController localController;
 	@Autowired
@@ -86,6 +89,16 @@ public class AdminController {
 			Admin.setPrenom("Ghikk");
 			Admin.setPassword("ghikkghikk");
 			adminRepository.save(Admin);
+		}
+		else {
+			Object obj=session.getAttribute("user");
+			if(session.getAttribute("user")!=null && obj instanceof Client){
+				Client client=(Client) session.getAttribute("user");
+				if(client.getEmail()!=admin.get(0).getEmail()) {
+					return "redirect:TrainingManagement";
+				}
+			}
+			
 		}
 		
 
@@ -222,6 +235,12 @@ public class AdminController {
 		
 		model.addAttribute("locaux",local);
 		TrainingPicture=a.getSignificantPhoto();
+		List<Local> allLocals= localService.getLocals();
+		List<String> localVilles=localService.getLocalsVilles();
+		List<String> localCategories=localService.getLocalsCategories();
+		model.addAttribute("locaux",allLocals);
+		model.addAttribute("localVilles",localVilles);
+		model.addAttribute("localCategories",localCategories);
 		return "UpdateArticleForAdmin";
 	}
 
@@ -562,6 +581,14 @@ public class AdminController {
 		List<Formation> formations=formationRepository.findAll();
 		model.addAttribute("trainings", formations);
 		model.addAttribute("session", session.getAttribute("user"));
+		
+		
+		List<String> localVilles=localService.getLocalsVilles();
+		List<String> trainingCategories=formationRepository.getTrainingsCategories();
+		
+		model.addAttribute("localVilles",localVilles);
+		model.addAttribute("trainingCategories",trainingCategories);
+		
 		return "TrainingsForAdmin";
 	}
 	@RequestMapping(value="/Locals", method =RequestMethod.GET)
@@ -570,8 +597,12 @@ public class AdminController {
 		long countUsers=adminRepository.countUsers();
 		model.addAttribute("countusers", countUsers);
 		List<Local> locals=localRepository.findAll();
-		List<String> localVilles=localRepository.getLocalsVilles();
-		model.addAttribute("localVilles", localVilles);
+		List<Local> allLocals= localService.getLocals();
+		List<String> localVilles=localService.getLocalsVilles();
+		List<String> localCategories=localService.getLocalsCategories();
+		model.addAttribute("locaux",allLocals);
+		model.addAttribute("localVilles",localVilles);
+		model.addAttribute("localCategories",localCategories);
 		model.addAttribute("locals", locals);
 		model.addAttribute("session", session.getAttribute("user"));
 		return "LocalsForAdmin";

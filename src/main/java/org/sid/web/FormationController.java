@@ -28,6 +28,7 @@ import org.sid.entities.Formation;
 import org.sid.entities.Local;
 import org.sid.entities.Rating;
 import org.sid.mailSender.NotificationService;
+import org.sid.services.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
@@ -48,6 +49,9 @@ public class FormationController {
 
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private LocalService localService;
 
 	private String TrainingPicture;
 	@Autowired
@@ -102,6 +106,13 @@ public class FormationController {
 		}
 		model.addAttribute("formation",new Formation());
 		model.addAttribute("locaux", local);
+		
+		List<Local> allLocals= localService.getLocals();
+		List<String> localVilles=localService.getLocalsVilles();
+		List<String> localCategories=localService.getLocalsCategories();
+		model.addAttribute("locaux",allLocals);
+		model.addAttribute("localVilles",localVilles);
+		model.addAttribute("localCategories",localCategories);
 		return "Ad-listing";		
 	}
 
@@ -408,6 +419,12 @@ public class FormationController {
 		
 		model.addAttribute("locaux",local);
 		TrainingPicture=a.getSignificantPhoto();
+		List<Local> allLocals= localService.getLocals();
+		List<String> localVilles=localService.getLocalsVilles();
+		List<String> localCategories=localService.getLocalsCategories();
+		model.addAttribute("locaux",allLocals);
+		model.addAttribute("localVilles",localVilles);
+		model.addAttribute("localCategories",localCategories);
 		return "UpdateArticle";
 	}
 

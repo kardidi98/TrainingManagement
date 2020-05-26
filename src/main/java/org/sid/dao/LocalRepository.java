@@ -32,4 +32,8 @@ public interface  LocalRepository extends JpaRepository<Local, Long>
 	
 	@Query(value="select * from local where disponibilite_from>=CURDATE() ", nativeQuery = true)
 	public List<Local> findByTodaysDate();
+	
+	
+	@Query("SELECT DISTINCT l.category FROM Local l")
+	public List<String> getLocalsCategories(); 
 }

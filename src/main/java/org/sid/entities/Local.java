@@ -57,7 +57,10 @@ public class Local implements Serializable {
 	
 	
 	
-	
+	public String getIntituleeNoSpace() {
+		return intitulee.replaceAll("\\s+","");
+		
+	}
 	
 	
 	public int getPrises() {

@@ -85,6 +85,9 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
 
 	@Query(value="select * from formation where first_day>=CURDATE() ", nativeQuery = true)
 	public List<Formation> findByTodaysDate();
+	
+	@Query(value="SELECT DISTINCT article_cat FROM formation ", nativeQuery = true)
+	public List<String> getTrainingsCategories();
 
 
 

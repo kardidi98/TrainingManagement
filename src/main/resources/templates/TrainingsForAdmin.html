@@ -282,6 +282,77 @@ ul li.active {
 								title="Type in a name">
 
 						</div>-->
+						<h3  th:if="${trainings.empty==false}" style="margin-left:4px; margin-right:20px; text-align:left; color:black;;">Filters</h3>
+						<div class="row" th:if="${trainings.empty==false}">
+							
+						<div class="container-fluid" style="border: 1px solid rgba(49, 133, 223,0.1);border-radius:5px;background: rgba(49, 133, 223,0.1);margin-bottom: 15px; padding: 25px;">
+					      
+					        
+					      		<!-- Row 1 -->
+					        <div class="form-row">
+					        		<!-- Input id -->
+					          <div class="form-group col-sm-3">
+					            <label for="idTraining" class="font-weight-bold pt-4 pb-1">Id = </label>
+					            <input id="idTraining" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Local ID..."/>
+					          </div>
+					          		<!-- Input intitulee -->
+					          <div class="form-group col-sm-3">
+					            <label for="TitleTraining" class="font-weight-bold pt-4 pb-1">By Training Name = </label>
+					            <input id="TitleTraining" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Local Name..."/>
+					          </div>
+					          		<!-- Input ville -->
+					          <div class="form-group col-sm-3">
+					            <label for="villeLocalInputGroup" class="font-weight-bold pt-4 pb-1">By City = </label>
+					            <select id="villeLocalInputGroup" class=" w-100 rounded" style="background-color: white;" >
+					              <option selected>All</option>
+					              <option th:each="ville:${localVilles}" th:text="${ville}"></option>
+					            </select>
+					          </div>
+					          		<!-- Input NbPlaces -->
+					          <div class="form-group col-sm-3">
+					            <label for="nbPlacesTraining" class="font-weight-bold pt-4 pb-1">By Max Places &ge; </label>
+					            <input id="nbPlacesTraining" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Max Places.."/>
+					          </div>
+					          
+					        </div>
+					
+					        	<!-- Row 2 -->
+					        <div class="form-row">
+					        		<!-- Input prix -->
+					          <div class="form-group col-sm-3">
+					            <label for="priceTraining" class="font-weight-bold pt-1 pb-1">By Price &le; </label>
+					            <input id="priceTraining" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Pice Per Hour.."/>
+					          </div>
+					          		<!-- Input disponibiliteFrom -->
+					          <div class="form-group col-sm-3">
+					            <label for="firstDayTraining" class="font-weight-bold pt-1 pb-1">By First Day &ge;</label>
+					            <input id="firstDayTraining" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="First Day: YYYY-MM-DD"/>
+					          </div>
+					          		<!-- Input disponibiliteA -->
+					          <div class="form-group col-sm-3">
+					            <label for="lastDayTraining" class="font-weight-bold pt-1 pb-1">By End Day &le; </label>
+					            <input id="lastDayTraining" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="End Day: YYYY-MM-DD"/>
+					          </div>
+					          
+					          	<!-- Input category -->
+					          <div class="form-group col-sm-3">
+					            <label for="categoryLocalInputGroup" class="font-weight-bold pt-1 pb-1">By Category = </label>
+					              <select id="categoryLocalInputGroup"  class=" w-100 rounded" style="background-color: white;" >
+					                <option selected>All</option>
+					                <option th:each="category:${trainingCategories}" th:text="${category}"></option>
+					              </select>
+					          </div>
+					        </div>
+					        
+					       
+					          		<!-- Buttons -->	        
+							<div >    			
+					         <span><button class="btn btn-primary" id="applySearchLocalBtn" style="margin:10px; float:right;padding: 15px;" onclick="this.style.color='white';">Apply</button>
+					          			</span> 	          
+					          <span><button class="btn btn-warning btn-lg" style="margin:10px; float:right;padding: 15px;" id="resetLocalBtn" onclick="this.style.color='black';">Reset</button></span>
+					      </div>
+					      </div>
+					      </div>
 						<table id="Table"  class="table table-bordered" width="100%" cellspacing="0"
 							th:if="${trainings.empty==false}">
 							<thead>
@@ -293,14 +364,16 @@ ul li.active {
 									<th>Price</th>
 									<th>From</th>
 									<th>To</th>
-									<th>Location</th>
+									<th>Address</th>
+									<th>City</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 
 							<tbody class="contents">
 
-								<tr th:each="training:${trainings}" >
+								<tr th:each="training:${trainings}" th:class="'training_list id-'+ ${training.id}+' intitulee-'+${training.getIntituleeNoSpace()}+' ville-'+${training.local.ville}+' NbPlaces-'+${training.NbPlaces}+' prix-'+${training.prix}+' disponibiliteFrom-'+${training.firstDay}+' disponibiliteA-'+${training.lastDay}+' category-'+${training.ArticleCat}+' col-sm-12 col-lg-4 col-md-6 cacher training_list All'"
+								>
 									<td th:text="${training.id}"></td>
 									<td th:text="${training.title}"></td>
 									<td
@@ -310,7 +383,9 @@ ul li.active {
 									<td th:text="${training.firstDay}"></td>
 									<td th:text="${training.lastDay}"></td>
 									<td
-										th:text="${training.local.adresse+', '+training.local.ville}"></td>
+										th:text="${training.local.adresse}"></td>
+										<td
+										th:text="${training.local.ville}"></td>
 									<td class="action" data-title="Action">
 										<div class="">
 											<ul class="list-inline justify-content-center">
@@ -522,6 +597,158 @@ ul li.active {
 	!function(e){e.fn.pagination=function(a){function t(t){var s=e("."+r.contents+".current").children().length,l=Math.ceil(s/r.items),o='<ul id="page-navi">\t<li><a href="#" class="previos">'+r.previous+"</a></li>";for(i=0;i<l;i++)o+='\t<li><a href="#">'+(i+1)+"</a></li>";o+='\t<li><a href="#" class="next">'+r.next+"</a></li></ul>";var c=t;0==t?(c=parseInt(e("#page-navi li a.current").html()))-1!=0&&c--:t==l+1&&(c=parseInt(e("#page-navi li a.current").html()))+1!=l+1&&c++,t=c,0==s&&(o=""),e("#page-navi").remove(),"top"==r.position?e("."+r.contents+".current").before(o):e("."+r.contents+".current").after(o),e("#page-navi li a").removeClass("current"),e("#page-navi li a").eq(t).addClass("current"),e("#page-navi li a").removeClass("disable"),c=parseInt(e("#page-navi li a.current").html()),c-1==0&&e("#page-navi li a.previos").addClass("disable"),c==l&&e("#page-navi li a.next").addClass("disable");var u=a.items*(t-1),d=a.items*t;t==l&&(d=s),e("."+r.contents+".current").children().hide(),e("."+r.contents+".current").children().slice(u,d).fadeIn(a.time),1==r.scroll&&e("html,body").animate({scrollTop:n},0)}var r={items:5,contents:"contents",previous:"Previous&raquo;",next:"&laquo;Next",time:800,start:1,position:"bottom",scroll:!0},r=e.extend(r,a);e(this).addClass("jquery-tab-pager-tabbar"),$tab=e(this).find("li");var n=0;!function(){var a=r.start-1;$tab.eq(a).addClass("current"),e("."+r.contents).hide().eq(a).show().addClass("current"),t(1)}(),$tab.click(function(){var a=$tab.index(this);$tab.removeClass("current"),e(this).addClass("current"),e("."+r.contents).removeClass("current").hide().eq(a).addClass("current").fadeIn(r.time),t(1)}),e(document).on("click","#page-navi li a",function(){return!e(this).hasClass("disable")&&(t(e("#page-navi li a").index(this)),!1)}),e(window).on("load scroll",function(){n=e(window).scrollTop()})}}(jQuery);
 
 	</script>
+	<script>
+function myIdFunction(){
+    var inputValue=$("#idTraining").val();
+    if (inputValue){
+    	$(".training_list").filter(function(){
+        	var classValue=$(this).attr('class').split(' ');
+        	var idValue=classValue[1].replace('id-','');
+        	return idValue!=inputValue;
+        }).hide();
+    }
+}
+</script>
+	<!-- Script intitulee -->
+<script type="text/javascript">
+function myIntituleeFunction(){
+    var inputValue = $("#TitleTraining").val().toLowerCase().replace(/\s/g,'');
+    if (inputValue){
+    	$(".training_list").filter(function(){
+        	var classValue=$(this).attr('class').split(' ');
+        	var intituleeValue=classValue[2].replace('intitulee-','').toLowerCase();
+        	return !(intituleeValue.includes(inputValue));
+        }).hide();
+    }
+}
+</script>
+	<!-- Script Ville -->
+<script type="text/javascript">
+function myVilleFunction(){
+	var inputValue = $("#villeLocalInputGroup").val();
+    if (inputValue!='All'){
+    	$(".training_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var villeValue=classValue[3].replace('ville-','');
+            return villeValue!=inputValue;
+		}).hide();
+    }
+}
+</script>
+	<!-- Script NbPlaces -->
+<script>
+function myNbPlacesFunction(){
+
+	var inputValue=$("#nbPlacesTraining").val();
+    if (inputValue){
+        $(".training_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var nbPlacesValue=parseInt(classValue[4].replace('NbPlaces-',''));
+            return !(nbPlacesValue>=inputValue);
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script prix -->
+<script>
+function myprixFunction(){
+	var inputValue=$("#priceTraining").val();
+    if (inputValue){
+        $(".training_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var prixValue=parseFloat(classValue[5].replace('prix-',''));
+            return !(prixValue<=inputValue);
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script disponibiliteFrom -->
+<script>
+function myDisponibiliteFromFunction(){
+	var inputValue=$("#firstDayTraining").val().replace(/\s/g,'');
+    if (inputValue){
+        $(".training_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var disponibiliteFromValue=classValue[6].replace('disponibiliteFrom-','');
+            
+            var dateDisponibiliteFrom=new Date(disponibiliteFromValue);
+            var dateInputValue=new Date(inputValue);
+            
+            return !( dateDisponibiliteFrom>=dateInputValue );
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script disponibiliteA -->
+<script>
+function myDisponibiliteAFunction(){
+	var inputValue=$("#lastDayTraining").val().replace(/\s/g,'');
+    if (inputValue){
+        $(".training_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var disponibiliteAValue=classValue[7].replace('disponibiliteA-','');
+            
+            var dateDisponibiliteA=new Date(disponibiliteAValue);
+            var dateInputValue=new Date(inputValue);
+            
+            return !( dateDisponibiliteA<=dateInputValue );
+        }).hide();
+    }
+  }
+</script>
+
+	<!-- Script category -->
+<script type="text/javascript">
+function myCategoryFunction(){
+	var inputValue = $("#categoryLocalInputGroup").val();
+    if (inputValue!='All'){
+    	$(".training_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var categoryValue=classValue[8].replace('category-','');
+            return categoryValue!=inputValue;
+		}).hide();
+    }
+}
+</script>
+
+
+
+	<!-- Script applySearchButton -->
+<script>
+$(document).ready(function(){
+	
+	$("#applySearchLocalBtn").click(function(){
+   		$(".training_list").fadeIn();
+  		myIdFunction();
+        myIntituleeFunction();
+        myVilleFunction();
+        myNbPlacesFunction();
+        myprixFunction();
+        myDisponibiliteFromFunction();
+        myDisponibiliteAFunction();
+        myCategoryFunction();
+        
+    });
+});
+</script>
+  
+	<!-- Reset -->
+ <script type="text/javascript">
+  $(document).ready(function(){
+	    $("#resetLocalBtn").click(function(){
+	        $(".training_list").fadeIn();
+	        $("#idTraining").val("");
+	        $("#TitleTraining").val("");
+	        $("#villeLocalInputGroup").val("All");
+	        $("#nbPlacesTraining").val("");
+	        $("#priceTraining").val("");
+	        $("#firstDayTraining").val("");
+	        $("#lastDayTraining").val("");
+	        $("#categoryLocalInputGroup").val("All");
+	      
+	    });
+	});
+ </script>
 
 </body>
 

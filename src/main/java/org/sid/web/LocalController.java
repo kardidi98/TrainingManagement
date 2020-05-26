@@ -472,7 +472,7 @@ public class LocalController {
 		return localRepository.getOne(id);
 	}
 
-
+	
 
 
 

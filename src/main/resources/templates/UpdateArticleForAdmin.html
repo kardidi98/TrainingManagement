@@ -358,20 +358,94 @@ ul li.active {
 							<hr>
 						</div>
 
-						<div class="col-lg-4">
-							<div style="margin-top: 10px;">
-								<span class="font-weight-bold pt-4 pb-1">Choose a City:</span> <select
-									id="city" class="w-100 rounded" onchange="EditLocal()">
-									<option value="All">All</option>
-									<option value="Rabat">Rabat</option>
-									<option value="Laayoune">Laayoune</option>
-									<option value="Fès">Fès</option>
-									<option value="Kenitra">Kenitra</option>
-									<option value="Agadir">Agadir</option>
-
-								</select>
-							</div>
-						</div>
+						<h3 style="margin-left:4px; margin-right:20px; text-align:left; color:black;;">Filters</h3>
+						<div class="container" style="border: 1px solid rgba(49, 133, 223,0.1);background: rgba(49, 133, 223,0.1)">
+					      
+					        
+					      		<!-- Row 1 -->
+					        <div class="form-row">
+					        		<!-- Input id -->
+					          <div class="form-group col-sm-3">
+					            <label for="idLocalInput" class="font-weight-bold pt-4 pb-1">Id = </label>
+					            <input id="idLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Local ID..."/>
+					          </div>
+					          		<!-- Input intitulee -->
+					          <div class="form-group col-sm-3">
+					            <label for="intituleeLocalInput" class="font-weight-bold pt-4 pb-1">By Local Name = </label>
+					            <input id="intituleeLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Local Name..."/>
+					          </div>
+					          		<!-- Input ville -->
+					          <div class="form-group col-sm-3">
+					            <label for="villeLocalInputGroup" class="font-weight-bold pt-4 pb-1">By City = </label>
+					            <select id="villeLocalInputGroup" class=" w-100 rounded" style="background-color: white;" >
+					              <option selected>All</option>
+					              <option th:each="ville:${localVilles}" th:text="${ville}"></option>
+					            </select>
+					          </div>
+					          		<!-- Input NbPlaces -->
+					          <div class="form-group col-sm-3">
+					            <label for="nbPlacesLocalInput" class="font-weight-bold pt-4 pb-1">By Max Places &ge; </label>
+					            <input id="nbPlacesLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Max Places.."/>
+					          </div>
+					          
+					        </div>
+					
+					        	<!-- Row 2 -->
+					        <div class="form-row">
+					        		<!-- Input prixParHeure -->
+					          <div class="form-group col-sm-4">
+					            <label for="prixParHeureLocalInput" class="font-weight-bold pt-1 pb-1">By Price &le; </label>
+					            <input id="prixParHeureLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Pice Per Hour.."/>
+					          </div>
+					          		<!-- Input disponibiliteFrom -->
+					          <div class="form-group col-sm-4">
+					            <label for="disponibiliteFromLocalInput" class="font-weight-bold pt-1 pb-1">By First Day &ge;</label>
+					            <input id="disponibiliteFromLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="First Day: YYYY-MM-DD"/>
+					          </div>
+					          		<!-- Input disponibiliteA -->
+					          <div class="form-group col-sm-4">
+					            <label for="disponibiliteALocalInput" class="font-weight-bold pt-1 pb-1">By End Day &le; </label>
+					            <input id="disponibiliteALocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="End Day: YYYY-MM-DD"/>
+					          </div>
+					          
+					          
+					        </div>
+					        
+					        	<!-- Row 3 -->
+					        <div class="form-row">
+					        		<!-- Input category -->
+					          <div class="form-group col-sm-3">
+					            <label for="categoryLocalInputGroup" class="font-weight-bold pt-1 pb-1">By Category = </label>
+					              <select id="categoryLocalInputGroup"  class=" w-100 rounded" style="background-color: white;" >
+					                <option selected>All</option>
+					                <option th:each="category:${localCategories}" th:text="${category}"></option>
+					              </select>
+					          </div>
+					          		<!-- Input prises -->
+					          <div class="form-group col-sm-3">
+					            <label for="prisesLocalInput" class="font-weight-bold pt-1 pb-1">By Electrical outlets &ge; </label>
+					            <input id="prisesLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="4,5,20.."/>
+					          </div>
+					          		<!-- Input micro -->
+					          <div class="form-group col-sm-3">
+					            <label for="microLocalInput" class="font-weight-bold pt-1 pb-1">By Microphones &ge; </label>
+					            <input id="microLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="4,5,20.." aria-label="Recipient's username"/>
+					          </div>
+					          		<!-- Input projecteur -->
+					          <div class="form-group col-sm-3">
+					            <label for="projecteurLocalInput" class="font-weight-bold pt-1 pb-1">By Projector &ge; </label>
+					            <input id="projecteurLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="4,5,20.."/>
+					          </div>
+					          
+					        </div>
+					          		<!-- Buttons -->	        
+							<div >    			
+					         <span><button type="button" class="btn btn-primary" id="applySearchLocalBtn" style="margin:10px; float:right;"  onclick="this.style.color='white';">Apply</button>
+					          			</span> 	          
+					          <span><button type="button" class="btn btn-warning btn-lg" style="margin:10px; float:right;" id="resetLocalBtn"  onclick="this.style.color='black';">Reset</button></span>
+					      </div>
+					        
+					      </div>
 
 						<div class="col-lg-8 choosen cacher" id="choosenArticle">
 							<h6 class="font-weight-bold pt-4 pb-1">You choosed</h6>
@@ -394,9 +468,9 @@ ul li.active {
 					</div>
 
 					<div class="product-grid-list" id="articlelist">
-						<div class="row mt-30">
+						<div class="row mt-30 contents">
 							<div
-								th:class="'col-sm-12 col-lg-4 col-md-6 cacher local_list All '+${local.ville}"
+								th:class="'local_list id-'+ ${local.id}+' intitulee-'+${local.getIntituleeNoSpace()}+' ville-'+${local.ville}+' NbPlaces-'+${local.NbPlaces}+' prixParHeure-'+${local.prixParHeure}+' disponibiliteFrom-'+${local.disponibiliteFrom}+' disponibiliteA-'+${local.disponibiliteA}+' category-'+${local.category}+' prises-'+${local.prises}+' micro-'+${local.micro}+' projecteur-'+${local.projecteur}+' col-sm-12 col-lg-4 col-md-6 cacher local_list All'"
 								th:each="local:${locaux}">
 								<!-- active -->
 
@@ -405,9 +479,9 @@ ul li.active {
 									<div class="card rounded" th:id="${'local'+local.id}">
 										<div style="height: 300px;">
 
-											<img class="card-img-top img-fluid"
+											<img class="card-img-top img-fluid" style="height: 320px;"
 												th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}"
-												alt="Card image cap" style="height: 300px;">
+												alt="Card image cap">
 
 										</div>
 										<hr>
@@ -419,30 +493,15 @@ ul li.active {
 												th:text="'Title : '+${local.intitulee}"></p>
 											<ul class="list-inline product-meta">
 												<li class="list-inline-item"><a href="#"
-													th:text="${local.adresse}"><i
-														class="fa fa-location-arrow"></i></a></li>
-												<li class="list-inline-item"><a href="#"
-													th:text="${local.ville}"><i
-														class="fa fa-location-arrow"></i></a></li>
+													th:text="${local.adresse}+', '+${local.ville}"><i
+														class="fa fa-location-arrow"></i></a>
 											</ul>
 											<a data-toggle="modal"
 												th:data-target="'#LocalDetails'+${local.id}"
-												style="color: #b0b3bf;"><i class="fa fa-info-circle"></i>
+												style="color: grey;"><i class="fa fa-info-circle"></i>
 												More Details</a>
 
-											<div class="product-ratings">
-												<ul class="list-inline">
-													<li class="list-inline-item selected"><i
-														class="fa fa-star"></i></li>
-													<li class="list-inline-item selected"><i
-														class="fa fa-star"></i></li>
-													<li class="list-inline-item selected"><i
-														class="fa fa-star"></i></li>
-													<li class="list-inline-item selected"><i
-														class="fa fa-star"></i></li>
-													<li class="list-inline-item"><i class="fa fa-star"></i></li>
-												</ul>
-											</div>
+											
 										</div>
 									</div>
 								</div>
@@ -477,27 +536,27 @@ ul li.active {
 													<div class="carousel-inner">
 														<div class="carousel-item active rounded">
 															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPicture(id=${local.id},subId=${'1'})}">
+																th:src="@{getLocalPhoto(id=${local.id},subId=${'1'})}">
 														</div>
 														<div class="carousel-item rounded">
 															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPicture(id=${local.id},subId=${'2'})}">
+																th:src="@{getLocalPhoto(id=${local.id},subId=${'2'})}">
 														</div>
 														<div class="carousel-item rounded">
 															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPicture(id=${local.id},subId=${'3'})}">
+																th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}">
 														</div>
 														<div class="carousel-item rounded">
 															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPicture(id=${local.id},subId=${'4'})}">
+																th:src="@{getLocalPhoto(id=${local.id},subId=${'4'})}">
 														</div>
 														<div class="carousel-item rounded">
 															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPicture(id=${local.id},subId=${'5'})}">
+																th:src="@{getLocalPhoto(id=${local.id},subId=${'5'})}">
 														</div>
 														<div class="carousel-item rounded">
 															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPicture(id=${local.id},subId=${'6'})}">
+																th:src="@{getLocalPhoto(id=${local.id},subId=${'6'})}">
 														</div>
 													</div>
 													<a class="carousel-control-prev"
@@ -554,6 +613,7 @@ ul li.active {
 										</div>
 									</div>
 								</div>
+
 							</div>
 
 
@@ -703,91 +763,217 @@ ul li.active {
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
 
 	<script type="text/javascript">
-//*******Afficher les locaux par ville*******
-
-$(".local_list").fadeIn();
-function EditLocal(){
-	  var value=document.getElementById("city").value;
-	  if(value=="All") {
-		  alert(value);
-		  $(".local_list").fadeIn();
-		  }
-	  else {
-		  $(".local_list").hide();
-	  	  $("."+value).fadeIn();
-	  		}
-	 
 	
+		$(document).ready(function()
+				 {
+				   $("#tab").pagination({
+				   items: 6,
+				   contents: 'contents',
+				   previous: '<<',
+				   next: '>>',
+				   position: 'bottom',
+				   });
+				});
+		!function(e){e.fn.pagination=function(a){function t(t){var s=e("."+r.contents+".current").children().length,l=Math.ceil(s/r.items),o='<ul id="page-navi">\t<li><a href="#" class="previos">'+r.previous+"</a></li>";for(i=0;i<l;i++)o+='\t<li><a href="#">'+(i+1)+"</a></li>";o+='\t<li><a href="#" class="next">'+r.next+"</a></li></ul>";var c=t;0==t?(c=parseInt(e("#page-navi li a.current").html()))-1!=0&&c--:t==l+1&&(c=parseInt(e("#page-navi li a.current").html()))+1!=l+1&&c++,t=c,0==s&&(o=""),e("#page-navi").remove(),"top"==r.position?e("."+r.contents+".current").before(o):e("."+r.contents+".current").after(o),e("#page-navi li a").removeClass("current"),e("#page-navi li a").eq(t).addClass("current"),e("#page-navi li a").removeClass("disable"),c=parseInt(e("#page-navi li a.current").html()),c-1==0&&e("#page-navi li a.previos").addClass("disable"),c==l&&e("#page-navi li a.next").addClass("disable");var u=a.items*(t-1),d=a.items*t;t==l&&(d=s),e("."+r.contents+".current").children().hide(),e("."+r.contents+".current").children().slice(u,d).fadeIn(a.time),1==r.scroll&&e("html,body").animate({scrollTop:n},0)}var r={items:5,contents:"contents",previous:"Previous&raquo;",next:"&laquo;Next",time:800,start:1,position:"bottom",scroll:!0},r=e.extend(r,a);e(this).addClass("jquery-tab-pager-tabbar"),$tab=e(this).find("li");var n=0;!function(){var a=r.start-1;$tab.eq(a).addClass("current"),e("."+r.contents).hide().eq(a).show().addClass("current"),t(1)}(),$tab.click(function(){var a=$tab.index(this);$tab.removeClass("current"),e(this).addClass("current"),e("."+r.contents).removeClass("current").hide().eq(a).addClass("current").fadeIn(r.time),t(1)}),e(document).on("click","#page-navi li a",function(){return!e(this).hasClass("disable")&&(t(e("#page-navi li a").index(this)),!1)}),e(window).on("load scroll",function(){n=e(window).scrollTop()})}}(jQuery);
+</script>
+		<!-- Script id -->
+<script>
+function myIdFunction(){
+    var inputValue=$("#idLocalInput").val();
+    if (inputValue){
+    	$(".local_list").filter(function(){
+        	var classValue=$(this).attr('class').split(' ');
+        	var idValue=classValue[1].replace('id-','');
+        	return idValue!=inputValue;
+        }).hide();
+    }
 }
 </script>
-	<script type="text/javascript">
-		var mois = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-		$(".sections").hide();
-		$("#charts").fadeIn();
-		
-		function Afficher(e){
-			var value=e.innerHTML;
-			
-			if(value=="Charts"){
-				$(".sections").hide();
-				$("#charts").fadeIn();
-				
-			}
-			if(value=="Customers"){
-				$(".sections").hide();
-				$("#Customers").fadeIn();
-			}
-			if(value=="Trainers"){
-				$(".sections").hide();
-				$("#trainers").fadeIn();
-			}
-			if(value=="Local Providers"){
-				$(".sections").hide();
-				$("#LocalProviders").fadeIn();
-			}
-			if(value=="Comments"){
-				$(".sections").hide();
-				$("#Comments").fadeIn();
-			}
-			if(value=="Trainings"){
-				$(".sections").hide();
-				$("#trainings").fadeIn();
-			}
-			if(value=="Locals"){
-				$(".sections").hide();
-				$("#locals").fadeIn();
-			}
-		}
-	
-	
-		//Add active class to the current button (highlight it)
-		var header = document.getElementById("navglob");
-		var btns = header.getElementsByClassName("nav-item");
-		for (var i = 0; i < btns.length; i++) {
-			btns[i].addEventListener("click", function() {
-				var current = document.getElementsByClassName("active");
-				if(current[0]){
-					current[0].className = current[0].className.replace(" active",
-					"");
-				}
-				
-				this.className += " active";
-			});
-		}
-		function showtable(){
-			var header = document.getElementById("navglob");
-			var btns = header.getElementsByClassName("nav-item");
-			for (var i = 0; i < btns.length; i++) {
-					var current = document.getElementsByClassName("active");
-					current[0].className = current[0].className.replace(" active",
-							"");
-				
-			}
-		}
-		//*************Pagination***********
+	<!-- Script intitulee -->
+<script type="text/javascript">
+function myIntituleeFunction(){
+    var inputValue = $("#intituleeLocalInput").val().toLowerCase().replace(/\s/g,'');
+    if (inputValue){
+    	$(".local_list").filter(function(){
+        	var classValue=$(this).attr('class').split(' ');
+        	var intituleeValue=classValue[2].replace('intitulee-','').toLowerCase();
+        	return !(intituleeValue.includes(inputValue));
+        }).hide();
+    }
+}
+</script>
+	<!-- Script Ville -->
+<script type="text/javascript">
+function myVilleFunction(){
+	var inputValue = $("#villeLocalInputGroup").val();
+    if (inputValue!='All'){
+    	$(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var villeValue=classValue[3].replace('ville-','');
+            return villeValue!=inputValue;
+		}).hide();
+    }
+}
+</script>
+	<!-- Script NbPlaces -->
+<script>
+function myNbPlacesFunction(){
 
-		//*************Pagination***********
-		</script>
+	var inputValue=$("#nbPlacesLocalInput").val();
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var nbPlacesValue=parseInt(classValue[4].replace('NbPlaces-',''));
+            return !(nbPlacesValue>=inputValue);
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script prixParHeure -->
+<script>
+function myPrixParHeureFunction(){
+	var inputValue=$("#prixParHeureLocalInput").val();
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var prixParHeureValue=parseFloat(classValue[5].replace('prixParHeure-',''));
+            return !(prixParHeureValue<=inputValue);
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script disponibiliteFrom -->
+<script>
+function myDisponibiliteFromFunction(){
+	var inputValue=$("#disponibiliteFromLocalInput").val().replace(/\s/g,'');
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var disponibiliteFromValue=classValue[6].replace('disponibiliteFrom-','');
+            
+            var dateDisponibiliteFrom=new Date(disponibiliteFromValue);
+            var dateInputValue=new Date(inputValue);
+            
+            return !( dateDisponibiliteFrom>=dateInputValue );
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script disponibiliteA -->
+<script>
+function myDisponibiliteAFunction(){
+	var inputValue=$("#disponibiliteALocalInput").val().replace(/\s/g,'');
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var disponibiliteAValue=classValue[7].replace('disponibiliteA-','');
+            
+            var dateDisponibiliteA=new Date(disponibiliteAValue);
+            var dateInputValue=new Date(inputValue);
+            
+            return !( dateDisponibiliteA<=dateInputValue );
+        }).hide();
+    }
+  }
+</script>
+
+	<!-- Script category -->
+<script type="text/javascript">
+function myCategoryFunction(){
+	var inputValue = $("#categoryLocalInputGroup").val();
+    if (inputValue!='All'){
+    	$(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var categoryValue=classValue[8].replace('category-','');
+            return categoryValue!=inputValue;
+		}).hide();
+    }
+}
+</script>
+	<!-- Script prises -->
+<script>
+function myPrisesFunction(){
+
+	var inputValue=$("#prisesLocalInput").val();
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var prisesValue=parseInt(classValue[9].replace('prises-',''));
+            return !(prisesValue>=inputValue);
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script micro -->
+<script>
+function myMicroFunction(){
+
+	var inputValue=$("#microLocalInput").val();
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var microValue=parseInt(classValue[10].replace('micro-',''));
+            return !(microValue>=inputValue);
+        }).hide();
+    }
+  }
+</script>
+	<!-- Script projecteur -->
+<script>
+function myProjecteurFunction(){
+
+	var inputValue=$("#projecteurLocalInput").val();
+    if (inputValue){
+        $(".local_list").filter(function(){
+            var classValue=$(this).attr('class').split(' ');
+            var projecteurValue=parseInt(classValue[11].replace('projecteur-',''));
+            return !(projecteurValue>=inputValue);
+        }).hide();
+    }
+  }
+</script>
+
+
+	<!-- Script applySearchButton -->
+<script>
+$(document).ready(function(){
+	
+	$("#applySearchLocalBtn").click(function(){
+   		$(".local_list").fadeIn();
+  		myIdFunction();
+        myIntituleeFunction();
+        myVilleFunction();
+        myNbPlacesFunction();
+        myPrixParHeureFunction();
+        myDisponibiliteFromFunction();
+        myDisponibiliteAFunction();
+        myCategoryFunction();
+        myPrisesFunction();
+        myMicroFunction();
+        myProjecteurFunction();
+    });
+});
+</script>
+  
+	<!-- Reset -->
+ <script type="text/javascript">
+  $(document).ready(function(){
+	    $("#resetLocalBtn").click(function(){
+	        $(".local_list").fadeIn();
+	        $("#idLocalInput").val("");
+	        $("#intituleeLocalInput").val("");
+	        $("#villeLocalInputGroup").val("All");
+	        $("#nbPlacesLocalInput").val("");
+	        $("#prixParHeureLocalInput").val("");
+	        $("#disponibiliteFromLocalInput").val("");
+	        $("#disponibiliteALocalInput").val("");
+	        $("#categoryLocalInputGroup").val("All");
+	        $("#prisesLocalInput").val("");
+	        $("#microLocalInput").val("");
+	        $("#projecteurLocalInput").val("");
+	    });
+	});
+ </script>
 </body>
 
 </html>
