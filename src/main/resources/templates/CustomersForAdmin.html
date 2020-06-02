@@ -176,6 +176,8 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
 										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
 									</div></li>
@@ -276,7 +278,7 @@ ul li.active {
 						<div th:if="${customers.empty==false}" style="margin-bottom: 10px;">
 							<input type="text" id="Input"
 								class="border p-2 bg-white text-capitalize rounded"
-								onkeyup="Search()" placeholder="Search for first names.."
+								onkeyup="Search()" placeholder="Search for first name.."
 								title="Type in a name">
 
 						</div>

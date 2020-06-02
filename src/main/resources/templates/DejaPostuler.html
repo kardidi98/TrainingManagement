@@ -94,23 +94,9 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
+										<a class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
 
 
 									</div></li>

@@ -82,32 +82,17 @@
 							<span class="navbar-toggler-icon"></span>
 						</button>
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav  main-nav ">
+							<ul class="navbar-nav ml-auto main-nav ">
 
 								<li class="nav-item dropdown dropdown-slide"><a
 									class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
-
-
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
+										<a class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
+										
 									</div></li>
 								<li class="nav-item dropdown dropdown-slide"><a
 									class="nav-link dropdown-toggle" href="#"
@@ -116,18 +101,59 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
+
 										<a class="dropdown-item" th:href="@{about}">About Us</a> <a
 											class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
-
 
 									</div></li>
 
 							</ul>
-							<!-- <ul class="navbar-nav ml-auto mt-10">
-              <li class="nav-item">
-				<a class="nav-link login-button rounded" th:href="@{login}">Login</a>
-			</li>
-            </ul>-->
+							<ul th:if="${session.user!=null}"
+								class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
+								<li class="nav-item w-100" style="margin-bottom: 10px;">
+									<form class="search">
+										<input class="searchTerm  rounded" placeholder="Search..." />
+										<input class="searchButton" type="submit" />
+									</form>
+								</li>
+
+
+								<li class="nav-item dropdown dropdown-slide"
+									style="margin-left: 10px;"><a
+									class="nav-link dropdown-toggle  rounded"
+									th:text="${session.user.nom[0]}+${session.user.prenom[0]}"
+									th:unless="${session==null}" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false"
+									style="height: 40px; border: 2px solid #E1E1E1; border-radius: 5px; padding-right: 25px; padding-left: 25px; font-weight: bold;">
+										<span><i class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+										<a class="dropdown-item" th:href="@{AddArticle}"
+											id="search_article">Add Training Article</a> <a
+											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
+											class="dropdown-item" th:href="@{EditAds}">Edit User
+											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
+											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
+											out</a>
+
+									</div></li>
+
+
+
+							</ul>
+							<ul th:if="${session.user==null}"
+								class="navbar-nav ml-auto mt-10 ">
+								<li class="nav-item w-100" style="margin-right: 10px;">
+									<form class="search">
+										<input class="searchTerm  rounded" placeholder="Search..." />
+										<input class="searchButton" type="submit" />
+									</form>
+								</li>
+								<li class="nav-item"><a
+									class="nav-link login-button rounded" th:href="@{login}">Login</a>
+								</li>
+
+							</ul>
 						</div>
 					</nav>
 				</div>
@@ -167,36 +193,25 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<form action="#">
+					<form th:action="@{sendMessage}" method="post">
 						<fieldset class="p-4">
 							<div class="form-group">
 								<div class="row">
 									<div class="col-lg-6 py-2">
-										<input type="text" placeholder="Name *" class="form-control"
+										<input name="name" type="text" placeholder="Name *" class="form-control"
 											required>
 									</div>
 									<div class="col-lg-6 pt-2">
-										<input type="email" placeholder="Email *" class="form-control"
+										<input name="email" type="email" placeholder="Email *" class="form-control"
 											required>
 									</div>
 								</div>
 							</div>
-							<select name="" id="" class="form-control w-100">
-								<option value="1">Select Category</option>
-								<option value="Development">Development</option>
-								<option value="Finance_Comptability">Finance &
-									Comptability</option>
-								<option value="Business">Business</option>
-								<option value="Electronics">Electronics</option>
-								<option value="Personal_Development">Personal
-									Development</option>
-								<option value="Management">Management</option>
-								<option value="Innovation">Innovation</option>
-							</select>
+							
 							<textarea name="message" id="" placeholder="Message *"
 								class="border w-100 p-3 mt-3 mt-lg-4"></textarea>
 							<div class="btn-grounp">
-								<button type="submit" class="btn btn-primary mt-2 float-right">SUBMIT</button>
+								<button type="submit" class="btn btn-primary mt-2 float-right" onclick="this.style.color='white';">SUBMIT</button>
 							</div>
 						</fieldset>
 					</form>

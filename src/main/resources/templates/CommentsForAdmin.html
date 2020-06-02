@@ -70,16 +70,20 @@
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-	<!-- DataTables CSS -->
-<link href="../static/css/addons/datatables.min.css" th:href="@{css/addons/datatables.min.css}" rel="stylesheet">
+
+<!-- DataTables CSS -->
+<link href="../static/css/addons/datatables.min.css"
+	th:href="@{css/addons/datatables.min.css}" rel="stylesheet">
 <!-- DataTables JS -->
-<script src="../static/js/addons/datatables.min.js" type="text/javascript"></script>
+<script src="../static/js/addons/datatables.min.js"
+	type="text/javascript"></script>
 
 <!-- DataTables Select CSS -->
-<link href="../static/css/addons/datatables-select.min.css" th:href="@{css/addons/datatables-select.min.css}" rel="stylesheet">
+<link href="../static/css/addons/datatables-select.min.css"
+	th:href="@{css/addons/datatables-select.min.css}" rel="stylesheet">
 <!-- DataTables Select JS -->
-<script src="../static/js/addons/datatables-select.min.js" type="text/javascript"></script>
+<script src="../static/js/addons/datatables-select.min.js"
+	type="text/javascript"></script>
 
 
 
@@ -87,7 +91,48 @@
 ul li.active {
 	font-weight: bold;
 }
+#page-navi {
+  width:100%;
+  margin:40px auto;
+  margin-bottom:10px;
+  padding: 0px;
+  display: flex;
+  justify-content: flex-start;
+}
 
+#action {
+  width: 20%;
+  text-align: center;
+}
+
+#action a {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  font-size: 14px;
+  color: #363b4d;
+  text-align: center;
+  display: inline-block;
+}
+
+#action a:hover {
+  color: #fff;
+}
+#action a:hover.delete {
+  background: #ff5252;
+}
+ #action a i {
+  line-height: 40px;
+}
+
+ #action .list-inline .list-inline-item:not(:last-child) {
+  margin-right: 0px;
+}
+
+
+ #action .delete {
+  background: #f7f7f7;
+}
 </style>
 </head>
 
@@ -110,10 +155,10 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item "><a class="nav-link "
-									id="Statistics" th:href="@{/}">Charts</a></li>
-								<li class="nav-item dropactive"><a class="nav-link" id="comments"
-									th:href="@{Comments}">Comments</a></li>
+								<li class="nav-item "><a class="nav-link " id="Statistics"
+									th:href="@{/}">Charts</a></li>
+								<li class="nav-item dropactive"><a class="nav-link"
+									id="comments" th:href="@{Comments}">Comments</a></li>
 
 							</ul>
 
@@ -126,11 +171,9 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" id="Users"
-											th:href="@{Customers}">Customers</a> <a
-											class="dropdown-item" id="Trainers"
-											th:href="@{Trainers}">Trainers</a> <a
-											class="dropdown-item" id="fournisseurs"
+										<a class="dropdown-item" id="Users" th:href="@{Customers}">Customers</a>
+										<a class="dropdown-item" id="Trainers" th:href="@{Trainers}">Trainers</a>
+										<a class="dropdown-item" id="fournisseurs"
 											th:href="@{LocalProviders}">Local Providers</a>
 
 
@@ -144,8 +187,8 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a> <a
-											class="dropdown-item" th:href="@{Locals}">Locals</a>
+										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a>
+										<a class="dropdown-item" th:href="@{Locals}">Locals</a>
 
 									</div></li>
 
@@ -167,7 +210,10 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{logout}">Log out</a>
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a> <a
+											class="dropdown-item" th:href="@{addCategory}">Add
+											Category</a> <a class="dropdown-item" th:href="@{logout}">Log
+											out</a>
 
 									</div></li>
 
@@ -180,7 +226,7 @@ ul li.active {
 				</div>
 			</div>
 		</div>
-	<hr>
+		<hr>
 	</section>
 	<section th:if="${session.user!=null}" class=" animated fadeInLeftBig">
 		<!-- Content Row -->
@@ -246,12 +292,87 @@ ul li.active {
 			</div>
 		</div>
 	</section>
-	
-	
-	<div id="Comments" class="sections animated fadeInUpBig"
-		th:if="${session.user!=null}" style="margin-top: 20px;"></div>
 
-	
+
+	<div id="Comments" class="sections animated fadeInUpBig"
+		th:if="${session.user!=null}" style="margin-top: 20px;">
+
+		<div class="container-fluid">
+
+
+			<!-- DataTales Example -->
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">Comments Table</h6>
+				</div>
+
+				<div class="card-body">
+					<div class="table-responsive">
+						<div th:if="${comments.empty==true}"
+							style="text-align: center; margin-bottom: 20px;">
+							<h2>No Comments</h2>
+						</div>
+						<div th:if="${comments.empty==false}" style="margin-bottom: 10px;">
+							<input type="text" id="Input"
+								class="border p-2 bg-white text-capitalize rounded"
+								onkeyup="Search()" placeholder="Search for key word.."
+								title="Type in a name">
+
+						</div>
+						<table id="Table" class="table table-bordered" width="100%"
+							cellspacing="0" th:if="${comments.empty==false}">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Content</th>
+									<th>By</th>
+									<th>At</th>
+
+									<th>Action</th>
+								</tr>
+							</thead>
+
+							<tbody class="contents">
+
+								<tr th:each="comment:${comments}">
+									<td th:text="${comment.id}"></td>
+									<td th:text="${comment.contenu}"></td>
+									<td th:if="${comment.client==null}"
+										th:text="${'Unkonwn'}"></td>
+									<td th:if="${comment.client!=null}"
+										th:text="${comment.client.nom+' '+ comment.client.prenom+' / '+comment.client.id}"></td>
+									<td th:text="${comment.dateEcriture}"></td>
+									<td class="action" data-title="Action">
+										<div id="action" >
+											<ul class="list-inline justify-content-center" style="display: flex;justify-content: center;">
+												
+												<li class="list-inline-item"><a data-toggle="tooltip"
+													data-placement="top" title="Delete" class="delete"
+													th:href="@{deleteComment(id=${comment.id})}"
+													onclick="return confirm('Are you sure ?')"> <i
+														class="fa fa-trash"></i>
+												</a></li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+
+
+
+
+							</tbody>
+						</table>
+						
+						
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
 	<section th:if="${session.user==null}">
 		<section class="login py-5 border-top-1">
 			<div class="container">
@@ -412,75 +533,38 @@ ul li.active {
 	<script src="../static/plugins/google-map/gmap.js"
 		th:src="@{plugins/google-map/gmap.js}"></script>
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
-
-	<script type="text/javascript">
-		var mois = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-		$(".sections").hide();
-		$("#charts").fadeIn();
-		
-		function Afficher(e){
-			var value=e.innerHTML;
-			
-			if(value=="Charts"){
-				$(".sections").hide();
-				$("#charts").fadeIn();
-				
-			}
-			if(value=="Customers"){
-				$(".sections").hide();
-				$("#Customers").fadeIn();
-			}
-			if(value=="Trainers"){
-				$(".sections").hide();
-				$("#trainers").fadeIn();
-			}
-			if(value=="Local Providers"){
-				$(".sections").hide();
-				$("#LocalProviders").fadeIn();
-			}
-			if(value=="Comments"){
-				$(".sections").hide();
-				$("#Comments").fadeIn();
-			}
-			if(value=="Trainings"){
-				$(".sections").hide();
-				$("#trainings").fadeIn();
-			}
-			if(value=="Locals"){
-				$(".sections").hide();
-				$("#locals").fadeIn();
-			}
-		}
-	
-	
-		//Add active class to the current button (highlight it)
-		var header = document.getElementById("navglob");
-		var btns = header.getElementsByClassName("nav-item");
-		for (var i = 0; i < btns.length; i++) {
-			btns[i].addEventListener("click", function() {
-				var current = document.getElementsByClassName("dropactive");
-				if(current[0]){
-					current[0].className = current[0].className.replace(" dropactive",
-					"");
+	<script>
+		function Search() {
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("Input");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("Table");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[3];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
 				}
-				
-				this.className += " active";
-			});
-		}
-		function showtable(){
-			var header = document.getElementById("navglob");
-			var btns = header.getElementsByClassName("nav-item");
-			for (var i = 0; i < btns.length; i++) {
-					var current = document.getElementsByClassName("dropactive");
-					current[0].className = current[0].className.replace(" dropactive",
-							"");
-				
 			}
 		}
-		//*************Pagination***********
+		$(document).ready(function()
+				 {
+				   $("#tab").pagination({
+				   items: 10,
+				   contents: 'contents',
+				   previous: '<<',
+				   next: '>>',
+				   position: 'bottom',
+				   });
+				});
+		!function(e){e.fn.pagination=function(a){function t(t){var s=e("."+r.contents+".current").children().length,l=Math.ceil(s/r.items),o='<ul id="page-navi">\t<li><a href="#" class="previos">'+r.previous+"</a></li>";for(i=0;i<l;i++)o+='\t<li><a href="#">'+(i+1)+"</a></li>";o+='\t<li><a href="#" class="next">'+r.next+"</a></li></ul>";var c=t;0==t?(c=parseInt(e("#page-navi li a.current").html()))-1!=0&&c--:t==l+1&&(c=parseInt(e("#page-navi li a.current").html()))+1!=l+1&&c++,t=c,0==s&&(o=""),e("#page-navi").remove(),"top"==r.position?e("."+r.contents+".current").before(o):e("."+r.contents+".current").after(o),e("#page-navi li a").removeClass("current"),e("#page-navi li a").eq(t).addClass("current"),e("#page-navi li a").removeClass("disable"),c=parseInt(e("#page-navi li a.current").html()),c-1==0&&e("#page-navi li a.previos").addClass("disable"),c==l&&e("#page-navi li a.next").addClass("disable");var u=a.items*(t-1),d=a.items*t;t==l&&(d=s),e("."+r.contents+".current").children().hide(),e("."+r.contents+".current").children().slice(u,d).fadeIn(a.time),1==r.scroll&&e("html,body").animate({scrollTop:n},0)}var r={items:5,contents:"contents",previous:"Previous&raquo;",next:"&laquo;Next",time:800,start:1,position:"bottom",scroll:!0},r=e.extend(r,a);e(this).addClass("jquery-tab-pager-tabbar"),$tab=e(this).find("li");var n=0;!function(){var a=r.start-1;$tab.eq(a).addClass("current"),e("."+r.contents).hide().eq(a).show().addClass("current"),t(1)}(),$tab.click(function(){var a=$tab.index(this);$tab.removeClass("current"),e(this).addClass("current"),e("."+r.contents).removeClass("current").hide().eq(a).addClass("current").fadeIn(r.time),t(1)}),e(document).on("click","#page-navi li a",function(){return!e(this).hasClass("disable")&&(t(e("#page-navi li a").index(this)),!1)}),e(window).on("load scroll",function(){n=e(window).scrollTop()})}}(jQuery);
 
-		//*************Pagination***********
-		</script>
+	</script>
 </body>
 
 </html>

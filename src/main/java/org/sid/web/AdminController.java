@@ -17,14 +17,19 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.sid.dao.AdminRepository;
+import org.sid.dao.CategoryRepository;
+import org.sid.dao.CityRepository;
 import org.sid.dao.ClientRepository;
+import org.sid.dao.CommentaireRepository;
 import org.sid.dao.FormationRepository;
 import org.sid.dao.LocalRepository;
 import org.sid.entities.Admin;
+import org.sid.entities.Category;
 import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
 import org.sid.entities.Local;
+import org.sid.entities.Ville;
 import org.sid.mailSender.NotificationService;
 import org.sid.services.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +58,12 @@ public class AdminController {
 	private FormationRepository formationRepository;
 	@Autowired
 	private LocalRepository localRepository;
+	@Autowired
+	private CityRepository cityRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
+	@Autowired
+	private CommentaireRepository commentRepository;
 	@Autowired
 	private LocalService localService;
 	@Autowired
@@ -110,6 +121,9 @@ public class AdminController {
 		surveyMap.put("2022", 400);
 		surveyMap.put("2023", 550);
 		surveyMap.put("2024", 600);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 
 		model.addAttribute("surveyMap", surveyMap);
 
@@ -133,7 +147,8 @@ public class AdminController {
 		HttpSession session=request.getSession(true);
 		String error=null;
 		Admin Admin = adminRepository.findByEmail(email);
-
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 		if(Admin==null) {
 			error="Invalid Information ! Check your email.";
 			model.addAttribute("error",error);
@@ -213,6 +228,9 @@ public class AdminController {
 		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8)));
 		model.addAttribute("Duration",Duration);
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "singleForAdmin";
@@ -241,6 +259,10 @@ public class AdminController {
 		model.addAttribute("locaux",allLocals);
 		model.addAttribute("localVilles",localVilles);
 		model.addAttribute("localCategories",localCategories);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "UpdateArticleForAdmin";
 	}
 
@@ -251,6 +273,9 @@ public class AdminController {
 		HttpSession session =request.getSession(true);
 		formation.setUser((Client) formation.getUser());
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		Local local=localController.findById(localId);
 		formation.setLocal(local);
 		if(bindingResult.hasErrors()) {
@@ -302,6 +327,8 @@ public class AdminController {
 		HttpSession session=request.getSession(true);
 		Local local = localRepository.getOne(id);
 		
+		
+		
 		List<String> clientsEmails= localRepository.findParticipants(id);
 		try {
 			notificationService.sendNotificationIfArticleRemoved(clientsEmails, local);
@@ -318,6 +345,10 @@ public class AdminController {
 	public String editLocal(Model model, Long id) throws IllegalStateException, IOException {
 		Local local =localRepository.getOne(id);
 		model.addAttribute("local",local );
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		picture1=local.getPicture1();
 		picture2=local.getPicture2();
 
@@ -350,7 +381,10 @@ public class AdminController {
 		local.setPicture5(file5.getOriginalFilename());
 		local.setPicture6(file6.getOriginalFilename());
 
-
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		
 		if((file1.isEmpty())) {
 
 			local.setPicture1(picture1);
@@ -509,6 +543,10 @@ public class AdminController {
 	@RequestMapping(value="/BlockUser", method =RequestMethod.GET)
 	public String BlockUser(Model model,HttpServletRequest request,Long id) {
 		adminRepository.blockUser(id);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "redirect:Customers";
 	}
 	
@@ -521,24 +559,40 @@ public class AdminController {
 	@RequestMapping(value="/BlockTrainer", method =RequestMethod.GET)
 	public String BlockTrainer(Model model,HttpServletRequest request,Long id) {
 		adminRepository.blockUser(id);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "redirect:Trainers";
 	}
 	
 	@RequestMapping(value="/UnblockTrainer", method =RequestMethod.GET)
 	public String UnblockTrainer(Model model,HttpServletRequest request,Long id) {
 		adminRepository.UnblockUser(id);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "redirect:Trainers";
 	}
 	
 	@RequestMapping(value="/BlockProvider", method =RequestMethod.GET)
 	public String BlockProvider(Model model,HttpServletRequest request,Long id) {
 		adminRepository.blockUser(id);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "redirect:LocalProviders";
 	}
 	
 	@RequestMapping(value="/UnblockProvider", method =RequestMethod.GET)
 	public String UnblockProvider(Model model,HttpServletRequest request,Long id) {
 		adminRepository.UnblockUser(id);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "redirect:LocalProviders";
 	}
 	
@@ -551,6 +605,10 @@ public class AdminController {
 		List<Client> customers=clientRepository.findByType("Customer");
 		model.addAttribute("customers", customers);
 		model.addAttribute("session", session.getAttribute("user"));
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "CustomersForAdmin";
 	}
 	@RequestMapping(value="/Trainers", method =RequestMethod.GET)
@@ -561,6 +619,10 @@ public class AdminController {
 		List<Client> trainers=clientRepository.findByType("Trainer");
 		model.addAttribute("trainers", trainers);
 		model.addAttribute("session", session.getAttribute("user"));
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "TrainersForAdmin";
 	}
 	@RequestMapping(value="/LocalProviders", method =RequestMethod.GET)
@@ -571,6 +633,10 @@ public class AdminController {
 		List<Client> providers=clientRepository.findByType("Local Provider");
 		model.addAttribute("providers", providers);
 		model.addAttribute("session", session.getAttribute("user"));
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "ProvidersForAdmin";
 	}
 	@RequestMapping(value="/Trainings", method =RequestMethod.GET)
@@ -582,6 +648,8 @@ public class AdminController {
 		model.addAttribute("trainings", formations);
 		model.addAttribute("session", session.getAttribute("user"));
 		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 		
 		List<String> localVilles=localService.getLocalsVilles();
 		List<String> trainingCategories=formationRepository.getTrainingsCategories();
@@ -605,6 +673,10 @@ public class AdminController {
 		model.addAttribute("localCategories",localCategories);
 		model.addAttribute("locals", locals);
 		model.addAttribute("session", session.getAttribute("user"));
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "LocalsForAdmin";
 	}
 	@RequestMapping(value="/Comments", method =RequestMethod.GET)
@@ -613,10 +685,72 @@ public class AdminController {
 		long countUsers=adminRepository.countUsers();
 		model.addAttribute("countusers", countUsers);
 		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("comments",commentRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 		return "CommentsForAdmin";
 	}
 	
+	@RequestMapping(value="/addCity", method =RequestMethod.GET)
+	public String addCity(Model model,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		model.addAttribute("ville", new Ville());
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+		return "addCity";
+	}
+	@RequestMapping(value="/saveCity", method =RequestMethod.POST)
+	public String saveCity(Model model,HttpServletRequest request,@RequestParam(name="ville") String ville) {
+		HttpSession session=request.getSession(true);
+		Ville city= new Ville();
+		city.setVille(ville);
+		cityRepository.save(city);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/addCategory", method =RequestMethod.GET)
+	public String addCategory(Model model,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		model.addAttribute("category", new Category());
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+		return "addCategory";
+	}
+	@RequestMapping(value="/saveCategory", method =RequestMethod.POST)
+	public String saveCategory(Model model,HttpServletRequest request,@RequestParam(name="category") String cat) {
+		HttpSession session=request.getSession(true);
+		Category category= new Category();
+		category.setCategory(cat);
+		categoryRepository.save(category);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/deleteComment", method =RequestMethod.GET)
+	public String deleteComment(Long id,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		commentRepository.deleteById(id);
+		return "redirect:Comments";
+	}
+
 	
 
 }

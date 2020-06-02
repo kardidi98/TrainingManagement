@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sid.entities.Admin;
 import org.sid.entities.Client;
+import org.sid.entities.Ville;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,6 +35,8 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	@Modifying
 	@Query(value="update client set blocked='unblocked' where id like :x",nativeQuery = true)
 	public void UnblockUser(@Param("x") Long id);
+	
+
 	
 	
 	

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
+import org.sid.dao.CategoryRepository;
+import org.sid.dao.CityRepository;
 import org.sid.dao.LocalRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Formation;
@@ -53,6 +55,12 @@ public class LocalController {
 	private String picture6;
 	@Autowired
 	private LocalRepository localRepository;
+	
+	@Autowired
+	private CityRepository cityRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
 	@Value("${dir.Localimages}")
 	private String localImageDir;
 
@@ -64,6 +72,10 @@ public class LocalController {
 			return "login";
 		}
 		model.addAttribute("local",new Local());
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "Local-Listing";		
 	}
 
@@ -163,6 +175,9 @@ public class LocalController {
 
 				}
 
+				model.addAttribute("categories", categoryRepository.findAll());
+				model.addAttribute("cities", cityRepository.findAll());
+				
 				return "redirect:EditAds";	
 	}
 
@@ -177,6 +192,10 @@ public class LocalController {
 		picture4=local.getPicture4();
 		picture5=local.getPicture5();
 		picture6=local.getPicture6();
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "Update-Local";
 	}
 
@@ -387,7 +406,9 @@ public class LocalController {
 
 		}
 
-
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "redirect:EditAds";	
 	}
 
@@ -403,6 +424,7 @@ public class LocalController {
 	public List<Local> ListeLocals(Long uId) {
 
 		List<Local> local= localRepository.findByUserId(uId);
+		
 
 		return local;
 
@@ -452,6 +474,9 @@ public class LocalController {
 		}
 		localRepository.localDeleted(id);
 		localRepository.deleteById(id);
+		
+		
+		
 		return "redirect:EditAds";
 	}
 	@RequestMapping(value="/findAll", method =RequestMethod.GET)

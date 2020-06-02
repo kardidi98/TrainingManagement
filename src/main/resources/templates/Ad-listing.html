@@ -89,23 +89,9 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
+										<a class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
 
 
 									</div></li>
@@ -186,7 +172,7 @@
 							<div class="row px-3 ">
 								<input name="NbPlaces" type="text"
 									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="25,30,100.." required="required">
+									placeholder="25,30,100.." required="required" onchange="$('#nbPlacesLocalInput').val(this.value);">
 							</div>
 							<div class="row ">
 								<div class="col-sm-6">
@@ -201,7 +187,7 @@
 												size="16" type="text" id="from" class="form-control"
 												readonly style="background-color: white;"
 												required="required"
-												onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();" />
+												onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteFromLocalInput').val(this.value);" />
 
 										</div>
 										<input type="hidden" id="dtp_input1" value="" /><br />
@@ -221,7 +207,7 @@
 												size="16" type="text" id="to" class="form-control"
 												style="background-color: white;" readonly
 												required="required"
-												onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();" />
+												onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteALocalInput').val(this.value);" />
 										</div>
 										<input type="hidden" id="dtp_input2" value="" /><br />
 									</div>
@@ -256,16 +242,7 @@
 								Category:</h6>
 							<select name="ArticleCat" id="inputGroupSelect"
 								class="w-100  rounded">
-								<option value="Management">Management</option>
-								<option value="Development">Development</option>
-								<option value="Programmation">Programmation</option>
-								<option value="Finance & Comptability">Finance &
-									Comptability</option>
-								<option value="Business">Business</option>
-								<option value="Electronics">Electronics</option>
-								<option value="Personal Development">Personal
-									Development</option>
-								<option value="Innovation">Innovation</option>
+								<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
 							</select>
 							<div class="price">
 								<h6 class="font-weight-bold pt-1 pb-1">Price ($):</h6>

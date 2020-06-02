@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
+import org.sid.dao.CategoryRepository;
+import org.sid.dao.CityRepository;
 import org.sid.dao.ClientRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
@@ -45,6 +47,10 @@ public class ClientController {
 	@Autowired
 	private NotificationService notificationService;
 
+	@Autowired
+	private CityRepository cityRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 
 	@Autowired
@@ -63,12 +69,16 @@ public class ClientController {
 	@RequestMapping(value="/about",method=RequestMethod.GET)
 	public String about(Model model) {
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 		return "about-us";
 	}
 
 	@RequestMapping(value="/contact-us",method=RequestMethod.GET)
 	public String contact(Model model,HttpSession session) {
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 		return "contact-us";
 	}
 
@@ -218,6 +228,7 @@ public class ClientController {
 
 		}
 
+		
 		clientRepository.save(cli);
 
 		return "redirect:editUserProfile";
@@ -256,9 +267,48 @@ public class ClientController {
 
 		}
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 		return "redirect:/viewArticle?id="+articleid;
 	}
 
+	@RequestMapping(value="/sendMessage",method=RequestMethod.POST)
+	public String sendMessage(Model model,@RequestParam(name="name") String name,@RequestParam(name="email") String email,@RequestParam(name="message") String message ) {
+
+		String msg="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi dear Admin</h1>"+
+				"<p>" + 
+				"A new message is received from a customer :"+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>"
+				+ "<td><strong>Name:</strong> </td>"+"<td>"+name+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Email: </strong></td>"+email+"</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td><strong>Message: </strong></td>"+"<td>"+message+"</td>"
+				+ "</tr>"
+
+	            		+ "</tbody>"+
+
+	            		"</table>";
+
+		try {
+			notificationService.sendNotificationToAdmin(msg);
+		} catch (Exception e) {
+
+		}
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+
+		return "contact-us";
+
+
+	}
 
 
 }

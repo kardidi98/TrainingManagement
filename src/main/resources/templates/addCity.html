@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Profile: TrainingManagement</title>
+<title>Administrator: Add City</title>
 <link type="text/css"
 	href="../static/plugins/bootstrap/css/bootstrap-timepicker.min.css"
 	th:href="@{plugins/bootstrap/css/bootstrap-timepicker.min.css}" />
@@ -53,26 +53,54 @@
 <!-- CUSTOM CSS -->
 <link href="../static/css/style.css" th:href="@{css/style.css}"
 	rel="stylesheet">
+<link href="../static/css/animated.css" th:href="@{css/animated.css}"
+	rel="stylesheet">
+<link href="../static/css/datatables/dataTables.bootstrap4.min.css"
+	th:href="@{css/datatables/dataTables.bootstrap4.min.css}"
+	rel="stylesheet">
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-2d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
 
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!-- DataTables CSS -->
+<link href="../static/css/addons/datatables.min.css" th:href="@{css/addons/datatables.min.css}" rel="stylesheet">
+<!-- DataTables JS -->
+<script src="../static/js/addons/datatables.min.js" type="text/javascript"></script>
+
+<!-- DataTables Select CSS -->
+<link href="../static/css/addons/datatables-select.min.css" th:href="@{css/addons/datatables-select.min.css}" rel="stylesheet">
+<!-- DataTables Select JS -->
+<script src="../static/js/addons/datatables-select.min.js" type="text/javascript"></script>
+
+
+
+<style type="text/css">
+ul li.active {
+	font-weight: bold;
+}
+
+</style>
 
 </head>
 
-<body class="body-wrapper">
+<body class="body-wrapper" >
 
 
-	<section>
+	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<nav class="navbar navbar-expand-lg navbar-light navigation">
-						<a class="navbar-brand" th:href="@{TrainingManagement}"> <img
+						<a class="navbar-brand" th:href="@{/}"> <img
 							src="images/logo.png" alt="" id="logo">
 						</a>
 						<button class="navbar-toggler" type="button"
@@ -82,41 +110,52 @@
 							<span class="navbar-toggler-icon"></span>
 						</button>
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav ml-auto main-nav ">
+							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item dropdown dropdown-slide"><a
-									class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Categories<span><i
-											class="fa fa-angle-down"></i></span>
-								</a> <!-- Dropdown list -->
-									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
-										<a class="dropdown-item" th:each="cat:${categories}"
-											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
+								<li class="nav-item"><a class="nav-link "
+									id="Statistics" th:href="@{/}">Charts</a></li>
+								<li class="nav-item "><a class="nav-link" id="comments"
+									th:href="@{Comments}">Comments</a></li>
 
+							</ul>
 
-									</div></li>
+							<ul class="navbar-nav  main-nav " id="dropdownlinks">
 								<li class="nav-item dropdown dropdown-slide"><a
 									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false"> More <span><i
+									aria-expanded="false"> Users <span><i
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{about}">About Us</a> <a
-											class="dropdown-item" th:href="@{contact-us}">Contact Us</a>
+										<a class="dropdown-item" id="Users"
+											th:href="@{Customers}">Customers</a> <a
+											class="dropdown-item" id="Trainers"
+											th:href="@{Trainers}">Trainers</a> <a
+											class="dropdown-item" id="fournisseurs"
+											th:href="@{LocalProviders}">Local Providers</a>
+
 
 									</div></li>
 
+								<li class="nav-item dropdown dropdown-slide"><a
+									class="nav-link dropdown-toggle" href="#"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Trainings/Locals <span><i
+											class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+
+										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a> <a
+											class="dropdown-item" th:href="@{Locals}">Locals</a>
+
+									</div></li>
+
+
 							</ul>
-							<ul th:if="${session.user!=null}"
-								class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
-								<li class="nav-item w-100" style="margin-bottom: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
-										<input class="searchButton" type="submit" />
-									</form>
-								</li>
+							<ul class="navbar-nav  ml-auto main-nav"
+								style="margin-right: 0px;">
+
 
 
 								<li class="nav-item dropdown dropdown-slide"
@@ -129,115 +168,67 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{AddArticle}"
-											id="search_article">Add Training Article</a> <a
-											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
-											class="dropdown-item" th:href="@{EditAds}">Edit User
-											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
-											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
-											out</a>
+
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
+										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
 									</div></li>
 
 
 
 							</ul>
-							<ul th:if="${session.user==null}"
-								class="navbar-nav ml-auto mt-10 ">
-								<li class="nav-item w-100" style="margin-right: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
-										<input class="searchButton" type="submit" />
-									</form>
-								</li>
-								<li class="nav-item"><a
-									class="nav-link login-button rounded" th:href="@{login}">Login</a>
-								</li>
 
-							</ul>
 						</div>
 					</nav>
 				</div>
 			</div>
 		</div>
+	
 	</section>
-	<!--==================================
-=            User Profile            =
-===================================-->
 
-	<section class="user-profile section">
+	<section class="bg-gray py-4" >
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="sidebar">
-						<!-- User Widget -->
-						<div class="widget user">
-							<!-- User Image -->
-							<div class="image d-flex justify-content-center">
-								<img th:src="@{getUserPhoto(id=${trainer.id})}"
-									alt="Trainer Picture" class="">
-							</div>
-							<!-- User Name -->
-							<h5 class="text-center"
-								th:text="${trainer.nom+'  '+trainer.prenom}"></h5>
+			<form id="regForm" th:action="@{saveCity}" method="post"
+				enctype="multipart/form-data">
+				<!-- Post Your ad start -->
+
+
+				<!-- Second form -->
+				<fieldset class="updateForm border border-gary p-4 mb-5 rounded">
+					<div class="row ">
+						<div class="col-lg-12">
+							<h3>Add New City</h3>
+							<hr>
 						</div>
 
-					</div>
-				</div>
-				<div class="col-sm-9">
-					<!-- Edit Profile Welcome Text -->
-					<div class="widget welcome-message">
-						<h2>Edit profile</h2>
-						<p th:text="${trainer.profile}">/p>
-					</div>
-					<!-- Edit Personal Info -->
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="widget personal-info">
-								<h3 class="widget-header user">Edit Personal Information</h3>
-								<form action="#">
-									<!-- First Name -->
-									<div class="row">
-										<div class="form-group col-sm-6">
-											<label for="first-name">First Name</label> <input type="text"
-												class="form-control" id="first-name" readonly="readonly"
-												th:value="${trainer.prenom}">
-										</div>
-										<!-- Last Name -->
-										<div class="form-group col-sm-6">
-											<label for="last-name">Last Name</label> <input type="text"
-												class="form-control" id="last-name" readonly="readonly"
-												th:value="${trainer.nom}">
-										</div>
-									</div>
-									<div class="row">
-										<div class="form-group col-sm-6">
-											<label for="current-email">Email</label> <input type="email"
-												class="form-control" id="current-email" readonly="readonly"
-												th:value="${trainer.email}">
-										</div>
-										<div class="form-group col-sm-6">
-											<label for="current-job">Job</label> <input type="text"
-												class="form-control" id="current-job" readonly="readonly"
-												th:value="${trainer.job}">
-										</div>
-									</div>
-									<div class="row"
-										style="display: flex; justify-content: center;">
-										<div class="form-group col-sm-6">
-											<label for="current-expertise">Expertise</label> <input
-												type="text" class="form-control" id="current-expertise"
-												readonly="readonly" th:value="${trainer.expertise}">
-										</div>
-									</div>
-								</form>
-							</div>
+						<div class="col-lg-6 ">
+							<h6 class="font-weight-bold pt-4 pb-1">City</h6>
+							 <input
+								type="text" class="border w-100 p-2 bg-white text-capitalize"
+								placeholder="Write Here.." name="ville">
+							
+
 						</div>
-
-
+						
 					</div>
+					
+				</fieldset>
+
+
+				
+
+
+
+				<div align="right">
+					<input type="submit" class="btn btn-primary"
+						value="Add The New City" />
+
 				</div>
-			</div>
+
+
+
+			</form>
 		</div>
 	</section>
 
@@ -245,32 +236,12 @@
 =            Footer            =
 =============================-->
 
-
-	<footer class="footer section section-sm">
+	<footer th:if="${session.user!=null}" class="footer section section-sm">
 		<!-- Container Start -->
 		<div class="container">
-			<div class="block">
-				<h2 align="center" style="color: white;">Add A Comment</h2>
-				<br>
-				<form class="form-group" th:action="@{saveComment}" method="post">
-					<textarea class="form-control rounded" name="commenting"
-						id="commenting" rows="10" cols=""
-						placeholder="What's in your mind ?" style="color: white;">
-	                
-	            </textarea>
 
-
-
-					<center style="margin: 40px;">
-						<input type="submit" class="btn btn-primary" name="submitComment"
-							id="submitComment" value="Send"
-							style="background-color: #0076A3;">
-					</center>
-
-				</form>
-			</div>
 			<div class="row">
-				<div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0">
+				<div class="col-lg-6 col-md-7 offset-md-1 offset-lg-0">
 					<!-- About -->
 					<div class="block about">
 						<!-- footer logo -->
@@ -283,20 +254,7 @@
 							ex ea commodo consequat.</p>
 					</div>
 				</div>
-				<!-- Link list -->
-				<div class="col-lg-3 offset-lg-1 col-md-3">
-					<div class="block">
-						<h4>Site Pages</h4>
-						<ul>
-							<li><a th:href="@{about}">About Us</a></li>
-							<li><a href="#categories">Categories</a></li>
-							<li><a th:href="@{contact-us}">Contact Us</a></li>
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">Others Comments</a></li>
-						</ul>
-					</div>
-				</div>
-
+				<div class="col-lg-1 col-md-7"></div>
 
 				<!-- Promotion -->
 				<div class="col-lg-4 col-md-7">
@@ -320,7 +278,7 @@
 		<!-- Container End -->
 	</footer>
 	<!-- Footer Bottom -->
-	<footer class="footer-bottom">
+	<footer th:if="${session.user!=null}" class="footer-bottom">
 		<!-- Container Start -->
 		<div class="container">
 			<div class="row">
@@ -330,8 +288,8 @@
 						<p>
 							Copyright ©
 							<script>
-								var CurrentYear = new Date().getFullYear()
-								document.write(CurrentYear)
+								var CurrentYear = new Date();
+								document.write(CurrentYear.getFullYear())
 							</script>
 							. All Rights Reserved, by <a class="text-primary" href="#logo">T.M</a>
 							team

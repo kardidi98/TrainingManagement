@@ -90,23 +90,10 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
+										<a class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
+										
 
 
 									</div></li>
@@ -203,26 +190,17 @@
 									<select class="form-control w-100" name="Category"
 										required="required">
 										<option value="default">Select a Category</option>
-										<option value="Development">Development</option>
-										<option value="Programmation">Programmation</option>
-										<option value="Finance & Comptability">Finance &
-											Comptability</option>
-										<option value="Electronics">Electronics</option>
-										<option value="Personal Development">Personal
-											Development</option>
-										<option value="Management">Management</option>
-										<option value="Innovation">Innovation</option>
+										<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
+										
 									</select>
 								</div>
 								<div class="form-group col-md-3" style="margin-top: -10px;">
 									<select class="form-control w-100 " name="Location"
 										required="required">
 										<option value="default">Select a location</option>
-										<option value="Rabat">Rabat</option>
-										<option value="Laayoune">Laayoune</option>
-										<option value="Fès">Fès</option>
-										<option value="Kenitra">Kenitra</option>
-										<option value="Agadir">Agadir</option>
+										<option th:each="ville:${cities}" th:text="${ville.ville}" th:value="${ville.ville}"></option>
+										
+										
 									</select>
 								</div>
 
@@ -250,36 +228,10 @@
 					<div class="widget category-list">
 						<h4 class="widget-header">All Category</h4>
 						<ul class="category-list">
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Development'))}">Development
-									<span></span>
-							</a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation
-									<span></span>
-							</a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Management'))}">Management
-									<span></span>
-							</a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-									Development <span></span>
-							</a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics
-									<span></span>
-							</a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Business'))}">Business<span></span></a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-									& Comptability <span></span>
-							</a></li>
-							<li><a
-								th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation
-									<span></span>
-							</a></li>
+							<li th:each="cat:${categories}"><a class="dropdown-item" 
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"> <span></span></a></li>
+							
+						
 
 
 						</ul>
@@ -288,26 +240,14 @@
 					<div class="widget category-list">
 						<h4 class="widget-header">Nearby</h4>
 						<ul class="category-list">
-							<li><a
-								th:href="@{listFormationParVille(city=('Casablanca'))}">Casablanca
-									<span></span>
-							</a></li>
-							<li><a th:href="@{listFormationParVille(city=('Rabat'))}">Rabat
-									<span></span>
-							</a></li>
-							<li><a th:href="@{listFormationParVille(city=('Kenitra'))}">Kenitra
-									<span></span>
-							</a></li>
-							<li><a th:href="@{listFormationParVille(city=('Fès'))}">Fes
-									<span></span>
-							</a></li>
-							<li><a th:href="@{listFormationParVille(city=('Laayoune'))}">Laayoune
-									<span></span>
-							</a></li>
+							<li th:each="ville:${cities}"><a class="dropdown-item" 
+											th:href="@{listFormationParVille(city=(${ville.ville}))}" th:text="${ville.ville}"> <span></span></a></li>
+							
+					
 						</ul>
 					</div>
 
-					-->
+					
 				</div>
 			</div>
 			<div class="col-md-9 animated fadeInRightBig">
@@ -587,6 +527,8 @@
 
 
 <script type="text/javascript">
+
+
 $(document).ready(function()
 		 {
 		   $("#tab").pagination({

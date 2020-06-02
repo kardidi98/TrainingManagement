@@ -65,6 +65,11 @@ public class FormationController {
 
 	@Autowired
 	private LocalController localController;
+	
+	@Autowired
+	private CityRepository cityRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private ClientRepository clientRepository;
@@ -92,6 +97,10 @@ public class FormationController {
 
 		model.addAttribute("trendyTrainings", trendyTrainings);
 		model.addAttribute("TrainerList", TrainerList);
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "index";		
@@ -113,6 +122,8 @@ public class FormationController {
 		model.addAttribute("locaux",allLocals);
 		model.addAttribute("localVilles",localVilles);
 		model.addAttribute("localCategories",localCategories);
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 		return "Ad-listing";		
 	}
 
@@ -222,8 +233,12 @@ public class FormationController {
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
-
+		
 		return "category";
 	}
 
@@ -257,6 +272,10 @@ public class FormationController {
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -290,6 +309,10 @@ public class FormationController {
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -317,6 +340,10 @@ public class FormationController {
 		List<Local> local=localController.ListeLocals(client.getId());
 
 		model.addAttribute("local",local);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "dashboard-my-ads";
 	}
 
@@ -402,11 +429,16 @@ public class FormationController {
 		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8)));
 		model.addAttribute("Duration",Duration);
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "single";
 
 	}
+	
+	
 
 	@RequestMapping(value="/editArticle", method =RequestMethod.GET)
 	public String editArticle(Model model,Long id,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
@@ -425,6 +457,10 @@ public class FormationController {
 		model.addAttribute("locaux",allLocals);
 		model.addAttribute("localVilles",localVilles);
 		model.addAttribute("localCategories",localCategories);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "UpdateArticle";
 	}
 
@@ -557,6 +593,9 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "DejaPostuler";
 	}
 
@@ -567,6 +606,9 @@ public class FormationController {
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "PlacesPleines";
 	}
 	@RequestMapping(value="/editUserProfile",method=RequestMethod.GET)
@@ -579,6 +621,10 @@ public class FormationController {
 		}
 		List<Formation> formation=formationRepository.findReservedTraining(client.getId());
 		model.addAttribute("myformation",formation);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "user-profile";
 	}
 
@@ -623,6 +669,10 @@ public class FormationController {
 		//		model.addAttribute("FromSearch",FromSearch);
 
 		model.addAttribute("count",countformation.size());
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -659,6 +709,10 @@ public class FormationController {
 		//		model.addAttribute("FromSearch",FromSearch);
 
 		model.addAttribute("count",countformation.size());
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -692,6 +746,9 @@ public class FormationController {
 		model.addAttribute("session", session.getAttribute("user"));
 
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		return "RechercheAvancee";
 	}
 
@@ -723,6 +780,9 @@ public class FormationController {
 		model.addAttribute("Rating",Rating);
 		//		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "RechercheAvancee";
@@ -752,7 +812,8 @@ public class FormationController {
 		model.addAttribute("Rating",Rating);
 		model.addAttribute("count",countformation.size());
 
-
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 
 		model.addAttribute("session", session.getAttribute("user"));
 

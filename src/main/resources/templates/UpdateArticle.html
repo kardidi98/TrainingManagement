@@ -91,23 +91,9 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
+										<a class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
 
 
 									</div></li>
@@ -193,7 +179,7 @@
 									placeholder="" th:field="${article.id}"> <input
 									name="NbPlaces" type="text"
 									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="25,30,100.." th:field="${article.NbPlaces}">
+									placeholder="25,30,100.." th:field="${article.NbPlaces}" onchange="$('#nbPlacesLocalInput').val(this.value);">
 							</div>
 							<div class="row ">
 								<div class="col-sm-6">
@@ -207,7 +193,7 @@
 												class="fa fa-calendar fa-lg"> </i></span> <input name="firstDay"
 												size="16" type="text" id="from" class="form-control"
 												readonly style="background-color: white;"
-												th:field="${article.firstDay}" />
+												th:field="${article.firstDay}" onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteFromLocalInput').val(this.value);" />/>
 
 										</div>
 										<input type="hidden" id="dtp_input1" value="" /><br />
@@ -226,9 +212,9 @@
 												class="fa fa-calendar fa-lg"> </i></span> <input name="lastDay"
 												size="16" type="text" id="to" class="form-control"
 												style="background-color: white;" readonly
-												th:field="${article.lastDay}" />
-
+												th:field="${article.lastDay}" onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteALocalInput').val(this.value);" />
 										</div>
+
 										<input type="hidden" id="dtp_input2" value="" /><br />
 									</div>
 								</div>
@@ -263,16 +249,7 @@
 								Category:</h6>
 							<select name="ArticleCat" id="inputGroupSelect"
 								class="w-100 rounded" th:field="${article.ArticleCat}">
-								<option value="Management">Management</option>
-								<option value="Development">Development</option>
-								<option value="Programmation">Programmation</option>
-								<option value="Finance & Comptability">Finance &
-									Comptability</option>
-								<option value="Business">Business</option>
-								<option value="Electronics">Electronics</option>
-								<option value="Personal Development">Personal
-									Development</option>
-								<option value="Innovation">Innovation</option>
+								<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
 							</select>
 							<div class="price">
 								<h6 class="font-weight-bold pt-4 pb-1">Price (Dh):</h6>

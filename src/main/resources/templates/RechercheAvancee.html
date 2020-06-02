@@ -94,23 +94,9 @@ input.currency {
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
-											class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Development'))}">Development</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-											& Comptability</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Business'))}">Business</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-											Development</a> <a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Management'))}">Management</a>
-										<a class="dropdown-item"
-											th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation</a>
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
+										<a class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
 
 
 									</div></li>
@@ -250,15 +236,7 @@ input.currency {
 								<select class="form-control w-100 " name="Category"
 									required="required">
 									<option value="default">Select a Category</option>
-									<option value="Development">Development</option>
-									<option value="Programmation">Programmation</option>
-									<option value="Finance & Comptability">Finance &
-										Comptability</option>
-									<option value="Electronics">Electronics</option>
-									<option value="Personal Development">Personal
-										Development</option>
-									<option value="Management">Management</option>
-									<option value="Innovation">Innovation</option>
+										<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
 								</select>
 								<select class="form-control w-100 " name="Difficulty"
 									required="required">
@@ -289,11 +267,7 @@ input.currency {
 							<select class="form-control w-100 " name="City"
 								required="required">
 								<option value="default">Select a city</option>
-								<option value="Rabat">Rabat</option>
-								<option value="Laayoune">Laayoune</option>
-								<option value="Fès">Fès</option>
-								<option value="Kenitra">Kenitra</option>
-								<option value="Agadir">Agadir</option>
+										<option th:each="city:${cities}" th:text="${city.ville}" th:value="${city.ville}"></option>
 							</select> <select class="form-control w-100 " name="TypeLocal"
 								required="required">
 								<option value="default">Select a type of Local</option>

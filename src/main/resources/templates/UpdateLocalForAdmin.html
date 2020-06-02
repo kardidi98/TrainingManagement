@@ -170,6 +170,8 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
 										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
 									</div></li>
@@ -296,11 +298,7 @@ ul li.active {
 								<span class="font-weight-bold pt-4 pb-1">Choose a City:</span> <select
 									name="ville" id="city" class="w-100 rounded"
 									th:field="${local.ville}">
-
-									<option value="Rabat">Rabat</option>
-									<option value="Laayoune">Laayoune</option>
-									<option value="Fès">Fès</option>
-									<option value="Kenitra">Kenitra</option>
+									<option th:each="ville:${cities}" th:text="${ville.ville}" th:value="${ville.ville}"></option>
 
 								</select>
 							</div>
