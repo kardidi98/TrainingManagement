@@ -22,6 +22,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.sid.dao.*;
+import org.sid.entities.Admin;
 import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
@@ -84,12 +85,19 @@ public class FormationController {
 
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		Object obj=session.getAttribute("user");
+		if(session.getAttribute("user")!=null && obj instanceof Admin) {
+			return "redirect:/";
+		}
+		
+		
 		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
 
 		List<Commentaire> commentaires=commentaireController.findRecent(5);
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
-		HttpSession session=request.getSession(true);
+		
 
 
 		List<Client> TrainerList =clientRepository.findTrainers();
@@ -426,7 +434,7 @@ public class FormationController {
 		model.addAttribute("article",article);
 		model.addAttribute("formateur",formateur);
 		Long Duree=article.getLastDay().getTime()-article.getFirstDay().getTime();
-		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8)));
+		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8))+1);
 		model.addAttribute("Duration",Duration);
 
 		model.addAttribute("categories", categoryRepository.findAll());

@@ -2,6 +2,7 @@ package org.sid.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,9 +38,11 @@ public class Client implements Serializable{
 	private String picture;
 	private String expertise;
 	private String blocked;
+	private String etendreRole1;
+	private String etendreRole2;
 	
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	private List<Formation> formation;
 	
 	@OneToMany(mappedBy = "owner")
@@ -52,20 +55,18 @@ public class Client implements Serializable{
 	private List<Formation> formationReservee;
 	
 
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
 	private List<Commentaire> commentaires;
 	
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
 	private List<Rating> myRatings;
 	
-	
-
 
 
 	public Client(long id, String nom, String prenom, String email, String password, String type, String job,
-			String address, String profile, String picture, String expertise, String blocked, List<Formation> formation,
-			List<Local> locaux, List<Formation> formationReservee, List<Commentaire> commentaires,
-			List<Rating> myRatings) {
+			String address, String profile, String picture, String expertise, String blocked, String etendreRole1,
+			String etendreRole2, List<Formation> formation, List<Local> locaux, List<Formation> formationReservee,
+			List<Commentaire> commentaires, List<Rating> myRatings) {
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -78,12 +79,44 @@ public class Client implements Serializable{
 		this.picture = picture;
 		this.expertise = expertise;
 		this.blocked = blocked;
+		this.etendreRole1 = etendreRole1;
+		this.etendreRole2 = etendreRole2;
 		this.formation = formation;
 		this.locaux = locaux;
 		this.formationReservee = formationReservee;
 		this.commentaires = commentaires;
 		this.myRatings = myRatings;
 	}
+
+	
+	
+	
+	public String getEtendreRole1() {
+		return etendreRole1;
+	}
+
+
+
+	public void setEtendreRole1(String etendreRole1) {
+		this.etendreRole1 = etendreRole1;
+	}
+
+
+
+
+	public String getEtendreRole2() {
+		return etendreRole2;
+	}
+
+
+
+
+	public void setEtendreRole2(String etendreRole2) {
+		this.etendreRole2 = etendreRole2;
+	}
+
+
+
 
 	public String getBlocked() {
 		return blocked;

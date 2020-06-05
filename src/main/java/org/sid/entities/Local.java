@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Local implements Serializable {
 	private Long id;
 	private String intitulee;
 	private double superficie;
+	@Column(columnDefinition = "LONGTEXT")
 	private String description;
 	private String ville;
 	private Long NbPlaces;
@@ -52,7 +54,7 @@ public class Local implements Serializable {
 	@JoinColumn(name="owner")
 	private Client owner;
 	
-	@OneToMany(mappedBy = "Local")
+	@OneToMany(mappedBy = "Local",cascade = CascadeType.ALL)
 	private List<Formation> formations;
 	
 	

@@ -89,10 +89,11 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
-										<a class="dropdown-item" th:each="cat:${categories}"
-											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
-										
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
+											class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}"
+											th:text="${cat.category}"></a>
+
 									</div></li>
 								<li class="nav-item dropdown dropdown-slide"><a
 									class="nav-link dropdown-toggle" href="#"
@@ -128,9 +129,13 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{AddArticle}"
+										<a
+											th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"
+											class="dropdown-item" th:href="@{AddArticle}"
 											id="search_article">Add Training Article</a> <a
+											th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}"
 											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
+											th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider' or session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"
 											class="dropdown-item" th:href="@{EditAds}">Edit User
 											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
 											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
@@ -223,15 +228,17 @@
 												<select class="w-100 form-control mt-lg-1 mt-md-2"
 													name="Category" required="required">
 													<option value="default">Select a Category</option>
-													
-													<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
+
+													<option th:each="cat:${categories}"
+														th:text="${cat.category}" th:value="${cat.category}"></option>
 												</select>
 											</div>
 											<div class="form-group col-md-3">
 												<select class="w-100 form-control mt-lg-1 mt-md-2"
 													name="Location" required="required">
 													<option value="default">Select a location</option>
-													<option th:each="ville:${cities}" th:text="${ville.ville}" th:value="${ville.ville}"></option>
+													<option th:each="ville:${cities}" th:text="${ville.ville}"
+														th:value="${ville.ville}"></option>
 												</select>
 											</div>
 
@@ -288,7 +295,7 @@
 							th:each="training:${trendyTrainings}">
 							<!-- product card -->
 							<div class="product-item bg-light rounded">
-								<div class="card" style="width: 300px;;">
+								<div class="card" style="width: 300px;">
 									<div class="thumb-content">
 										<!-- <div class="price">$200</div> -->
 										<a th:href="@{viewArticle(id=${training.id})}"> <img
@@ -353,158 +360,70 @@
 				<div class="col-12">
 					<!-- Section title -->
 					<div class="section-title">
-						<h2>All Categories</h2>
+						<h2>Our Services</h2>
 
 					</div>
 					<div class="row">
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-laptop icon-bg-1"></i>
-									<h4>Electronics</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Laptops <span>93</span></a></li>
-									<li><a href="#">Iphone <span>233</span></a></li>
-									<li><a href="#">Microsoft <span>183</span></a></li>
-									<li><a href="#">Monitors <span>343</span></a></li>
-								</ul>
-							</div>
+						<div class="col-md-6 col-xm-12">
+							<img alt="training" src="images/training.png" class="img-fluid">
 						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-keyboard-o icon-bg-2"></i>
-									<h4>Programmation</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Laptops <span>93</span></a></li>
-									<li><a href="#">Coding <span>233</span></a></li>
-									<li><a href="#">Microsoft <span>183</span></a></li>
-									<li><a href="#">Monitors <span>343</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-lightbulb-o icon-bg-3"></i>
-									<h4>Innovation</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Creativity <span>93</span></a></li>
-									<li><a href="#">How To <span>23</span></a></li>
-									<li><a href="#">Efficiency <span>83</span></a></li>
-									<li><a href="#">Other <span>33</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-terminal icon-bg-4"></i>
-									<h4>Development</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Web <span>53</span></a></li>
-									<li><a href="#">Mobile <span>212</span></a></li>
-									<li><a href="#">Desktop <span>133</span></a></li>
-									<li><a href="#">Other <span>143</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6 category cacher">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-briefcase icon-bg-5"></i>
-									<h4>Management</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">RH <span>93</span></a></li>
-									<li><a href="#">Project Analysis <span>233</span></a></li>
-									<li><a href="#">Management <span>183</span></a></li>
-									<li><a href="#">Entrepreuneurship<span>343</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6 category cacher">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-briefcase icon-bg-6"></i>
-									<h4>Business</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Finance <span>193</span></a></li>
-									<li><a href="#">Strategy <span>23</span></a></li>
-									<li><a href="#">Communication <span>33</span></a></li>
-									<li><a href="#">Industry <span>73</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6 category cacher">
-							<div class="category-block">
-								<div class="header">
-									<i class="fa fa-dollar icon-bg-7"></i>
-									<h4>Finance & Comptability</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Coformity <span>65</span></a></li>
-									<li><a href="#">Economy <span>23</span></a></li>
-									<li><a href="#">Taxes <span>113</span></a></li>
-									<li><a href="#">Blockchain <span>43</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<!-- /Category List -->
-						<!-- Category list -->
-						<div
-							class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6 category cacher">
-							<div class="category-block">
 
-								<div class="header">
-									<i class="fa fa-male icon-bg-8"></i>
-									<h4>Personal Development</h4>
-								</div>
-								<ul class="category-list">
-									<li><a href="#">Personal Transformation <span>93</span></a></li>
-									<li><a href="#">Career Development <span>233</span></a></li>
-									<li><a href="#">Religion & Spirituality <span>183</span></a></li>
-									<li><a href="#">Creativity <span>343</span></a></li>
-								</ul>
-							</div>
+						<div class="col-md-6 col-xm-12">
+							<h2>Post and Search a Training</h2>
+							<p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
+								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
+								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
+								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
+								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
+								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
+								commodo et libero. Quisque et rutrum arcu. Vivamus dictum
+								tincidunt magna id euismod. Nam sollicitudin mi quis orci
+								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
+								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
+								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
+								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
+								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
+								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
+								commodo et libero. Quisque et rutrum arcu.</p>
 						</div>
-						<!-- /Category List -->
-
-
 					</div>
-					<center>
-						<button type="button" class="btn btn-primary show_more"
-							style="color: white;">Show More</button>
-					</center>
-					<center>
-						<button type="button" class="btn btn-primary cacher show_less"
-							style="color: white;">Show Less</button>
-					</center>
+					&nbsp;
+					<hr/>
+					&nbsp;
+					<div class="row">
+					<div class="col-sm-6 col-xm-12">
+						<h2>Post and Search a Local</h2>
+						<p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
+								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
+								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
+								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
+								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
+								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
+								commodo et libero. Quisque et rutrum arcu. Vivamus dictum
+								tincidunt magna id euismod. Nam sollicitudin mi quis orci
+								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
+								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
+								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
+								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
+								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
+								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
+								commodo et libero. Quisque et rutrum arcu.</p>
+								</div>
+						<div class="col-sm-6 col-xm-12">
+							<img alt="local" src="images/local.png" class="img-fluid">
+						</div>
+
+						
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -516,7 +435,8 @@
 =            Comments            =
 =====================================-->
 
-	<section class=" pb-5" id="Comments">
+	<section class=" pb-5" id="Comments"
+		th:if="${commentaires.empty==false}">
 		<div>
 			<div class="section-title">
 				<h2>What People Say About Us</h2>

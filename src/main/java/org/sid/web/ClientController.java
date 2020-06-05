@@ -112,6 +112,11 @@ public class ClientController {
 		}
 
 		client.setBlocked("unblocked");
+		client.setEtendreRole1("notyet");
+		client.setEtendreRole2("notyet");
+		
+		
+	
 		clientRepository.save(client);
 		if(!(picture.isEmpty())) {
 			client.setPicture(picture.getOriginalFilename());
@@ -150,6 +155,7 @@ public class ClientController {
 		if(client.getPassword().equals(password)) {
 			session=request.getSession(true);
 			session.setAttribute("user", client);
+			
 		}
 		else {
 
@@ -159,6 +165,7 @@ public class ClientController {
 			return "login";
 
 		}
+		
 		model.addAttribute("error",error);
 		return "redirect:TrainingManagement";
 	}
@@ -174,6 +181,32 @@ public class ClientController {
 
 
 		return "trainer-profile";
+	}
+	@RequestMapping(value="/ExpandRole",method=RequestMethod.GET)
+	public String ExpandRole(Model model,HttpServletRequest request,Long id,String role) {
+		HttpSession session=request.getSession(true);
+		Client client=(Client) session.getAttribute("user");
+		Client objClient=clientRepository.getOne(id);
+		
+		if(objClient.getEtendreRole1().equals("notyet") && objClient.getEtendreRole2()!="notyet") {
+			objClient.setEtendreRole1(role);
+			client.setEtendreRole1(role);
+		}
+		if(objClient.getEtendreRole2().equals("notyet") && objClient.getEtendreRole1()!="notyet") {
+		
+			objClient.setEtendreRole2(role);
+			client.setEtendreRole2(role);
+		}
+		if(objClient.getEtendreRole1().equals("notyet") && objClient.getEtendreRole2().equals("notyet")) {
+			objClient.setEtendreRole1(role);
+			client.setEtendreRole1(role);
+		}
+		
+		clientRepository.save(objClient);
+		
+		model.addAttribute("session", session.getAttribute("user"));
+
+		return "redirect:editUserProfile";
 	}
 
 

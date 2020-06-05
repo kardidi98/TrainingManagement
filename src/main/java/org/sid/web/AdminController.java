@@ -225,7 +225,7 @@ public class AdminController {
 		model.addAttribute("article",article);
 		model.addAttribute("formateur",formateur);
 		Long Duree=article.getLastDay().getTime()-article.getFirstDay().getTime();
-		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8)));
+		Long Duration=(long) (Duree*(1.15741*Math.pow(10,-8))+1);
 		model.addAttribute("Duration",Duration);
 
 		model.addAttribute("categories", categoryRepository.findAll());
@@ -716,7 +716,7 @@ public class AdminController {
 		model.addAttribute("cities", cityRepository.findAll());
 		
 		model.addAttribute("session", session.getAttribute("user"));
-		return "redirect:/";
+		return "redirect:/addCity";
 	}
 	
 	@RequestMapping(value="/addCategory", method =RequestMethod.GET)
@@ -741,7 +741,7 @@ public class AdminController {
 		model.addAttribute("cities", cityRepository.findAll());
 		
 		model.addAttribute("session", session.getAttribute("user"));
-		return "redirect:/";
+		return "redirect:/addCategory";
 	}
 	
 	@RequestMapping(value="/deleteComment", method =RequestMethod.GET)

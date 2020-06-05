@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,7 @@ public class Formation implements Serializable {
 	private String ArticleCat;
 	private int Prix;
 	private String Requirements;
+	@Column(columnDefinition = "LONGTEXT")
 	private String Description;
 	private java.sql.Date firstDay;
 	private java.sql.Date lastDay;
@@ -41,14 +43,14 @@ public class Formation implements Serializable {
 	@JoinColumn(name="userId")
 	private Client user;
 
-	@ManyToMany(mappedBy = "formationReservee")
+	@ManyToMany(mappedBy = "formationReservee",cascade = CascadeType.ALL)
 	private List<Client> clientBeneficiants;
 
 	@OneToOne
 	@JoinColumn(name="local")
 	private Local Local;
 
-	@OneToMany(mappedBy = "ratingFormation")
+	@OneToMany(mappedBy = "ratingFormation",cascade = CascadeType.ALL)
 	private List<Rating> ratings;
 
 

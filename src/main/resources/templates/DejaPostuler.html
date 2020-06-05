@@ -134,13 +134,11 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{AddArticle}"
-											id="search_article">Add Training Article</a> <a
-											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
-											class="dropdown-item" th:href="@{EditAds}">Edit User
-											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
-											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
-											out</a>
+									<a th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}" class="dropdown-item" th:href="@{AddArticle}" id="search_article">Add Training Article</a> 
+										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}" class="dropdown-item" th:href="@{AddLocal}">Add Local</a> 
+										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider' or session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"  class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a> 
+										<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a> 
+										<a class="dropdown-item" th:href="@{home}">Log out</a>
 
 									</div></li>
 
@@ -195,99 +193,30 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div class="category-sidebar">
-						<div class="widget category-list">
-							<h4 class="widget-header">All Category</h4>
-							<ul class="category-list">
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Development'))}">Development
-										<span></span>
-								</a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Innovation'))}">Innovation
-										<span></span>
-								</a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Management'))}">Management
-										<span></span>
-								</a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Personal Development'))}">Personal
-										Development <span></span>
-								</a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Electronics'))}">Electronics
-										<span></span>
-								</a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Business'))}">Business<span></span></a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}">Finance
-										& Comptability <span></span>
-								</a></li>
-								<li><a
-									th:href="@{listFormationParCategory(cat=('Programmation'))}">Programmation
-										<span></span>
-								</a></li>
+					<div class="widget category-list">
+						<h4 class="widget-header">All Category</h4>
+						<ul class="category-list">
+							<li th:each="cat:${categories}"><a class="dropdown-item" 
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"> <span></span></a></li>
+							
+						
 
 
-							</ul>
-						</div>
-
-						<div class="widget category-list">
-							<h4 class="widget-header">Nearby</h4>
-							<ul class="category-list">
-								<li><a href="category.html">Casablanca <span></span></a></li>
-								<li><a href="category.html">Rabat <span></span></a></li>
-								<li><a href="category.html">Kenitra <span></span></a></li>
-								<li><a href="category.html">Fes <span></span></a></li>
-								<li><a href="category.html">Laayoune <span></span></a></li>
-
-							</ul>
-						</div>
-
-
-
-						<div class="widget price-range w-100">
-							<h4 class="widget-header">Price Range</h4>
-							<div class="block">
-								<input class="range-track w-100" type="text" data-slider-min="0"
-									data-slider-max="5000" data-slider-step="5"
-									data-slider-value="[0,5000]">
-								<div class="d-flex justify-content-between mt-2">
-									<span class="value">$10 - $5000</span>
-								</div>
-							</div>
-						</div>
-
-						<div class="widget product-shorting">
-							<h4 class="widget-header">By Condition</h4>
-							<div class="form-check">
-								<label class="form-check-label"> <input
-									class="form-check-input" type="checkbox" value="">
-									Brand New
-								</label>
-							</div>
-							<div class="form-check">
-								<label class="form-check-label"> <input
-									class="form-check-input" type="checkbox" value="">
-									Almost New
-								</label>
-							</div>
-							<div class="form-check">
-								<label class="form-check-label"> <input
-									class="form-check-input" type="checkbox" value="">
-									Gently New
-								</label>
-							</div>
-							<div class="form-check">
-								<label class="form-check-label"> <input
-									class="form-check-input" type="checkbox" value="">
-									Havely New
-								</label>
-							</div>
-						</div>
-
+						</ul>
 					</div>
+
+					<div class="widget category-list">
+						<h4 class="widget-header">Nearby</h4>
+						<ul class="category-list">
+							<li th:each="ville:${cities}"><a class="dropdown-item" 
+											th:href="@{listFormationParVille(city=(${ville.ville}))}" th:text="${ville.ville}"> <span></span></a></li>
+							
+					
+						</ul>
+					</div>
+
+					
+				</div>
 				</div>
 				<div class="col-md-9">
 					<div class="category-search-filter">

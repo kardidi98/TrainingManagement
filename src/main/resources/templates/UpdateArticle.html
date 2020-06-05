@@ -131,13 +131,11 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{AddArticle}"
-											id="search_article">Add Training Article</a> <a
-											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
-											class="dropdown-item" th:href="@{EditAds}">Edit User
-											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
-											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
-											out</a>
+										<a th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}" class="dropdown-item" th:href="@{AddArticle}" id="search_article">Add Training Article</a> 
+										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}" class="dropdown-item" th:href="@{AddLocal}">Add Local</a> 
+										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider' or session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"  class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a> 
+										<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a> 
+										<a class="dropdown-item" th:href="@{home}">Log out</a>
 
 									</div></li>
 
