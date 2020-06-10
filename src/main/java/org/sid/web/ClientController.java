@@ -191,15 +191,18 @@ public class ClientController {
 		if(objClient.getEtendreRole1().equals("notyet") && objClient.getEtendreRole2()!="notyet") {
 			objClient.setEtendreRole1(role);
 			client.setEtendreRole1(role);
+			System.out.println("1");
 		}
-		if(objClient.getEtendreRole2().equals("notyet") && objClient.getEtendreRole1()!="notyet") {
+		else if(objClient.getEtendreRole2().equals("notyet") && objClient.getEtendreRole1()!="notyet") {
 		
 			objClient.setEtendreRole2(role);
 			client.setEtendreRole2(role);
+			System.out.println("2");
 		}
-		if(objClient.getEtendreRole1().equals("notyet") && objClient.getEtendreRole2().equals("notyet")) {
+		else if(objClient.getEtendreRole1().equals("notyet") && objClient.getEtendreRole2().equals("notyet")) {
 			objClient.setEtendreRole1(role);
 			client.setEtendreRole1(role);
+			System.out.println("3");
 		}
 		
 		clientRepository.save(objClient);

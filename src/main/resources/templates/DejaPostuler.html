@@ -9,10 +9,7 @@
 <title>Find Article: TrainingManagement</title>
 
 <!-- ALERT -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <link type="text/css"
 	href="../static/plugins/bootstrap/css/bootstrap-timepicker.min.css"
 	th:href="@{plugins/bootstrap/css/bootstrap-timepicker.min.css}" />
@@ -60,6 +57,8 @@
 <link href="../static/css/style.css" th:href="@{css/style.css}"
 	rel="stylesheet">
 
+<link href="../static/css/animated.css" th:href="@{css/animated.css}"
+	rel="stylesheet">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -97,6 +96,7 @@
 										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
 										<a class="dropdown-item" th:each="cat:${categories}"
 											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
+										
 
 
 									</div></li>
@@ -114,8 +114,8 @@
 									</div></li>
 
 							</ul>
-							<ul class="navbar-nav  ml-auto main-nav"
-								style="margin-right: 39px;">
+							<ul th:if="${session.user!=null}"
+								class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
 								<li class="nav-item w-100" style="margin-bottom: 10px;">
 									<form class="search">
 										<input class="searchTerm  rounded" placeholder="Search..." />
@@ -134,13 +134,28 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-									<a th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}" class="dropdown-item" th:href="@{AddArticle}" id="search_article">Add Training Article</a> 
+										<a th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}" class="dropdown-item" th:href="@{AddArticle}" id="search_article">Add Training Article</a> 
 										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}" class="dropdown-item" th:href="@{AddLocal}">Add Local</a> 
 										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider' or session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"  class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a> 
 										<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a> 
 										<a class="dropdown-item" th:href="@{home}">Log out</a>
 
 									</div></li>
+
+
+
+							</ul>
+							<ul th:if="${session.user==null}"
+								class="navbar-nav ml-auto mt-10 ">
+								<li class="nav-item w-100" style="margin-right: 10px;">
+									<form class="search">
+										<input class="searchTerm  rounded" placeholder="Search..." />
+										<input class="searchButton" type="submit" />
+									</form>
+								</li>
+								<li class="nav-item"><a
+									class="nav-link login-button rounded" th:href="@{login}">Login</a>
+								</li>
 
 							</ul>
 						</div>
@@ -149,37 +164,54 @@
 			</div>
 		</div>
 	</section>
+
 	<section class="page-search">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<!-- Advance Search -->
 					<div class="advance-search">
-						<form>
+						<form th:action="@{ChercherFormation}" method="Post">
 							<div class="form-row">
-								<div class="form-group col-md-2">
-									<input type="text" class="form-control my-2 my-lg-0"
-										id="inputtext4" placeholder="By Trainer">
-								</div>
-								<div class="form-group col-md-2">
-									<input type="text" class="form-control my-2 my-lg-0"
-										id="inputCategory4" placeholder="By Category">
-								</div>
-								<div class="form-group col-md-2">
-									<input type="text" class="form-control my-2 my-lg-0"
-										id="inputLocation4" placeholder="By Location">
-								</div>
-								<div class="form-group col-md-1"></div>
-								<div class="form-group col-md-2">
+								<div class="form-group col-md-3"
+									style="margin-top: -10px; width: 100%;">
+									<select class="form-control w-100" name="Trainer"
+										required="required">
+										<option value="default">Select trainer expertise</option>
 
-									<button type="submit" class="btn btn-primary"
-										style="border: 1px solid white;">Quick Search</button>
+										<option value="Biginner">Biginner</option>
+										<option value="Medium">Medium</option>
+										<option value="Expert">Expert</option>
+
+									</select>
+
 								</div>
+
+								<div class="form-group col-md-3" style="margin-top: -10px;">
+									<select class="form-control w-100" name="Category"
+										required="required">
+										<option value="default">Select a Category</option>
+										<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
+										
+									</select>
+								</div>
+								<div class="form-group col-md-3" style="margin-top: -10px;">
+									<select class="form-control w-100 " name="Location"
+										required="required">
+										<option value="default">Select a location</option>
+										<option th:each="ville:${cities}" th:text="${ville.ville}" th:value="${ville.ville}"></option>
+										
+										
+									</select>
+								</div>
+
 								<div class="form-group col-md-3">
 
 									<button type="submit" class="btn btn-primary"
-										style="border: 1px solid white;">Advanced Search</button>
+										style="border: 1px solid white; height: 45px; margin-left: 15px;">Quick
+										Search</button>
 								</div>
+
 							</div>
 						</form>
 					</div>
@@ -187,12 +219,13 @@
 			</div>
 		</div>
 	</section>
-	<section class="section-sm">
-		<div class="container">
 
-			<div class="row">
-				<div class="col-md-3">
-					<div class="category-sidebar">
+
+	<section class="container section-sm">
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="category-sidebar">
 					<div class="widget category-list">
 						<h4 class="widget-header">All Category</h4>
 						<ul class="category-list">
@@ -217,93 +250,132 @@
 
 					
 				</div>
-				</div>
-				<div class="col-md-9">
-					<div class="category-search-filter">
-						<div class="row">
-							<div class="col-md-6">
-								<strong>Sort</strong> <select>
-									<option>Most Recent</option>
-									<option value="1">Most Popular</option>
-									<option value="2">Lowest Price</option>
-									<option value="4">Highest Price</option>
-								</select>
-							</div>
-
+			</div>
+			<div class="col-md-9 animated fadeInRightBig">
+				<div class="category-search-filter">
+					<div class="row">
+						<div class="col-md-6">
+							<strong>Found Result : </strong> <span th:text="${count}"></span>
 						</div>
-					</div>
 
-					<!-- ad listing list  -->
-					<div class="ad-listing-list mt-20" th:each="formation:${formation}">
-						<div class="row p-lg-3 p-sm-5 p-4">
-							<div class="col-lg-4 align-self-center">
-								<a th:href="@{viewArticle(id=${formation.id})}"> <img
-									th:src="@{getPhoto(id=${formation.id})}" class="img-fluid"
-									alt="" />
-								</a>
-							</div>
-							<div class="col-lg-8">
-								<div class="row">
-									<div class="col-lg-6 col-md-10">
-										<div class="ad-listing-content">
-											<div>
-												<a href="single.html" class="font-weight-bold"
-													th:text="${formation.Title}"></a>
-											</div>
-											<ul class="list-inline mt-2 mb-3">
-												<li class="list-inline-item"><span><i
-														class="fa fa-folder-open-o"></i></span> <span
-													th:text="${formation.ArticleCat}"></span></li>
-												<li class="list-inline-item"><a href=""> <span><i
-															class="fa fa-calendar"></i></span><span
-														th:text="' '+${formation.firstDay}"></span></a></li>
-											</ul>
-											<p class="pr-5" th:text="${formation.Description}"
-												align="justify"></p>
+					</div>
+				</div>
+
+				<div th:if="${formation.empty}" style="text-align: center">
+					<br>
+					<h2>No result</h2>
+				</div>
+				<!-- ad listing list  -->
+				<div class="contents">
+					<div class="ad-listing-list mt-20 " style="border-bottom: 1px solid rgba(0,0,0,0.3);"
+					th:each="f:${formation}">
+					<div class="row p-lg-3 p-sm-5 p-4 ">
+						<div class="col-lg-4 align-self-center">
+							<a th:href="@{viewArticle(id=${f.id})}"> <img
+								th:src="@{getPhoto(id=${f.id})}" class="img-fluid"
+								alt="" />
+							</a>
+						</div>
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col-lg-6 col-md-10">
+									<div class="ad-listing-content">
+										<div>
+											<a th:href="@{viewArticle(id=${f.id})}" class="font-weight-bold"
+												th:text="${f.Title}"></a>
 										</div>
+										<ul class="list-inline mt-2 mb-3">
+											<li class="list-inline-item"><span><i
+													class="fa fa-folder-open-o"></i></span> <span
+												th:text="${f.ArticleCat}"></span></li>
+											<li class="list-inline-item"><a href=""> <span><i
+														class="fa fa-calendar"></i></span><span
+													th:text="' '+${f.firstDay}"></span></a></li>
+										</ul>
+										<p th:if="${f.etat=='Active'}" style="display: flex;"
+											>State: &nbsp; <span style="color: green;"> Active</span></p>
+											<p th:if="${f.etat=='Inactive'}" style="display: flex;"
+											>State: &nbsp; <span style="color: red;"> Inactive</span></p>
+										<p class="pr-5" th:text="${f.Description}"
+											align="justify"></p>
+											
 									</div>
-									<div class="col-lg-6 align-self-center">
-										<div class="product-ratings float-lg-right pb-3">
-											<ul class="list-inline">
-												<li class="list-inline-item selected"><i
-													class="fa fa-star"></i></li>
-												<li class="list-inline-item selected"><i
-													class="fa fa-star"></i></li>
-												<li class="list-inline-item selected"><i
-													class="fa fa-star"></i></li>
-												<li class="list-inline-item selected"><i
-													class="fa fa-star"></i></li>
-												<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											</ul>
-										</div>
+								</div>
+								<div class="col-lg-6 align-self-center">
+									<div class="product-ratings float-lg-right pb-3">
+										<ul class="list-inline"
+											th:with="avg=${#aggregates.avg(f.ratings.![countStars])}">
+											<li th:each="r: ${#numbers.sequence( 1, 5)}"
+												class="list-inline-item"><i
+												th:class="${r <= avg} ? 'fa fa-star':'fa fa-star-o'"></i></li>
+
+										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<br>
-
-					<div class="pagination justify-content-center">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination">
-								<li class="page-item"><a class="page-link" href="#"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-										<span class="sr-only">Previous</span>
-								</a></li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item active"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-										<span class="sr-only">Next</span>
-								</a></li>
-							</ul>
-						</nav>
-					</div>
-
 				</div>
+				</div>
+				
+
+				<!-- <div th:if="${ByCategory==true}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{listFormationParCategory(cat=(${formation.content[0].ArticleCat}),page=${p})}"></a></li>
+
+						</ul>
+					</nav>
+				</div>
+				<div th:if="${ByCity==true}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{listFormationParVille(city=(${formation.content[0].local.ville}),page=${p})}"></a></li>
+
+						</ul>
+					</nav>
+				</div>
+				<div
+					th:if="${ByCity==false && ByCategory==false && FromSearch==false}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{listFormation(page=${p})}"></a></li>
+
+						</ul>
+					</nav>
+				</div>
+				<div th:if="${FromSearch==true}"
+					class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+
+							<li class="page-item" th:each="p:${page}"
+								th:class="${p==pageCourante} ? 'active':''"><a
+								class="page-link" th:text="${p+1}"
+								th:href="@{chercherformation(page=${p},Trainer=${formation.content[0].user.expertise},Location=(${formation.content[0].local.ville}),Category=(${formation.content[0].ArticleCat}))}"></a></li>
+
+						</ul>
+					</nav>
+				</div> -->
+
+
 			</div>
+		</div>
 	</section>
 	<!--============================
 =            Footer            =
@@ -386,7 +458,6 @@
 	<footer class="footer-bottom">
 		<!-- Container Start -->
 		<div class="container">
-
 			<div class="row">
 				<div class="col-sm-6 col-12">
 					<!-- Copyright -->
@@ -459,7 +530,22 @@
 	<script src="../static/plugins/google-map/gmap.js"
 		th:src="@{plugins/google-map/gmap.js}"></script>
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
-	<script type="text/javascript">
+
+
+<script type="text/javascript">
+
+
+$(document).ready(function()
+		 {
+		   $("#tab").pagination({
+		   items: 5,
+		   contents: 'contents',
+		   previous: '<<',
+		   next: '>>',
+		   position: 'bottom',
+		   });
+		});
+!function(e){e.fn.pagination=function(a){function t(t){var s=e("."+r.contents+".current").children().length,l=Math.ceil(s/r.items),o='<ul id="page-navi">\t<li><a href="#" class="previos">'+r.previous+"</a></li>";for(i=0;i<l;i++)o+='\t<li><a href="#">'+(i+1)+"</a></li>";o+='\t<li><a href="#" class="next">'+r.next+"</a></li></ul>";var c=t;0==t?(c=parseInt(e("#page-navi li a.current").html()))-1!=0&&c--:t==l+1&&(c=parseInt(e("#page-navi li a.current").html()))+1!=l+1&&c++,t=c,0==s&&(o=""),e("#page-navi").remove(),"top"==r.position?e("."+r.contents+".current").before(o):e("."+r.contents+".current").after(o),e("#page-navi li a").removeClass("current"),e("#page-navi li a").eq(t).addClass("current"),e("#page-navi li a").removeClass("disable"),c=parseInt(e("#page-navi li a.current").html()),c-1==0&&e("#page-navi li a.previos").addClass("disable"),c==l&&e("#page-navi li a.next").addClass("disable");var u=a.items*(t-1),d=a.items*t;t==l&&(d=s),e("."+r.contents+".current").children().hide(),e("."+r.contents+".current").children().slice(u,d).fadeIn(a.time),1==r.scroll&&e("html,body").animate({scrollTop:n},0)}var r={items:5,contents:"contents",previous:"Previous&raquo;",next:"&laquo;Next",time:800,start:1,position:"bottom",scroll:!0},r=e.extend(r,a);e(this).addClass("jquery-tab-pager-tabbar"),$tab=e(this).find("li");var n=0;!function(){var a=r.start-1;$tab.eq(a).addClass("current"),e("."+r.contents).hide().eq(a).show().addClass("current"),t(1)}(),$tab.click(function(){var a=$tab.index(this);$tab.removeClass("current"),e(this).addClass("current"),e("."+r.contents).removeClass("current").hide().eq(a).addClass("current").fadeIn(r.time),t(1)}),e(document).on("click","#page-navi li a",function(){return!e(this).hasClass("disable")&&(t(e("#page-navi li a").index(this)),!1)}),e(window).on("load scroll",function(){n=e(window).scrollTop()})}}(jQuery);
 Swal.fire({
     title: 'You\'re already in this training !',
     type: 'info',
@@ -469,6 +555,7 @@ Swal.fire({
  
 });
 </script>
+
 </body>
 
 </html>

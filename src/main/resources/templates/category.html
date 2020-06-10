@@ -265,7 +265,7 @@
 				<!-- ad listing list  -->
 				<div class="contents">
 					<div class="ad-listing-list mt-20 " style="border-bottom: 1px solid rgba(0,0,0,0.3);"
-					th:each="formation:${formation.content}">
+					th:each="formation:${formation}">
 					<div class="row p-lg-3 p-sm-5 p-4 ">
 						<div class="col-lg-4 align-self-center">
 							<a th:href="@{viewArticle(id=${formation.id})}"> <img
@@ -278,7 +278,7 @@
 								<div class="col-lg-6 col-md-10">
 									<div class="ad-listing-content">
 										<div>
-											<a href="single.html" class="font-weight-bold"
+											<a th:href="@{viewArticle(id=${formation.id})}" class="font-weight-bold"
 												th:text="${formation.Title}"></a>
 										</div>
 										<ul class="list-inline mt-2 mb-3">
@@ -289,8 +289,15 @@
 														class="fa fa-calendar"></i></span><span
 													th:text="' '+${formation.firstDay}"></span></a></li>
 										</ul>
+										<p th:if="${formation.etat=='Active'}" style="display: flex;"
+											>State: &nbsp; <span style="color: green;"> Active</span></p>
+											<p th:if="${formation.etat=='Inactive'}" style="display: flex;"
+											>State: &nbsp; <span style="color: red;"> Inactive</span></p>
 										<p class="pr-5" th:text="${formation.Description}"
 											align="justify"></p>
+											
+											
+											
 									</div>
 								</div>
 								<div class="col-lg-6 align-self-center">

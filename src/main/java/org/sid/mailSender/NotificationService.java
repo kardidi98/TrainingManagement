@@ -472,5 +472,64 @@ public class NotificationService {
 		}
 		
 	}
+	public void sendNotificationIfArticleHasReachedMin(String email, Formation formation) throws MailException{
+		final String username = "ghikkprojet@gmail.com";
+		final String password = "ghikkghikk";
+		final String host= "smtp.gmail.com";
+		final int port=587;
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		String msg="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
+				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi dear trainer</h1>"+
+				"<p>" + 
+				"The traininig intitled<strong>"+formation.getTitle()+"</strong> has reacher the minimun of places to start (<strong style='color green;'>"+formation.getMinPlaces()+"</strong>). Here is the list of this participants:"+
+				"</p>"+
+				"<table>"
+				+ "<tbody>"
+				+ "<tr>";
+				for(int i=0; i<formation.getClientBeneficiants().size();i++) {
+					Client participant = formation.getClientBeneficiants().get(i);
+					msg.concat("<td><strong>Name/Email: </strong></td>"+"<td>"+participant.getNom()+" "+participant.getPrenom()+" / "+participant.getEmail()+"</td>");
+				}
+				
+				msg.concat( "</tr></tbody></table><p>Thank you and see you soon.</p></div></div>");
+
+		try {
+			
+
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("ghikkprojet@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(email));
+				message.setSubject("Welcome to Training Management");
+				message.setContent(msg,"text/html");
+
+				Transport transport = session.getTransport("smtp");
+				transport.connect (host, port,username,password);
+				transport.sendMessage(message, message.getAllRecipients());
+				transport.close(); 
+			
+
+
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+
+
+		}
+		
+	}
 
 }

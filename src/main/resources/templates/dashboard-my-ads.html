@@ -174,6 +174,9 @@
 								<li th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}"><a id="myLocal"
 									onclick="$('.my-adslist').hide();$('.my-locallist').fadeIn();"><i
 										class="fa fa-map-o"></i> My Locals</a></li>
+										
+							
+								
 
 
 								<li ><a th:href="@{home}"><i class="fa fa-cog"></i>
@@ -245,6 +248,10 @@
 											th:text="${'Location: Not Yet.'}"></span></span> <span
 										th:if="${formation.Local}!=null" class="location"><span
 											th:text="'Location:    '+${formation.Local.adresse}+','+${formation.Local.ville}"></span></span>
+											<span th:if="${formation.etat=='Active'}" style="display: flex;"
+											>State: &nbsp; <span style="color: green;"> Active</span></span>
+											<span th:if="${formation.etat=='Inactive'}" style="display: flex;"
+											>State: &nbsp; <span style="color: red;"> Inactive</span></span>
 									</td>
 									<td class="product-category"><span class="categories"
 										th:text="${formation.ArticleCat}"></span></td>
@@ -299,6 +306,11 @@
 
 						</ul>
 					</div>
+					<!--<div id="load" th:if="${(session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider') and (session.user.type!='Trainer' and session.user.etendreRole1!='Trainer' and session.user.etendreRole2!='Trainer')}">
+									<script type="text/javascript">
+									$('.my-locallist').fadeIn();
+									</script>
+					</div>-->
 					<div th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}" th:href="@{AddLocal}" class="widget dashboard-container my-locallist cacher">
 						<h2 class="header" style="font-weight: bold;">My Locals</h2>
 						<table class="table table-responsive product-dashboard-table">
@@ -452,20 +464,7 @@
 
 							</tbody>
 						</table>
-						<hr>
-						<div class="pagination justify-content-center">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination">
-
-									<li class="page-item" th:each="p:${lpage}"
-										th:class="${p==lpageCourante} ? 'active':''"><a
-										class="page-link" th:text="${p+1}"
-										th:href="@{EditAds(page=${p})}"></a></li>
-
-
-								</ul>
-							</nav>
-						</div>
+						
 						<ul class="navbar-nav ml-auto mt-10">
 
 

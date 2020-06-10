@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Table;
 import javax.servlet.http.HttpServletRequest;
@@ -152,6 +153,7 @@ public class FormationController {
 		Local local=localController.findById(localId);
 
 		formation.setLocal(local);
+		formation.setEtat("Active");
 		if(bindingResult.hasErrors()) {
 			return "dashboard-my-ads";
 		}
@@ -161,7 +163,7 @@ public class FormationController {
 
 		}
 
-
+		
 		formationRepository.save(formation);
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
@@ -222,19 +224,13 @@ public class FormationController {
 		//		ByCity=false;
 		//		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,4,Sort.by("firstDay").ascending()));
+		List<Formation> formation=formationRepository.findAll();
 		List<Formation> countformation=formationRepository.findAll();
 		List<Client> TrainerList =clientRepository.findTrainers();
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
 
@@ -259,7 +255,7 @@ public class FormationController {
 		//		ByCity=false;
 		//		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findByArticleCat(cat,PageRequest.of(page,4,Sort.by("firstDay").ascending()));
+		List<Formation> formation=formationRepository.findByArticleCat(cat);
 		Long countFormation = formationRepository.countByArticleCat(cat);
 
 
@@ -267,13 +263,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
@@ -296,21 +286,13 @@ public class FormationController {
 		//		ByCity=true;
 		//		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findByArticleCity(city,PageRequest.of(page,4,Sort.by("first_day").ascending()));
+		List<Formation> formation=formationRepository.findByArticleCity(city);
 		Long countFormation = formationRepository.countByArticleCity(city);
 
 
 		List<Client> TrainerList =clientRepository.findTrainers();
 
-		model.addAttribute("TrainerList", TrainerList);
-
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
@@ -575,15 +557,38 @@ public class FormationController {
 		Formation formation=formationRepository.getOne(id);
 		Long countFormation=formationRepository.countByIdFormation(id);
 		List<Long> verifyIfExist=formationRepository.verifyIfAlreadyExist(client.getId(),id);
-		System.out.println(verifyIfExist.size());
+		model.addAttribute("count", countFormation);
 		if(verifyIfExist.size()==0) {
 			if(formation.equals(null)) {
+				
 				formationRepository.insertIntoReservation(client.getId(),id);
+				
 				return "redirect:listFormation";
 			}
 			else {
+				
 				if(formation.getNbPlaces()>countFormation) {
+					
+					
 					formationRepository.insertIntoReservation(client.getId(),id);
+					try {
+						TimeUnit.SECONDS.sleep(2);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Formation formationAccepted=formationRepository.getOne(id);
+					System.out.println(formationAccepted.getCanStart());
+					if(formationAccepted.getCanStart()==1) {
+						
+						try {
+							notificationService.sendNotificationIfArticleHasReachedMin(formation.getUser().getEmail(), formation);
+
+							
+						} catch (Exception e) {
+
+						}
+					}
 					return "redirect:listFormation";
 				}
 				else return "redirect:PlacesPleines";
@@ -598,12 +603,13 @@ public class FormationController {
 	public String DejaPostuler(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		List<Formation> formation=formationRepository.findAll();
+		
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
 
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+		model.addAttribute("count", formation.size());
 		return "DejaPostuler";
 	}
 
@@ -616,7 +622,7 @@ public class FormationController {
 
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+		model.addAttribute("count", formation.size());
 		return "PlacesPleines";
 	}
 	@RequestMapping(value="/editUserProfile",method=RequestMethod.GET)
@@ -655,21 +661,13 @@ public class FormationController {
 		//		ByCity=false;
 		//		FromSearch=true;
 
-		Page<Formation> formation=formationRepository.rechercherformation(Trainer,Location,Category,PageRequest.of(page,7,Sort.unsorted()));
+		List<Formation> formation=formationRepository.rechercherformation(Trainer,Location,Category);
 		List<Formation> countformation=formationRepository.findNomberTrainings(Trainer,Location,Category);
 		HttpSession session=request.getSession(true);
 
 		List<Client> TrainerList =clientRepository.findTrainers();
 
-		model.addAttribute("TrainerList", TrainerList);
-
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		
 		model.addAttribute("formation",formation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
@@ -695,7 +693,7 @@ public class FormationController {
 		//		ByCity=false;
 		//		FromSearch=true;
 
-		Page<Formation> formation=formationRepository.rechercherformation(Trainer,Location,Category,PageRequest.of(page,7,Sort.unsorted()));
+		List<Formation> formation=formationRepository.rechercherformation(Trainer,Location,Category);
 		List<Formation> countformation=formationRepository.findNomberTrainings(Trainer,Location,Category);
 		HttpSession session=request.getSession(true);
 
@@ -703,13 +701,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+	
 		model.addAttribute("formation",formation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
@@ -734,19 +726,12 @@ public class FormationController {
 	public String advancedSearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		//		FromAdvancedSearch=false;
 		HttpSession session=request.getSession(true);
-		Page<Formation> formation=formationRepository.findAll(PageRequest.of(page,4,Sort.by("firstDay").ascending()));
+		List<Formation> formation=formationRepository.findAll();
 		List<Formation> countformation=formationRepository.findAll();
 		List<Client> TrainerList =clientRepository.findTrainers();
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
 		//		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
@@ -763,7 +748,7 @@ public class FormationController {
 	@RequestMapping(value="/AdvancedResearch",method=RequestMethod.POST)
 	public String AdvancedResearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
 		//		FromAdvancedSearch=true;
-		Page<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice, PageRequest.of(page,5,Sort.unsorted()));
+		List<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		List<Formation> countformation = formationRepository.countResultFormation(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		HttpSession session=request.getSession(true);
 
@@ -771,13 +756,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		
 		model.addAttribute("formation",formation);
 
 		model.addAttribute("count",countformation.size());
@@ -798,7 +777,7 @@ public class FormationController {
 	@RequestMapping(value="/advancedresearch",method=RequestMethod.GET)
 	public String advancedresearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
 		//		FromAdvancedSearch=true;
-		Page<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice, PageRequest.of(page,5,Sort.unsorted()));
+		List<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		List<Formation> countformation = formationRepository.countResultFormation(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		HttpSession session=request.getSession(true);
 
@@ -806,13 +785,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		int countPages=formation.getTotalPages();
-		int[] pages=new int[countPages];
-		for(int i=0;i<countPages;i++) {
-			pages[i]=i;
-		}
-		model.addAttribute("pageCourante", page);
-		model.addAttribute("page", pages);
+		
 		model.addAttribute("formation",formation);
 		//		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
 		model.addAttribute("MinPrice",MinPrice);

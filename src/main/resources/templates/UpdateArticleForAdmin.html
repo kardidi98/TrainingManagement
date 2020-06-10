@@ -210,14 +210,26 @@ ul li.active {
 								type="text" class="border w-100 p-2 bg-white text-capitalize"
 								placeholder="Ad title go There" name="Title"
 								th:field="${article.Title}">
+								
+								<div class="row ">
+							
+							<div class="col-sm-6">
 							<h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
-							<div class="row px-3 ">
-								<input name="id" type="text"
-									class="border w-100 p-2 bg-white text-capitalize rounded cacher"
-									placeholder="" th:field="${article.id}"> <input
+								<input
 									name="NbPlaces" type="text"
 									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="25,30,100.." th:field="${article.NbPlaces}" onchange="$('#nbPlacesLocalInput').val(this.value);"/>
+									placeholder="25,30,100.." th:field="${article.NbPlaces}" onchange="$('#nbPlacesLocalInput').val(this.value);">
+							</div>
+							<div class="col-sm-6">
+							<h6 class="font-weight-bold pt-4 pb-1">Minimum of places:</h6>
+								<input name="MinPlaces" type="text"
+									class="border w-100 p-2 bg-white text-capitalize rounded"
+									placeholder="10,15,20.." th:field="${article.MinPlaces}"  required="required">
+									
+							</div>
+								
+							</div>
+								
 							</div>
 							<div class="row ">
 								<div class="col-sm-6">

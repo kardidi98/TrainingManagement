@@ -166,11 +166,22 @@
 							<input type="text"
 								class="border w-100 p-2 bg-white text-capitalize"
 								placeholder="Ad title go There" name="Title" required="required">
+							
+							<div class="row ">
+							
+							<div class="col-sm-6">
 							<h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
-							<div class="row px-3 ">
 								<input name="NbPlaces" type="text"
 									class="border w-100 p-2 bg-white text-capitalize rounded"
 									placeholder="25,30,100.." required="required" onchange="$('#nbPlacesLocalInput').val(this.value);">
+							</div>
+							<div class="col-sm-6">
+							<h6 class="font-weight-bold pt-4 pb-1">Minimum of places:</h6>
+								<input name="MinPlaces" type="text"
+									class="border w-100 p-2 bg-white text-capitalize rounded"
+									placeholder="10,15,20.." required="required">
+							</div>
+								
 							</div>
 							<div class="row ">
 								<div class="col-sm-6">

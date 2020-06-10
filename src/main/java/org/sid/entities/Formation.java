@@ -29,6 +29,8 @@ public class Formation implements Serializable {
 	private Long id;
 	private String Title;
 	private int NbPlaces;
+	private int MinPlaces;
+	private int canStart;
 	private String difficulty;
 	private String ArticleCat;
 	private int Prix;
@@ -38,6 +40,7 @@ public class Formation implements Serializable {
 	private java.sql.Date firstDay;
 	private java.sql.Date lastDay;
 	private String significantPhoto;
+	private String etat;
 
 	@ManyToOne
 	@JoinColumn(name="userId")
@@ -54,6 +57,56 @@ public class Formation implements Serializable {
 	private List<Rating> ratings;
 
 
+	
+	
+	public Formation(Long id, String title, int nbPlaces, int minPlaces, int canStart, String difficulty,
+			String articleCat, int prix, String requirements, String description, java.sql.Date firstDay,
+			java.sql.Date lastDay, String significantPhoto, String etat, Client user, List<Client> clientBeneficiants,
+			org.sid.entities.Local local, List<Rating> ratings) {
+		this.id = id;
+		Title = title;
+		NbPlaces = nbPlaces;
+		MinPlaces = minPlaces;
+		this.canStart = canStart;
+		this.difficulty = difficulty;
+		ArticleCat = articleCat;
+		Prix = prix;
+		Requirements = requirements;
+		Description = description;
+		this.firstDay = firstDay;
+		this.lastDay = lastDay;
+		this.significantPhoto = significantPhoto;
+		this.etat = etat;
+		this.user = user;
+		this.clientBeneficiants = clientBeneficiants;
+		Local = local;
+		this.ratings = ratings;
+	}
+
+	public String getEtat() {
+		return etat;
+	}
+
+	public void setEtat(String etat) {
+		this.etat = etat;
+	}
+
+	public int getMinPlaces() {
+		return MinPlaces;
+	}
+
+	public void setMinPlaces(int minPlaces) {
+		MinPlaces = minPlaces;
+	}
+
+	public int getCanStart() {
+		return canStart;
+	}
+
+	public void setCanStart(int canStart) {
+		this.canStart = canStart;
+	}
+
 	public String getIntituleeNoSpace() {
 		return Title.replaceAll("\\s+","");
 		
@@ -64,30 +117,7 @@ public class Formation implements Serializable {
 	}
 
 
-
-
-
-	public Formation(Long id, String title, int nbPlaces, String difficulty, String articleCat, int prix, Local local,
-			String requirements, String description, java.sql.Date firstDay, java.sql.Date lastDay,
-			String significantPhoto, Client user, List<Client> clientBeneficiants,List<Rating> rating) {
-		this.id = id;
-		Title = title;
-		NbPlaces = nbPlaces;
-		this.difficulty = difficulty;
-		ArticleCat = articleCat;
-		Prix = prix;
-		Local = local;
-		Requirements = requirements;
-		Description = description;
-		this.firstDay = firstDay;
-		this.lastDay = lastDay;
-		this.significantPhoto = significantPhoto;
-		this.user = user;
-		this.clientBeneficiants = clientBeneficiants;
-		this.ratings=rating;
-	}
-
-
+	
 
 
 	public List<Rating> getRatings() {
