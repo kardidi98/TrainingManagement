@@ -295,22 +295,37 @@ ul li.active {
 								<div class="tab-pane fade " id="pills-profile" role="tabpanel"
 									aria-labelledby="pills-profile-tab">
 									<h3 class="tab-title">
-										Planning Specifications <span><small> (9</small><small>hours)</small></span>
+										Planning Specifications
 									</h3>
-									<table class="table table-bordered product-table">
+									<table class="table table-bordered product-table" th:if="${article.session=='AllDay'}">
 										<tbody>
-											<tr>
-												<td class="text-center">Day 1</td>
-												<td>From 09:00 AM To 12:00 PM</td>
+											<tr th:each="r: ${#numbers.sequence( 1, Duration)}">
+												<td class="text-center" th:text="${'Day '+r}"></td>
+												<td>Morning: 08:00 AM To 12:00 PM and Afternoon: 02:00 PM To 06:00 PM</td>
 											</tr>
-											<tr>
-												<td class="text-center">Day 2</td>
-												<td>From 09:00 AM To 12:00 PM</td>
+											
+
+										</tbody>
+									</table>
+
+									<table class="table table-bordered product-table" th:if="${article.session=='Afternoon'}">
+										<tbody>
+											<tr th:each="r: ${#numbers.sequence( 1, Duration)}">
+												<td class="text-center" th:text="${'Day '+r}"></td>
+												<td>Afternoon: 02:00 PM To 06:00 PM</td>
 											</tr>
-											<tr>
-												<td class="text-center">Day 3</td>
-												<td>From 09:00 AM To 12:00 PM</td>
+											
+
+										</tbody>
+									</table>
+									
+									<table class="table table-bordered product-table" th:if="${article.session=='Morning'}">
+										<tbody>
+											<tr th:each="r: ${#numbers.sequence( 1, Duration)}">
+												<td class="text-center" th:text="${'Day '+r}"></td>
+												<td>Morning: 08:00 AM To 12:00 PM </td>
 											</tr>
+											
 
 										</tbody>
 									</table>

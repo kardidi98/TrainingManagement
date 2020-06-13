@@ -494,17 +494,19 @@ public class NotificationService {
 		String msg="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
 				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi dear trainer</h1>"+
 				"<p>" + 
-				"The traininig intitled<strong>"+formation.getTitle()+"</strong> has reacher the minimun of places to start (<strong style='color green;'>"+formation.getMinPlaces()+"</strong>). Here is the list of this participants:"+
+				"The traininig intitled <strong>"+formation.getTitle()+"</strong> has reached the minimun of places to start (<strong style='color green;'>"+formation.getMinPlaces()+"</strong> place(s)). Here is the list of these participants:"+
 				"</p>"+
 				"<table>"
 				+ "<tbody>"
 				+ "<tr>";
+		
 				for(int i=0; i<formation.getClientBeneficiants().size();i++) {
 					Client participant = formation.getClientBeneficiants().get(i);
-					msg.concat("<td><strong>Name/Email: </strong></td>"+"<td>"+participant.getNom()+" "+participant.getPrenom()+" / "+participant.getEmail()+"</td>");
+					msg=msg+"<td><strong>Name/Email: </strong></td>"+"<td>"+participant.getNom()+" "+participant.getPrenom()+" / "+participant.getEmail()+"</td>";
 				}
 				
-				msg.concat( "</tr></tbody></table><p>Thank you and see you soon.</p></div></div>");
+				msg=msg+"</tr></tbody></table><p>Thank you and see you soon.</p></div></div>";
+				
 
 		try {
 			

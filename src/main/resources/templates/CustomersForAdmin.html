@@ -309,11 +309,11 @@ ul li.active {
 									<td th:if="${customer.blocked=='unblocked'}"
 										style="display: flex; justify-content: center;"><a
 										th:href="@{BlockUser(id=${customer.id})}"><button
-												class="btn btn-danger" style="height: 50px;">Block</button></a></td>
+												class="btn btn-danger" style="height: 50px;" onclick="return confirm('Are you sure ?')">Block</button></a></td>
 									<td th:if="${customer.blocked=='blocked'}"
 										style="display: flex; justify-content: center;"><a
 										th:href="@{UnblockUser(id=${customer.id})}"><button
-												class="btn btn-success" style="height: 50px;">Unblock</button></a></td>
+												class="btn btn-success" style="height: 50px;" onclick="return confirm('Are you sure ?')">Unblock</button></a></td>
 								</tr>
 
 

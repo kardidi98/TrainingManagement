@@ -89,9 +89,10 @@
 											class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a class="dropdown-item" th:href="@{listFormation}">All</a> 
-										<a class="dropdown-item" th:each="cat:${categories}"
-											th:href="@{listFormationParCategory(cat=(${cat.category}))}" th:text="${cat.category}"></a>
+										<a class="dropdown-item" th:href="@{listFormation}">All</a> <a
+											class="dropdown-item" th:each="cat:${categories}"
+											th:href="@{listFormationParCategory(cat=(${cat.category}))}"
+											th:text="${cat.category}"></a>
 
 
 									</div></li>
@@ -112,8 +113,8 @@
 							<ul class="navbar-nav  ml-auto main-nav"
 								style="margin-right: 39px;">
 								<li class="nav-item w-100" style="margin-bottom: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
+									<form class="search" method="get" th:action="@{Search}">
+										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..."/>
 										<input class="searchButton" type="submit" />
 									</form>
 								</li>
@@ -129,11 +130,17 @@
 										<span><i class="fa fa-angle-down"></i></span>
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
-										<a th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}" class="dropdown-item" th:href="@{AddArticle}" id="search_article">Add Training Article</a> 
-										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}" class="dropdown-item" th:href="@{AddLocal}">Add Local</a> 
-										<a th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider' or session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"  class="dropdown-item" th:href="@{EditAds}">Edit User Posts</a> 
-										<a class="dropdown-item" th:href="@{editUserProfile}">User Profile</a> 
-										<a class="dropdown-item" th:href="@{home}">Log out</a>
+										<a
+											th:if="${session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"
+											class="dropdown-item" th:href="@{AddArticle}"
+											id="search_article">Add Training Article</a> <a
+											th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider'}"
+											class="dropdown-item" th:href="@{AddLocal}">Add Local</a> <a
+											th:if="${session.user.type=='Local Provider' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Local Provider' or session.user.type=='Trainer' or session.user.etendreRole1=='Trainer' or session.user.etendreRole2=='Trainer'}"
+											class="dropdown-item" th:href="@{EditAds}">Edit User
+											Posts</a> <a class="dropdown-item" th:href="@{editUserProfile}">User
+											Profile</a> <a class="dropdown-item" th:href="@{home}">Log
+											out</a>
 
 									</div></li>
 
@@ -163,52 +170,89 @@
 							<!-- User Name -->
 							<h5 class="text-center"
 								th:text="${session.user.nom+'  '+session.user.prenom}"></h5>
-						<div style="text-align: center;">
-							<span th:text="${session.user.type}"></span>
-							<span th:if="${session.user.etendreRole1 != 'notyet'}"  th:text="${', '+session.user.etendreRole1}"></span>
-							<span th:if="${session.user.etendreRole2 != 'notyet'}"  th:text="${', '+session.user.etendreRole2+'.'}"></span>
-						</div>
-						&nbsp;
-						<div style="display: flex;justify-content: center;">
-							
-							<button type="button" data-toggle="modal" data-target="#ModalRole" class="rounded btn btn-success" onclick="this.style.color='white';" style="border: none;padding: 15px;" th:if="${session.user.etendreRole1 == 'notyet' or session.user.etendreRole2 == 'notyet'}" >Expand Role</button>
-							
-						</div>
-						
-						
-						</div>
-						
-						<!-- Modal -->
-							<div class="modal fade" id="ModalRole" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-							  <div class="modal-dialog modal-dialog-centered" role="document">
-							    <div class="modal-content">
-							      <div class="modal-header">
-							        <h5 class="modal-title" id="exampleModalLongTitle">Expand Your Role</h5>
-							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							          <span aria-hidden="true">&times;</span>
-							        </button>
-							      </div>
-							      <div class="modal-body">
-							        <div th:if="${session.user.type=='Customer'}" style="display: flex;justify-content: center; margin: 10px;">
-										<a th:href="@{ExpandRole(id=(${session.user.id}),role=('Local Provider'))}" th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"><button class="rounded"  onclick="this.style.color='white';" style="background: #0076A3;border: none;margin: 10px;" >Local Provider</button></a>
-										<a th:href="@{ExpandRole(id=(${session.user.id}),role=('Trainer'))}" th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"><button class="rounded" onclick="this.style.color='white';" style="background: #232425;border: none;margin: 10px;" >Trainer</button></a>
-									</div>
-									<div th:if="${session.user.type=='Trainer'}" style="display: flex;justify-content: center;margin: 10px;">
-										<a th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})" th:href="@{ExpandRole(id=(${session.user.id}),role=('Local Provider'))}"><button class="rounded" onclick="this.style.color='white';" style="background: #0076A3;border: none;margin: 10px;" >Local Provider</button></a>
-										<a th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})" th:href="@{ExpandRole(id=(${session.user.id}),role=('Customer'))}"><button class="rounded"  onclick="this.style.color='white'; " style="background: #6BC4E4;border: none;margin: 10px;" >Customer</button></a>
-									</div>
-									<div th:if="${session.user.type=='Local Provider'}" style="display: flex;justify-content: center; margin: 10px;">
-										<a th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})" th:href="@{ExpandRole(id=(${session.user.id}),role=('Customer'))}"><button class="rounded"  onclick="this.style.color='white'; " style="background: #6BC4E4;border: none;margin: 10px;" >Customer</button></a>
-										
-										<a th:href="@{ExpandRole(id=(${session.user.id}),role=('Trainer'))}" th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"><button class="rounded" onclick="this.style.color='white';" style="background: #232425;border: none;margin: 10px;" >Trainer</button></a>
-									</div>
-							      </div>
-							     
-							    </div>
-							  </div>
+							<div style="text-align: center;">
+								<span th:text="${session.user.type}"></span> <span
+									th:if="${session.user.etendreRole1 != 'notyet'}"
+									th:text="${', '+session.user.etendreRole1}"></span> <span
+									th:if="${session.user.etendreRole2 != 'notyet'}"
+									th:text="${', '+session.user.etendreRole2+'.'}"></span>
 							</div>
-						
-						
+							&nbsp;
+							<div style="display: flex; justify-content: center;">
+
+								<button type="button" data-toggle="modal"
+									data-target="#ModalRole" class="rounded btn btn-success"
+									onclick="this.style.color='white';"
+									style="border: none; padding: 15px;"
+									th:if="${session.user.etendreRole1 == 'notyet' or session.user.etendreRole2 == 'notyet'}">Expand
+									Role</button>
+
+							</div>
+
+
+						</div>
+
+						<!-- Modal -->
+						<div class="modal fade" id="ModalRole" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Expand
+											Your Role</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div th:if="${session.user.type=='Customer'}"
+											style="display: flex; justify-content: center; margin: 10px;">
+											<a
+												th:href="@{ExpandRole(id=(${session.user.id}),role=('Local Provider'))}"
+												th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"><button
+													class="rounded" onclick="this.style.color='white';"
+													style="background: #0076A3; border: none; margin: 10px;">Local
+													Provider</button></a> <a
+												th:href="@{ExpandRole(id=(${session.user.id}),role=('Trainer'))}"
+												th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"><button
+													class="rounded" onclick="this.style.color='white';"
+													style="background: #232425; border: none; margin: 10px;">Trainer</button></a>
+										</div>
+										<div th:if="${session.user.type=='Trainer'}"
+											style="display: flex; justify-content: center; margin: 10px;">
+											<a
+												th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"
+												th:href="@{ExpandRole(id=(${session.user.id}),role=('Local Provider'))}"><button
+													class="rounded" onclick="this.style.color='white';"
+													style="background: #0076A3; border: none; margin: 10px;">Local
+													Provider</button></a> <a
+												th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Local Provider'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"
+												th:href="@{ExpandRole(id=(${session.user.id}),role=('Customer'))}"><button
+													class="rounded" onclick="this.style.color='white'; "
+													style="background: #6BC4E4; border: none; margin: 10px;">Customer</button></a>
+										</div>
+										<div th:if="${session.user.type=='Local Provider'}"
+											style="display: flex; justify-content: center; margin: 10px;">
+											<a
+												th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Trainer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"
+												th:href="@{ExpandRole(id=(${session.user.id}),role=('Customer'))}"><button
+													class="rounded" onclick="this.style.color='white'; "
+													style="background: #6BC4E4; border: none; margin: 10px;">Customer</button></a>
+
+											<a
+												th:href="@{ExpandRole(id=(${session.user.id}),role=('Trainer'))}"
+												th:if="(${session.user.etendreRole1 == 'notyet' and session.user.etendreRole2 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'Customer'}) or (${session.user.etendreRole2 == 'notyet' and session.user.etendreRole1 == 'notyet'})"><button
+													class="rounded" onclick="this.style.color='white';"
+													style="background: #232425; border: none; margin: 10px;">Trainer</button></a>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
 						<!-- Dashboard Links -->
 						<div class="widget dashboard-links ">
 							<ul>
@@ -216,10 +260,14 @@
 									onclick="$('.my-adslist').hide();$('.profile').fadeIn();">My
 										Personal Information</a></li>
 
-								<li th:if="${session.user.type=='Customer' or session.user.etendreRole1=='Custumer' or session.user.etendreRole2=='Custumer'}" class="my-1 d-inline-block" ><a
+								<li
+									th:if="${session.user.type=='Customer' or session.user.etendreRole1=='Custumer' or session.user.etendreRole2=='Custumer'}"
+									class="my-1 d-inline-block"><a
 									onclick="$('.my-adslist').fadeIn();$('.profile').hide();">Reserved
 										Trainings</a></li>
-								<li th:if="${session.user.type=='Trainer' or session.user.type=='Local Provider' or session.user.etendreRole1=='Trainer' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Trainer' or session.user.etendreRole2=='Local Provider'}"  class="my-1 d-inline-block"><a th:href="@{EditAds}"
+								<li
+									th:if="${session.user.type=='Trainer' or session.user.type=='Local Provider' or session.user.etendreRole1=='Trainer' or session.user.etendreRole1=='Local Provider' or session.user.etendreRole2=='Trainer' or session.user.etendreRole2=='Local Provider'}"
+									class="my-1 d-inline-block"><a th:href="@{EditAds}"
 									onclick="$('.my-adslist').hide();$('.profile').fadeIn();">My
 										Posts</a></li>
 							</ul>
@@ -245,7 +293,8 @@
 								</tr>
 							</thead>
 							<tbody class="contents">
-								<tr th:each="formation:${myformation}" style="border-bottom: 1px solid #DEE2E6;">
+								<tr th:each="formation:${myformation}"
+									style="border-bottom: 1px solid #DEE2E6;">
 									<td class="product-thumb"><img width="80px" height="auto"
 										th:src="@{getPhoto(id=${formation.id})}" /></td>
 									<td class="product-details">
@@ -253,7 +302,14 @@
 										class="add-id"><span
 											th:text="'ID:    ' +${formation.id}"></span></span> <span
 										class="location"><span
-											th:text="'Location:    '+${formation.Local.adresse}"></span></span>
+											th:text="'Location:    '+${formation.Local.adresse}+', '+${formation.Local.ville}"></span></span>
+										<span th:if="${formation.etat=='Active'}"
+										style="display: flex;">State: &nbsp; <span
+											style="color: green;"> Active</span></span> <span
+										th:if="${formation.etat=='Inactive'}" style="display: flex;">State:
+											&nbsp; <span style="color: red;"> Inactive</span>
+									</span>
+
 									</td>
 									<td class="product-category"><span class="categories"
 										th:text="${formation.ArticleCat}"></span></td>
@@ -540,7 +596,7 @@
 		th:src="@{plugins/google-map/gmap.js}"></script>
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 $(document).ready(function()
 		 {
 		   $("#tab").pagination({

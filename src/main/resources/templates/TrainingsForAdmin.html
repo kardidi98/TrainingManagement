@@ -368,6 +368,7 @@ ul li.active {
 									<th>To</th>
 									<th>Address</th>
 									<th>City</th>
+									<th>State</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -388,6 +389,9 @@ ul li.active {
 										th:text="${training.local.adresse}"></td>
 										<td
 										th:text="${training.local.ville}"></td>
+										
+									<td th:if="${training.etat=='Active'}" style="color: green;">Active</td>
+									<td th:if="${training.etat=='Inactive'}" style="color: red;">Inactive</td>
 									<td class="action" data-title="Action">
 										<div class="">
 											<ul class="list-inline justify-content-center">

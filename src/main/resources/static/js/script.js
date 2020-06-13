@@ -255,26 +255,7 @@
         });
 
 
-    $("#Specify").click(function(e){
-      $("#incorrect_day").hide();
-      var date2 = new Date(document.getElementById("to").value);
-      var date1 = new Date(document.getElementById("from").value);
-      var nbreJour=(date2.getTime()-date1.getTime())/86400000;
-      nbreJourAnterieur=nbreJour;
-      if(nbreJour>=0){
-            
-            for (var i = 0; i <= nbreJour; i++) {
-              $("#SpecifyForm").append('<div class="rounded sessions"  style="border: 1px solid #C3C3C3;padding: 10px;margin-top: 10px;"><i class="fa fa-clock-o " style="padding:5px;"></i><span class="font-weight-bold pt-4 pb-1" >Timing of Day '+(i+1)+':</span><div class="row" style="margin-top:8px;"><div class="col-sm-6 px-1" style="margin-top: 10px;"><span class="font-weight-bold pt-4 pb-1" style="font-size: 15px;margin-left: 10px;">From:</span><input type="time" name="Specifyfrom'+(i+1)+'" style="height: 48px;width: 74%;float: right;margin-right: 10px;border:1px solid #CED4DA;"></div><br/><div class="col-sm-6 px-1" style="margin-top: 10px;"><span class="font-weight-bold pt-4 pb-1" style="font-size: 15px;margin-left: 20px;">to:</span><input type="time" name="Specifyto'+(i+1)+'" style="height: 48px;width: 74%;float: right;margin-right: 10px;border:1px solid #CED4DA; "></div></div>')};
-            $("#Specify").hide();
-      }
-
-      else{
-         $("#incorrect_day").hide();
-        $("#msgInvalid").append('<p id="incorrect_day" style="color:red;font-weight:bold;">Check the days you choosed</p>')
-      }
-      
-
-    });
+    
 
     document.getElementsByClassName("carousel-item")[0].className="carousel-item active";
  

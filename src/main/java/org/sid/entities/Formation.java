@@ -41,6 +41,7 @@ public class Formation implements Serializable {
 	private java.sql.Date lastDay;
 	private String significantPhoto;
 	private String etat;
+	private String session;
 
 	@ManyToOne
 	@JoinColumn(name="userId")
@@ -58,11 +59,11 @@ public class Formation implements Serializable {
 
 
 	
-	
+
 	public Formation(Long id, String title, int nbPlaces, int minPlaces, int canStart, String difficulty,
 			String articleCat, int prix, String requirements, String description, java.sql.Date firstDay,
-			java.sql.Date lastDay, String significantPhoto, String etat, Client user, List<Client> clientBeneficiants,
-			org.sid.entities.Local local, List<Rating> ratings) {
+			java.sql.Date lastDay, String significantPhoto, String etat, String session, Client user,
+			List<Client> clientBeneficiants, org.sid.entities.Local local, List<Rating> ratings) {
 		this.id = id;
 		Title = title;
 		NbPlaces = nbPlaces;
@@ -77,11 +78,26 @@ public class Formation implements Serializable {
 		this.lastDay = lastDay;
 		this.significantPhoto = significantPhoto;
 		this.etat = etat;
+		this.session = session;
 		this.user = user;
 		this.clientBeneficiants = clientBeneficiants;
 		Local = local;
 		this.ratings = ratings;
 	}
+	
+	
+
+	public String getSession() {
+		return session;
+	}
+
+
+
+	public void setSession(String session) {
+		this.session = session;
+	}
+
+
 
 	public String getEtat() {
 		return etat;

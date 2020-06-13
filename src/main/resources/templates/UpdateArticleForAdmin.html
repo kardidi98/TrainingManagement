@@ -53,11 +53,6 @@
 <!-- CUSTOM CSS -->
 <link href="../static/css/style.css" th:href="@{css/style.css}"
 	rel="stylesheet">
-<link href="../static/css/animated.css" th:href="@{css/animated.css}"
-	rel="stylesheet">
-<link href="../static/css/datatables/dataTables.bootstrap4.min.css"
-	th:href="@{css/datatables/dataTables.bootstrap4.min.css}"
-	rel="stylesheet">
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-2d.js"></script>
@@ -70,16 +65,20 @@
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-	<!-- DataTables CSS -->
-<link href="../static/css/addons/datatables.min.css" th:href="@{css/addons/datatables.min.css}" rel="stylesheet">
+
+<!-- DataTables CSS -->
+<link href="../static/css/addons/datatables.min.css"
+	th:href="@{css/addons/datatables.min.css}" rel="stylesheet">
 <!-- DataTables JS -->
-<script src="../static/js/addons/datatables.min.js" type="text/javascript"></script>
+<script src="../static/js/addons/datatables.min.js"
+	type="text/javascript"></script>
 
 <!-- DataTables Select CSS -->
-<link href="../static/css/addons/datatables-select.min.css" th:href="@{css/addons/datatables-select.min.css}" rel="stylesheet">
+<link href="../static/css/addons/datatables-select.min.css"
+	th:href="@{css/addons/datatables-select.min.css}" rel="stylesheet">
 <!-- DataTables Select JS -->
-<script src="../static/js/addons/datatables-select.min.js" type="text/javascript"></script>
+<script src="../static/js/addons/datatables-select.min.js"
+	type="text/javascript"></script>
 
 
 
@@ -87,12 +86,11 @@
 ul li.active {
 	font-weight: bold;
 }
-
 </style>
 
 </head>
 
-<body class="body-wrapper" >
+<body class="body-wrapper">
 
 
 	<section th:if="${session.user!=null}">
@@ -112,8 +110,8 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item"><a class="nav-link "
-									id="Statistics" th:href="@{/}">Charts</a></li>
+								<li class="nav-item"><a class="nav-link " id="Statistics"
+									th:href="@{/}">Charts</a></li>
 								<li class="nav-item "><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
 
@@ -128,11 +126,9 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" id="Users"
-											th:href="@{Customers}">Customers</a> <a
-											class="dropdown-item" id="Trainers"
-											th:href="@{Trainers}">Trainers</a> <a
-											class="dropdown-item" id="fournisseurs"
+										<a class="dropdown-item" id="Users" th:href="@{Customers}">Customers</a>
+										<a class="dropdown-item" id="Trainers" th:href="@{Trainers}">Trainers</a>
+										<a class="dropdown-item" id="fournisseurs"
 											th:href="@{LocalProviders}">Local Providers</a>
 
 
@@ -146,8 +142,8 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a> <a
-											class="dropdown-item" th:href="@{Locals}">Locals</a>
+										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a>
+										<a class="dropdown-item" th:href="@{Locals}">Locals</a>
 
 									</div></li>
 
@@ -169,9 +165,10 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
-										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
-										<a class="dropdown-item" th:href="@{logout}">Log out</a>
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a> <a
+											class="dropdown-item" th:href="@{addCategory}">Add
+											Category</a> <a class="dropdown-item" th:href="@{logout}">Log
+											out</a>
 
 									</div></li>
 
@@ -184,10 +181,10 @@ ul li.active {
 				</div>
 			</div>
 		</div>
-	
+
 	</section>
 
-	<section class="bg-gray py-4" >
+	<section class="bg-gray py-4">
 		<div class="container">
 			<form id="regForm" th:action="@{UpdateTraining}" method="post"
 				enctype="multipart/form-data">
@@ -210,437 +207,483 @@ ul li.active {
 								type="text" class="border w-100 p-2 bg-white text-capitalize"
 								placeholder="Ad title go There" name="Title"
 								th:field="${article.Title}">
-								
-								<div class="row ">
-							
-							<div class="col-sm-6">
-							<h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
-								<input
-									name="NbPlaces" type="text"
-									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="25,30,100.." th:field="${article.NbPlaces}" onchange="$('#nbPlacesLocalInput').val(this.value);">
-							</div>
-							<div class="col-sm-6">
-							<h6 class="font-weight-bold pt-4 pb-1">Minimum of places:</h6>
-								<input name="MinPlaces" type="text"
-									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="10,15,20.." th:field="${article.MinPlaces}"  required="required">
-									
-							</div>
-								
-							</div>
-								
-							</div>
-							<div class="row ">
+
+							<div class="row">
+
 								<div class="col-sm-6">
-									<div class="row px-1" style="margin-top: 20px;">
-										<div class="controls input-append date form_date col-md-12"
-											data-date="" data-date-format="dd MM yyyy"
-											data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
-											<span class="font-weight-bold pt-4 pb-1">First Day:</span>
-											<!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
-											<span class="add-on" style="float: right;"><i
-												class="fa fa-calendar fa-lg"> </i></span> <input name="firstDay"
-												size="16" type="text" id="from" class="form-control"
-												readonly style="background-color: white;"
-												th:field="${article.firstDay}" onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteFromLocalInput').val(this.value);" />
-
-										</div>
-										<input type="hidden" id="dtp_input1" value="" /><br />
-
-									</div>
-								</div>
-								<div class="col-sm-6" style="margin-top: 20px;">
-									<div class="row px-1">
-
-										<div class="controls input-append date form_date col-md-12"
-											data-date="" data-date-format="dd MM yyyy"
-											data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-											<span class="font-weight-bold pt-4 pb-1">Last Day:</span>
-											<!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
-											<span class="add-on" style="float: right;"><i
-												class="fa fa-calendar fa-lg"> </i></span> <input name="lastDay"
-												size="16" type="text" id="to" class="form-control"
-												style="background-color: white;" readonly
-												th:field="${article.lastDay}" onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteALocalInput').val(this.value);" />
-										</div>
-										<input type="hidden" id="dtp_input2" value="" /><br />
-									</div>
-								</div>
-							</div>
-
-							<div id="msgInvalid"></div>
-							<!-- <div class="row">
-                              <div class="col-lg-6">
-                                <h6 class="font-weight-bold pt-4 pb-1">Total hours:</h6>
-                                <div class="row px-3">
-                                    <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="20,48,54..">
-                                </div>
-                              </div>
-                              <div class="col-lg-6">
-                                <h6 class="font-weight-bold pt-4 pb-1">Hours per day:</h6>
-                              <div class="row px-3">
-                                  <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="3,4,5..">
-                              </div>
-                              </div>
-                            </div> -->
-
-
-							<h6 class="font-weight-bold pt-4 pb-2">Description:</h6>
-							<textarea name="Description" id="describe"
-								class="border p-3 w-100 rounded" rows="8"
-								placeholder="Write details about your article"
-								th:field="${article.Description}"></textarea>
-
-						</div>
-						<div class="col-lg-6 ">
-							<h6 class="font-weight-bold pt-3 pb-1">Select Article
-								Category:</h6>
-							<select name="ArticleCat" id="inputGroupSelect"
-								class="w-100 rounded" th:field="${article.ArticleCat}">
-								<option th:each="cat:${categories}" th:text="${cat.category}" th:value="${cat.category}"></option>
-							</select>
-							<div class="price">
-								<h6 class="font-weight-bold pt-4 pb-1">Price (Dh):</h6>
-								<div class="row px-3">
-									<input type="text"
+									<h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
+									<input name="NbPlaces" type="text"
 										class="border w-100 p-2 bg-white text-capitalize rounded"
-										placeholder="Price" name="prix" id="Price"
-										th:field="${article.Prix}">
+										placeholder="25,30,100.." th:field="${article.NbPlaces}"
+										onchange="$('#nbPlacesLocalInput').val(this.value);$('#applySearchLocalBtn').trigger('click');">
+								</div>
+								<div class="col-sm-6">
+									<h6 class="font-weight-bold pt-4 pb-1">Minimum of places:</h6>
+									<input name="MinPlaces" type="text"
+										class="border w-100 p-2 bg-white text-capitalize rounded"
+										placeholder="10,15,20.." th:field="${article.MinPlaces}"
+										required="required">
+
+								</div>
+
+							</div>
+
+						
+						<div class="row px-3 ">
+								<input name="id" type="text"
+									class="border w-100 p-2 bg-white text-capitalize rounded cacher"
+									placeholder="" th:field="${article.id}"> <input
+									name="etat" type="text"
+									class="border w-100 p-2 bg-white text-capitalize rounded cacher"
+									placeholder="" th:field="${article.etat}">
+							</div>
+						<div class="row ">
+							<div class="col-sm-6">
+								<div class="row px-1" style="margin-top: 20px;">
+									<div class="controls input-append date form_date col-md-12"
+										data-date="" data-date-format="dd MM yyyy"
+										data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+										<span class="font-weight-bold pt-4 pb-1">First Day:</span>
+										<!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
+										<span class="add-on" style="float: right;"><i
+											class="fa fa-calendar fa-lg"> </i></span> <input name="firstDay"
+											size="16" type="text" id="from" class="form-control" readonly
+											style="background-color: white;"
+											th:field="${article.firstDay}"
+											onchange="$('#disponibiliteALocalInput').val(this.value);$('#applySearchLocalBtn').trigger('click');validateDate();" />
+
+									</div>
+									<input type="hidden" id="dtp_input1" value="" /><br />
 
 								</div>
 							</div>
+							<div class="col-sm-6" style="margin-top: 20px;">
+								<div class="row px-1">
 
-							<h6 class="font-weight-bold pt-3 pb-1">Select Article
-								Difficulty:</h6>
-							<select name="difficulty" id="difficulty" class="w-100 rounded"
-								th:field="${article.difficulty}">
+									<div class="controls input-append date form_date col-md-12"
+										data-date="" data-date-format="dd MM yyyy"
+										data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+										<span class="font-weight-bold pt-4 pb-1">Last Day:</span>
+										<!-- <span class="add-on" style="float: right;"><i class="fa fa-times fa-lg"></i></span> -->
+										<span class="add-on" style="float: right;"><i
+											class="fa fa-calendar fa-lg"> </i></span> <input name="lastDay"
+											size="16" type="text" id="to" class="form-control"
+											style="background-color: white;" readonly
+											th:field="${article.lastDay}"
+											onchange="$('#disponibiliteALocalInput').val(this.value);$('#applySearchLocalBtn').trigger('click');validateDate();" />
+									</div>
+									<input type="hidden" id="dtp_input2" value="" /><br />
+								</div>
+							</div>
+						</div>
 
-								<option value="Hard">Hard</option>
-								<option value="Medium">Medium</option>
-								<option value="Easy">Easy</option>
-
-							</select>
-							<!--  -->
-							<h6 class="font-weight-bold pt-4 pb-1">Requirements:</h6>
+						<div id="msgInvalid"></div>
+						
+						<h6 class="font-weight-bold pt-4 pb-1">Specify Session:</h6>
 							<div class="row px-3">
-								<input th:field="${article.Requirements}" name="Requirements"
-									type="text"
-									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="Java Basics,...">
-							</div>
-							<div class="choose-file text-center my-3 py-4 rounded">
-								<label for="file-upload"> <span
-									class="d-block font-weight-bold text-dark">Drop a
-										picture to upload</span> <span class="d-block">or</span> <span
-									class="d-block btn bg-primary text-white my-3 select-files">Select
-										a picture</span> <span><span class="d-block"
-										style="margin-bottom: 15px;">Please select a picture
-											reflecting the content of your article</span></span> <input name="picture"
-									type="file" class="form-control-file d-none" id="file-upload" />
-									<img th:src="@{getPhoto(id=${article.id})}"
-									class="img-fluid rounded" alt="image"
-									style="box-shadow: 0 0 10px grey;" />
+                                <div data-toggle="tooltip" data-placement="top" title="Morning: 08:00 AM To 12:00 PM and Afternoon: 02:00 PM To 06:00 PM" class="col-lg-3 mr-lg-4 my-2 rounded bg-white"  style="border: 1px solid #DEE2E6;">
+                                    <input type="radio" name="session" value="AllDay" id="AllDay" required="required" th:field="${article.session}">
+                                    <label for="personal" class="py-2">All Day</label>
+                                </div>
+                                <div data-toggle="tooltip" data-placement="top" title="Morning: 08:00 AM To 12:00 PM" class="col-lg-3 mr-lg-4 my-2 rounded bg-white " style="border: 1px solid #DEE2E6;">
+                                    <input type="radio" name="session" value="Morning" id="Morning" required="required" th:field="${article.session}">
+                                    <label for="business" class="py-2">Morning</label>
+                                </div>
+                                <div data-toggle="tooltip" data-placement="top" title="Afternoon: 02:00 PM To 06:00 PM" class="col-lg-3 mr-lg-4 my-2 rounded bg-white " style="border: 1px solid #DEE2E6;">
+                                    <input type="radio" name="session" value="Afternoon" id="Afternoon" required="required" th:field="${article.session}">
+                                    <label for="business" class="py-2">Afternoon</label>
+                                </div>
+                                
+                            </div>
 
-								</label>
-							</div>
-						</div>
+
+						<h6 class="font-weight-bold pt-4 pb-2">Description:</h6>
+						<textarea name="Description" id="describe"
+							class="border p-3 w-100 rounded" rows="8"
+							placeholder="Write details about your article"
+							th:field="${article.Description}"></textarea>
+
 					</div>
-					<!-- Specify hours Day -->
-					<div id="SpecifyForm"></div>
-					<button type="button" id="Specify">
-						<strong id="plus">+</strong>Specify the sessions
-					</button>
-				</fieldset>
-
-
-				<!-- Second form -->
-				<fieldset class="updateForm border border-gary p-4 mb-5 rounded">
-					<div class="row">
-						<div class="col-lg-12">
-							<h3>Search a Place</h3>
-							<hr>
-						</div>
-
-						<h3 style="margin-left:4px; margin-right:20px; text-align:left; color:black;;">Filters</h3>
-						<div class="container" style="border: 1px solid rgba(49, 133, 223,0.1);background: rgba(49, 133, 223,0.1)">
-					      
-					        
-					      		<!-- Row 1 -->
-					        <div class="form-row">
-					        		<!-- Input id -->
-					          <div class="form-group col-sm-3">
-					            <label for="idLocalInput" class="font-weight-bold pt-4 pb-1">Id = </label>
-					            <input id="idLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Local ID..."/>
-					          </div>
-					          		<!-- Input intitulee -->
-					          <div class="form-group col-sm-3">
-					            <label for="intituleeLocalInput" class="font-weight-bold pt-4 pb-1">By Local Name = </label>
-					            <input id="intituleeLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Local Name..."/>
-					          </div>
-					          		<!-- Input ville -->
-					          <div class="form-group col-sm-3">
-					            <label for="villeLocalInputGroup" class="font-weight-bold pt-4 pb-1">By City = </label>
-					            <select id="villeLocalInputGroup" class=" w-100 rounded" style="background-color: white;" >
-					              <option selected>All</option>
-					              <option th:each="ville:${localVilles}" th:text="${ville}"></option>
-					            </select>
-					          </div>
-					          		<!-- Input NbPlaces -->
-					          <div class="form-group col-sm-3">
-					            <label for="nbPlacesLocalInput" class="font-weight-bold pt-4 pb-1">By Max Places &ge; </label>
-					            <input id="nbPlacesLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Max Places.."/>
-					          </div>
-					          
-					        </div>
-					
-					        	<!-- Row 2 -->
-					        <div class="form-row">
-					        		<!-- Input prixParHeure -->
-					          <div class="form-group col-sm-4">
-					            <label for="prixParHeureLocalInput" class="font-weight-bold pt-1 pb-1">By Price &le; </label>
-					            <input id="prixParHeureLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="Pice Per Hour.."/>
-					          </div>
-					          		<!-- Input disponibiliteFrom -->
-					          <div class="form-group col-sm-4">
-					            <label for="disponibiliteFromLocalInput" class="font-weight-bold pt-1 pb-1">By First Day &ge;</label>
-					            <input id="disponibiliteFromLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="First Day: YYYY-MM-DD"/>
-					          </div>
-					          		<!-- Input disponibiliteA -->
-					          <div class="form-group col-sm-4">
-					            <label for="disponibiliteALocalInput" class="font-weight-bold pt-1 pb-1">By End Day &le; </label>
-					            <input id="disponibiliteALocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="End Day: YYYY-MM-DD"/>
-					          </div>
-					          
-					          
-					        </div>
-					        
-					        	<!-- Row 3 -->
-					        <div class="form-row">
-					        		<!-- Input category -->
-					          <div class="form-group col-sm-3">
-					            <label for="categoryLocalInputGroup" class="font-weight-bold pt-1 pb-1">By Category = </label>
-					              <select id="categoryLocalInputGroup"  class=" w-100 rounded" style="background-color: white;" >
-					                <option selected>All</option>
-					                <option th:each="category:${localCategories}" th:text="${category}"></option>
-					              </select>
-					          </div>
-					          		<!-- Input prises -->
-					          <div class="form-group col-sm-3">
-					            <label for="prisesLocalInput" class="font-weight-bold pt-1 pb-1">By Electrical outlets &ge; </label>
-					            <input id="prisesLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="4,5,20.."/>
-					          </div>
-					          		<!-- Input micro -->
-					          <div class="form-group col-sm-3">
-					            <label for="microLocalInput" class="font-weight-bold pt-1 pb-1">By Microphones &ge; </label>
-					            <input id="microLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="4,5,20.." aria-label="Recipient's username"/>
-					          </div>
-					          		<!-- Input projecteur -->
-					          <div class="form-group col-sm-3">
-					            <label for="projecteurLocalInput" class="font-weight-bold pt-1 pb-1">By Projector &ge; </label>
-					            <input id="projecteurLocalInput" type="text" class="form-control border w-100 p-2 bg-white text-capitalize rounded" placeholder="4,5,20.."/>
-					          </div>
-					          
-					        </div>
-					          		<!-- Buttons -->	        
-							<div >    			
-					         <span><button type="button" class="btn btn-primary" id="applySearchLocalBtn" style="margin:10px; float:right;"  onclick="this.style.color='white';">Apply</button>
-					          			</span> 	          
-					          <span><button type="button" class="btn btn-warning btn-lg" style="margin:10px; float:right;" id="resetLocalBtn"  onclick="this.style.color='black';">Reset</button></span>
-					      </div>
-					        
-					      </div>
-
-						<div class="col-lg-8 choosen cacher" id="choosenArticle">
-							<h6 class="font-weight-bold pt-4 pb-1">You choosed</h6>
-							<div class="row px-3" th:if="${article.Local}==null">
+					<div class="col-lg-6 ">
+						<h6 class="font-weight-bold pt-3 pb-1">Select Article
+							Category:</h6>
+						<select name="ArticleCat" id="inputGroupSelect"
+							class="w-100 rounded" th:field="${article.ArticleCat}">
+							<option th:each="cat:${categories}" th:text="${cat.category}"
+								th:value="${cat.category}"></option>
+						</select>
+						<div class="price">
+							<h6 class="font-weight-bold pt-4 pb-1">Price (Dh):</h6>
+							<div class="row px-3">
 								<input type="text"
 									class="border w-100 p-2 bg-white text-capitalize rounded"
-									name="localId" id="choosen" style="font-weight: bold;" readonly
-									required="required">
-
-							</div>
-							<div class="row px-3" th:if="${article.Local}!=null">
-								<input type="text"
-									class="border w-100 p-2 bg-white text-capitalize rounded"
-									name="localId" id="choosen" style="font-weight: bold;" readonly
-									th:value="${article.Local.id}">
+									placeholder="Price" name="prix" id="Price"
+									th:field="${article.Prix}">
 
 							</div>
 						</div>
 
-					</div>
+						<h6 class="font-weight-bold pt-3 pb-1">Select Article
+							Difficulty:</h6>
+						<select name="difficulty" id="difficulty" class="w-100 rounded"
+							th:field="${article.difficulty}">
 
-					<div class="product-grid-list" id="articlelist">
-						<div class="row mt-30 contents">
-							<div
-								th:class="'local_list id-'+ ${local.id}+' intitulee-'+${local.getIntituleeNoSpace()}+' ville-'+${local.ville}+' NbPlaces-'+${local.NbPlaces}+' prixParHeure-'+${local.prixParHeure}+' disponibiliteFrom-'+${local.disponibiliteFrom}+' disponibiliteA-'+${local.disponibiliteA}+' category-'+${local.category}+' prises-'+${local.prises}+' micro-'+${local.micro}+' projecteur-'+${local.projecteur}+' col-sm-12 col-lg-4 col-md-6 cacher local_list All'"
-								th:each="local:${locaux}">
-								<!-- active -->
+							<option value="Hard">Hard</option>
+							<option value="Medium">Medium</option>
+							<option value="Easy">Easy</option>
 
-								<!-- product card -->
-								<div class="product-item bg-light ">
-									<div class="card rounded" th:id="${'local'+local.id}">
-										<div style="height: 300px;">
+						</select>
+						<!--  -->
+						<h6 class="font-weight-bold pt-4 pb-1">Requirements:</h6>
+						<div class="row px-3">
+							<input th:field="${article.Requirements}" name="Requirements"
+								type="text"
+								class="border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="Java Basics,...">
+						</div>
+						<div class="choose-file text-center my-3 py-4 rounded">
+							<label for="file-upload"> <span
+								class="d-block font-weight-bold text-dark">Drop a picture
+									to upload</span> <span class="d-block">or</span> <span
+								class="d-block btn bg-primary text-white my-3 select-files">Select
+									a picture</span> <span><span class="d-block"
+									style="margin-bottom: 15px;">Please select a picture
+										reflecting the content of your article</span></span> <input name="picture"
+								type="file" class="form-control-file d-none" id="file-upload" />
+								<img th:src="@{getPhoto(id=${article.id})}"
+								class="img-fluid rounded" alt="image"
+								style="box-shadow: 0 0 10px grey;" />
 
-											<img class="card-img-top img-fluid" style="height: 320px;"
-												th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}"
-												alt="Card image cap">
-
-										</div>
-										<hr>
-										<div class="card-body">
-											<h4 class="card-title">
-												<span th:text="${local.prixParHeure}"></span> <span>Dh/hour</span>
-											</h4>
-											<p class="card-text" align="justify"
-												th:text="'Title : '+${local.intitulee}"></p>
-											<ul class="list-inline product-meta">
-												<li class="list-inline-item"><a href="#"
-													th:text="${local.adresse}+', '+${local.ville}"><i
-														class="fa fa-location-arrow"></i></a>
-											</ul>
-											<a data-toggle="modal"
-												th:data-target="'#LocalDetails'+${local.id}"
-												style="color: grey;"><i class="fa fa-info-circle"></i>
-												More Details</a>
-
-											
-										</div>
-									</div>
-								</div>
-
-								<center>
-									<a>
-										<p class="btn-primary rounded choose_local"
-											style="margin-bottom: 15px;" th:id="${local.id}"
-											onclick="document.getElementById('choosen').value=this.id;$('.card').css('box-shadow','0 0 0');$('#local'+this.id).css('box-shadow','0 0 15px grey');$('#local'+this.id).css('transition','ease 0.3s');$('#local'+this.id).css('transform','scale(1.01)');">
-											Choose</p>
-									</a>
-								</center>
-
-								<!-- Modal -->
-								<div class="modal fade" th:id="'LocalDetails'+${local.id}"
-									tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
-									aria-hidden="true">
-									<div class="modal-dialog modal-lg modal-dialog-scrollable"
-										role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h1 class="modal-title" id="ModalLongTitle"
-													th:text="'Local: '+${local.intitulee}"></h1>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<div th:id="'carouselExampleControls'+${local.id}"
-													class="carousel slide" data-ride="carousel">
-													<div class="carousel-inner">
-														<div class="carousel-item active rounded">
-															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPhoto(id=${local.id},subId=${'1'})}">
-														</div>
-														<div class="carousel-item rounded">
-															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPhoto(id=${local.id},subId=${'2'})}">
-														</div>
-														<div class="carousel-item rounded">
-															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}">
-														</div>
-														<div class="carousel-item rounded">
-															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPhoto(id=${local.id},subId=${'4'})}">
-														</div>
-														<div class="carousel-item rounded">
-															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPhoto(id=${local.id},subId=${'5'})}">
-														</div>
-														<div class="carousel-item rounded">
-															<img class="d-block ProfuctImages"
-																th:src="@{getLocalPhoto(id=${local.id},subId=${'6'})}">
-														</div>
-													</div>
-													<a class="carousel-control-prev"
-														th:href="'#carouselExampleControls'+${local.id}"
-														role="button" data-slide="prev"> <span
-														class="carousel-control-prev-icon" aria-hidden="true"
-														style="color: #007BFF;"><i
-															class="fa fa-caret-square-o-left fa-lg"></i></span> <span
-														class="sr-only">Previous</span>
-													</a> <a class="carousel-control-next"
-														th:href="'#carouselExampleControls'+${local.id}"
-														role="button" data-slide="next"> <span
-														class="carousel-control-next-icon" aria-hidden="true"
-														style="color: #007BFF;"><i
-															class="fa fa-caret-square-o-right fa-lg"></i></span> <span
-														class="sr-only">Next</span>
-													</a>
-												</div>
-
-
-												<hr>
-												<div class="container" style="margin-top: 45px;">
-
-													<ul class="list-group">
-														<h2>Local Details</h2>
-														<br>
-														<li class="list-group-item"><span><span><strong>Description:</strong>
-															</span><span th:text="${local.description}"></span></li>
-														<li class="list-group-item"><span><span><strong>Type:</strong>
-															</span><span th:text="${local.category}"></span></li>
-														<li class="list-group-item"><span><span><strong>Surface:</strong>
-															</span><span th:text="${local.superficie}+' m²'"></span></li>
-														<li class="list-group-item"><span><span><strong>Price
-																		Per Hour:</strong> </span><span th:text="${local.prixParHeure}+' $'"></span></li>
-														<li class="list-group-item"><span><span><strong>Max
-																		Places:</strong> </span><span th:text="${local.NbPlaces}"></span></li>
-														<li class="list-group-item"><span><span><strong>Address:</strong>
-															</span><span th:text="${local.adresse}+', '+${local.ville}"></span></li>
-														<li class="list-group-item"><span><span><strong>Disponibility:</strong>
-															</span><span
-																th:text="${local.disponibiliteFrom}+' To '+${local.disponibiliteA}"></span></li>
-														<li class="list-group-item"><span><span><strong>Other
-																		Properties:</strong> </span><span
-																th:text="'Chairs: '+${local.chairs}+', Electrical Outlets: '+${local.prises}+', Microphones: '+${local.micro}+', Projectors: '+${local.projecteur}+'.'"></span></li>
-													</ul>
-
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-primary"
-													data-dismiss="modal">Close</button>
-
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-
-
-
-
-
+							</label>
 						</div>
 					</div>
+		</div>
+		
+		</fieldset>
 
-				</fieldset>
+
+		<!-- Second form -->
+		<fieldset class="updateForm border border-gary p-4 mb-5 rounded">
+			<div class="row">
+				<div class="col-lg-12">
+					<h3>Search a Place</h3>
+					<hr>
+				</div>
+
+				<h3
+					style="margin-left: 4px; margin-right: 20px; text-align: left; color: black;">Filters</h3>
+				<div class="container"
+					style="border: 1px solid rgba(49, 133, 223, 0.1); background: rgba(49, 133, 223, 0.1)">
 
 
+					<!-- Row 1 -->
+					<div class="form-row">
+						<!-- Input id -->
+						<div class="form-group col-sm-3">
+							<label for="idLocalInput" class="font-weight-bold pt-4 pb-1">Id
+								= </label> <input id="idLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="Local ID..." />
+						</div>
+						<!-- Input intitulee -->
+						<div class="form-group col-sm-3">
+							<label for="intituleeLocalInput"
+								class="font-weight-bold pt-4 pb-1">By Local Name = </label> <input
+								id="intituleeLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="Local Name..." />
+						</div>
+						<!-- Input ville -->
+						<div class="form-group col-sm-3">
+							<label for="villeLocalInputGroup"
+								class="font-weight-bold pt-4 pb-1">By City = </label> <select
+								id="villeLocalInputGroup" class=" w-100 rounded"
+								style="background-color: white;">
+								<option selected>All</option>
+								<option th:each="ville:${localVilles}" th:text="${ville}"></option>
+							</select>
+						</div>
+						<!-- Input NbPlaces -->
+						<div class="form-group col-sm-3">
+							<label for="nbPlacesLocalInput"
+								class="font-weight-bold pt-4 pb-1">By Max Places &ge; </label> <input
+								id="nbPlacesLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="Max Places.." />
+						</div>
+
+					</div>
+
+					<!-- Row 2 -->
+					<div class="form-row">
+						<!-- Input prixParHeure -->
+						<div class="form-group col-sm-4">
+							<label for="prixParHeureLocalInput"
+								class="font-weight-bold pt-1 pb-1">By Price &le; </label> <input
+								id="prixParHeureLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="Pice Per Hour.." />
+						</div>
+						<!-- Input disponibiliteFrom -->
+						<div class="form-group col-sm-4">
+							<label for="disponibiliteFromLocalInput"
+								class="font-weight-bold pt-1 pb-1">By First Day &ge;</label> <input
+								id="disponibiliteFromLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="First Day: YYYY-MM-DD" />
+						</div>
+						<!-- Input disponibiliteA -->
+						<div class="form-group col-sm-4">
+							<label for="disponibiliteALocalInput"
+								class="font-weight-bold pt-1 pb-1">By End Day &le; </label> <input
+								id="disponibiliteALocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="End Day: YYYY-MM-DD" />
+						</div>
 
 
-				<div align="right">
-					<input type="submit" class="btn btn-primary"
-						value="Update Now Your Article" />
+					</div>
+
+					<!-- Row 3 -->
+					<div class="form-row">
+						<!-- Input category -->
+						<div class="form-group col-sm-3">
+							<label for="categoryLocalInputGroup"
+								class="font-weight-bold pt-1 pb-1">By Category = </label> <select
+								id="categoryLocalInputGroup" class=" w-100 rounded"
+								style="background-color: white;">
+								<option selected>All</option>
+								<option th:each="category:${localCategories}"
+									th:text="${category}"></option>
+							</select>
+						</div>
+						<!-- Input prises -->
+						<div class="form-group col-sm-3">
+							<label for="prisesLocalInput" class="font-weight-bold pt-1 pb-1">By
+								Electrical outlets &ge; </label> <input id="prisesLocalInput"
+								type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="4,5,20.." />
+						</div>
+						<!-- Input micro -->
+						<div class="form-group col-sm-3">
+							<label for="microLocalInput" class="font-weight-bold pt-1 pb-1">By
+								Microphones &ge; </label> <input id="microLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="4,5,20.." aria-label="Recipient's username" />
+						</div>
+						<!-- Input projecteur -->
+						<div class="form-group col-sm-3">
+							<label for="projecteurLocalInput"
+								class="font-weight-bold pt-1 pb-1">By Projector &ge; </label> <input
+								id="projecteurLocalInput" type="text"
+								class="form-control border w-100 p-2 bg-white text-capitalize rounded"
+								placeholder="4,5,20.." />
+						</div>
+
+					</div>
+					<!-- Buttons -->
+					<div>
+						<span><button type="button" class="btn btn-primary"
+								id="applySearchLocalBtn" style="margin: 10px; float: right;"
+								onclick="this.style.color='white';">Apply</button> </span> <span><button
+								type="button" class="btn btn-warning btn-lg"
+								style="margin: 10px; float: right;" id="resetLocalBtn"
+								onclick="this.style.color='black';">Reset</button></span>
+					</div>
 
 				</div>
 
+				<div class="col-lg-8 choosen cacher" id="choosenArticle">
+					<h6 class="font-weight-bold pt-4 pb-1">You choosed</h6>
+					<div class="row px-3" th:if="${article.Local}==null">
+						<input type="text"
+							class="border w-100 p-2 bg-white text-capitalize rounded"
+							name="localId" id="choosen" style="font-weight: bold;" readonly
+							required="required">
+
+					</div>
+					<div class="row px-3" th:if="${article.Local}!=null">
+						<input type="text"
+							class="border w-100 p-2 bg-white text-capitalize rounded"
+							name="localId" id="choosen" style="font-weight: bold;" readonly
+							th:value="${article.Local.id}">
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="product-grid-list" id="articlelist">
+				<div class="row mt-30 contents">
+					<div
+						th:class="'local_list id-'+ ${local.id}+' intitulee-'+${local.getIntituleeNoSpace()}+' ville-'+${local.ville}+' NbPlaces-'+${local.NbPlaces}+' prixParHeure-'+${local.prixParHeure}+' disponibiliteFrom-'+${local.disponibiliteFrom}+' disponibiliteA-'+${local.disponibiliteA}+' category-'+${local.category}+' prises-'+${local.prises}+' micro-'+${local.micro}+' projecteur-'+${local.projecteur}+' col-sm-12 col-lg-4 col-md-6 cacher local_list All'"
+						th:each="local:${locaux}">
+						<!-- active -->
+
+						<!-- product card -->
+						<div class="product-item bg-light ">
+							<div class="card rounded" th:id="${'local'+local.id}">
+								<div style="height: 300px;">
+
+									<img class="card-img-top img-fluid" style="height: 320px;"
+										th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}"
+										alt="Card image cap">
+
+								</div>
+								<hr>
+								<div class="card-body">
+									<h4 class="card-title">
+										<span th:text="${local.prixParHeure}"></span> <span>Dh/hour</span>
+									</h4>
+									<p class="card-text" align="justify"
+										th:text="'Title : '+${local.intitulee}"></p>
+									<ul class="list-inline product-meta">
+										<li class="list-inline-item"><a href="#"
+											th:text="${local.adresse}+', '+${local.ville}"><i
+												class="fa fa-location-arrow"></i></a>
+									</ul>
+									<a data-toggle="modal"
+										th:data-target="'#LocalDetails'+${local.id}"
+										style="color: grey;"><i class="fa fa-info-circle"></i>
+										More Details</a>
 
 
-			</form>
+								</div>
+							</div>
+						</div>
+
+						<center>
+							<a>
+								<p class="btn-primary rounded choose_local"
+									style="margin-bottom: 15px;" th:id="${local.id}"
+									onclick="document.getElementById('choosen').value=this.id;$('.card').css('box-shadow','0 0 0');$('#local'+this.id).css('box-shadow','0 0 15px grey');$('#local'+this.id).css('transition','ease 0.3s');$('#local'+this.id).css('transform','scale(1.01)');">
+									Choose</p>
+							</a>
+						</center>
+
+						<!-- Modal -->
+						<div class="modal fade" th:id="'LocalDetails'+${local.id}"
+							tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-lg modal-dialog-scrollable"
+								role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title" id="ModalLongTitle"
+											th:text="'Local: '+${local.intitulee}"></h1>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div th:id="'carouselExampleControls'+${local.id}"
+											class="carousel slide" data-ride="carousel">
+											<div class="carousel-inner">
+												<div class="carousel-item active rounded">
+													<img class="d-block ProfuctImages"
+														th:src="@{getLocalPhoto(id=${local.id},subId=${'1'})}">
+												</div>
+												<div class="carousel-item rounded">
+													<img class="d-block ProfuctImages"
+														th:src="@{getLocalPhoto(id=${local.id},subId=${'2'})}">
+												</div>
+												<div class="carousel-item rounded">
+													<img class="d-block ProfuctImages"
+														th:src="@{getLocalPhoto(id=${local.id},subId=${'3'})}">
+												</div>
+												<div class="carousel-item rounded">
+													<img class="d-block ProfuctImages"
+														th:src="@{getLocalPhoto(id=${local.id},subId=${'4'})}">
+												</div>
+												<div class="carousel-item rounded">
+													<img class="d-block ProfuctImages"
+														th:src="@{getLocalPhoto(id=${local.id},subId=${'5'})}">
+												</div>
+												<div class="carousel-item rounded">
+													<img class="d-block ProfuctImages"
+														th:src="@{getLocalPhoto(id=${local.id},subId=${'6'})}">
+												</div>
+											</div>
+											<a class="carousel-control-prev"
+												th:href="'#carouselExampleControls'+${local.id}"
+												role="button" data-slide="prev"> <span
+												class="carousel-control-prev-icon" aria-hidden="true"
+												style="color: #007BFF;"><i
+													class="fa fa-caret-square-o-left fa-lg"></i></span> <span
+												class="sr-only">Previous</span>
+											</a> <a class="carousel-control-next"
+												th:href="'#carouselExampleControls'+${local.id}"
+												role="button" data-slide="next"> <span
+												class="carousel-control-next-icon" aria-hidden="true"
+												style="color: #007BFF;"><i
+													class="fa fa-caret-square-o-right fa-lg"></i></span> <span
+												class="sr-only">Next</span>
+											</a>
+										</div>
+
+
+										<hr>
+										<div class="container" style="margin-top: 45px;">
+
+											<ul class="list-group">
+												<h2>Local Details</h2>
+												<br>
+												<li class="list-group-item"><span><span><strong>Description:</strong>
+													</span><span th:text="${local.description}"></span></li>
+												<li class="list-group-item"><span><span><strong>Type:</strong>
+													</span><span th:text="${local.category}"></span></li>
+												<li class="list-group-item"><span><span><strong>Surface:</strong>
+													</span><span th:text="${local.superficie}+' m²'"></span></li>
+												<li class="list-group-item"><span><span><strong>Price
+																Per Hour:</strong> </span><span th:text="${local.prixParHeure}+' $'"></span></li>
+												<li class="list-group-item"><span><span><strong>Max
+																Places:</strong> </span><span th:text="${local.NbPlaces}"></span></li>
+												<li class="list-group-item"><span><span><strong>Address:</strong>
+													</span><span th:text="${local.adresse}+', '+${local.ville}"></span></li>
+												<li class="list-group-item"><span><span><strong>Disponibility:</strong>
+													</span><span
+														th:text="${local.disponibiliteFrom}+' To '+${local.disponibiliteA}"></span></li>
+												<li class="list-group-item"><span><span><strong>Other
+																Properties:</strong> </span><span
+														th:text="'Chairs: '+${local.chairs}+', Electrical Outlets: '+${local.prises}+', Microphones: '+${local.micro}+', Projectors: '+${local.projecteur}+'.'"></span></li>
+											</ul>
+
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">Close</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+
+
+				</div>
+			</div>
+
+		</fieldset>
+
+
+
+
+		<div align="right">
+			<input type="submit" class="btn btn-primary"
+				value="Update Now Your Article" />
+
+		</div>
+
+
+
+		</form>
 		</div>
 	</section>
 
@@ -767,6 +810,20 @@ ul li.active {
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
 
 	<script type="text/javascript">
+	function validateDate(){
+	    $("#incorrect_day").hide();
+	    var date2 = new Date(document.getElementById("to").value);
+	    var date1 = new Date(document.getElementById("from").value);
+	    var nbreJour=(date2.getTime()-date1.getTime())/86400000;
+	    nbreJourAnterieur=nbreJour;
+	   
+	    if(nbreJour<0){
+	       $("#incorrect_day").hide();
+	      $("#msgInvalid").append('<p id="incorrect_day" style="color:red;font-weight:bold;">Check the days you choosed</p>')
+	    }
+	    
+
+	  };
 	
 		$(document).ready(function()
 				 {
@@ -780,8 +837,8 @@ ul li.active {
 				});
 		!function(e){e.fn.pagination=function(a){function t(t){var s=e("."+r.contents+".current").children().length,l=Math.ceil(s/r.items),o='<ul id="page-navi">\t<li><a href="#" class="previos">'+r.previous+"</a></li>";for(i=0;i<l;i++)o+='\t<li><a href="#">'+(i+1)+"</a></li>";o+='\t<li><a href="#" class="next">'+r.next+"</a></li></ul>";var c=t;0==t?(c=parseInt(e("#page-navi li a.current").html()))-1!=0&&c--:t==l+1&&(c=parseInt(e("#page-navi li a.current").html()))+1!=l+1&&c++,t=c,0==s&&(o=""),e("#page-navi").remove(),"top"==r.position?e("."+r.contents+".current").before(o):e("."+r.contents+".current").after(o),e("#page-navi li a").removeClass("current"),e("#page-navi li a").eq(t).addClass("current"),e("#page-navi li a").removeClass("disable"),c=parseInt(e("#page-navi li a.current").html()),c-1==0&&e("#page-navi li a.previos").addClass("disable"),c==l&&e("#page-navi li a.next").addClass("disable");var u=a.items*(t-1),d=a.items*t;t==l&&(d=s),e("."+r.contents+".current").children().hide(),e("."+r.contents+".current").children().slice(u,d).fadeIn(a.time),1==r.scroll&&e("html,body").animate({scrollTop:n},0)}var r={items:5,contents:"contents",previous:"Previous&raquo;",next:"&laquo;Next",time:800,start:1,position:"bottom",scroll:!0},r=e.extend(r,a);e(this).addClass("jquery-tab-pager-tabbar"),$tab=e(this).find("li");var n=0;!function(){var a=r.start-1;$tab.eq(a).addClass("current"),e("."+r.contents).hide().eq(a).show().addClass("current"),t(1)}(),$tab.click(function(){var a=$tab.index(this);$tab.removeClass("current"),e(this).addClass("current"),e("."+r.contents).removeClass("current").hide().eq(a).addClass("current").fadeIn(r.time),t(1)}),e(document).on("click","#page-navi li a",function(){return!e(this).hasClass("disable")&&(t(e("#page-navi li a").index(this)),!1)}),e(window).on("load scroll",function(){n=e(window).scrollTop()})}}(jQuery);
 </script>
-		<!-- Script id -->
-<script>
+	<!-- Script id -->
+	<script>
 function myIdFunction(){
     var inputValue=$("#idLocalInput").val();
     if (inputValue){
@@ -794,7 +851,7 @@ function myIdFunction(){
 }
 </script>
 	<!-- Script intitulee -->
-<script type="text/javascript">
+	<script type="text/javascript">
 function myIntituleeFunction(){
     var inputValue = $("#intituleeLocalInput").val().toLowerCase().replace(/\s/g,'');
     if (inputValue){
@@ -807,7 +864,7 @@ function myIntituleeFunction(){
 }
 </script>
 	<!-- Script Ville -->
-<script type="text/javascript">
+	<script type="text/javascript">
 function myVilleFunction(){
 	var inputValue = $("#villeLocalInputGroup").val();
     if (inputValue!='All'){
@@ -820,7 +877,7 @@ function myVilleFunction(){
 }
 </script>
 	<!-- Script NbPlaces -->
-<script>
+	<script>
 function myNbPlacesFunction(){
 
 	var inputValue=$("#nbPlacesLocalInput").val();
@@ -834,7 +891,7 @@ function myNbPlacesFunction(){
   }
 </script>
 	<!-- Script prixParHeure -->
-<script>
+	<script>
 function myPrixParHeureFunction(){
 	var inputValue=$("#prixParHeureLocalInput").val();
     if (inputValue){
@@ -847,7 +904,7 @@ function myPrixParHeureFunction(){
   }
 </script>
 	<!-- Script disponibiliteFrom -->
-<script>
+	<script>
 function myDisponibiliteFromFunction(){
 	var inputValue=$("#disponibiliteFromLocalInput").val().replace(/\s/g,'');
     if (inputValue){
@@ -864,7 +921,7 @@ function myDisponibiliteFromFunction(){
   }
 </script>
 	<!-- Script disponibiliteA -->
-<script>
+	<script>
 function myDisponibiliteAFunction(){
 	var inputValue=$("#disponibiliteALocalInput").val().replace(/\s/g,'');
     if (inputValue){
@@ -882,7 +939,7 @@ function myDisponibiliteAFunction(){
 </script>
 
 	<!-- Script category -->
-<script type="text/javascript">
+	<script type="text/javascript">
 function myCategoryFunction(){
 	var inputValue = $("#categoryLocalInputGroup").val();
     if (inputValue!='All'){
@@ -895,7 +952,7 @@ function myCategoryFunction(){
 }
 </script>
 	<!-- Script prises -->
-<script>
+	<script>
 function myPrisesFunction(){
 
 	var inputValue=$("#prisesLocalInput").val();
@@ -909,7 +966,7 @@ function myPrisesFunction(){
   }
 </script>
 	<!-- Script micro -->
-<script>
+	<script>
 function myMicroFunction(){
 
 	var inputValue=$("#microLocalInput").val();
@@ -923,7 +980,7 @@ function myMicroFunction(){
   }
 </script>
 	<!-- Script projecteur -->
-<script>
+	<script>
 function myProjecteurFunction(){
 
 	var inputValue=$("#projecteurLocalInput").val();
@@ -939,7 +996,7 @@ function myProjecteurFunction(){
 
 
 	<!-- Script applySearchButton -->
-<script>
+	<script>
 $(document).ready(function(){
 	
 	$("#applySearchLocalBtn").click(function(){
@@ -958,9 +1015,9 @@ $(document).ready(function(){
     });
 });
 </script>
-  
+
 	<!-- Reset -->
- <script type="text/javascript">
+	<script type="text/javascript">
   $(document).ready(function(){
 	    $("#resetLocalBtn").click(function(){
 	        $(".local_list").fadeIn();

@@ -118,8 +118,8 @@
 							<ul th:if="${session.user!=null}"
 								class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
 								<li class="nav-item w-100" style="margin-bottom: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
+									<form class="search" method="get" th:action="@{Search}">
+										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..." th:value="${key}"/>
 										<input class="searchButton" type="submit" />
 									</form>
 								</li>
@@ -149,8 +149,8 @@
 							<ul th:if="${session.user==null}"
 								class="navbar-nav ml-auto mt-10 ">
 								<li class="nav-item w-100" style="margin-right: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
+									<form class="search" method="get" th:action="@{Search}">
+										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..." th:value="${key}"/>
 										<input class="searchButton" type="submit" />
 									</form>
 								</li>

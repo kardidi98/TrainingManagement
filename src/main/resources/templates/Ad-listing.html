@@ -112,8 +112,8 @@
 							<ul class="navbar-nav  ml-auto main-nav"
 								style="margin-right: 39px;">
 								<li class="nav-item w-100" style="margin-bottom: 10px;">
-									<form class="search">
-										<input class="searchTerm  rounded" placeholder="Search..." />
+									<form class="search" method="get" th:action="@{Search}">
+										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..." />
 										<input class="searchButton" type="submit" />
 									</form>
 								</li>
@@ -173,7 +173,7 @@
 							<h6 class="font-weight-bold pt-4 pb-1">Number of places:</h6>
 								<input name="NbPlaces" type="text"
 									class="border w-100 p-2 bg-white text-capitalize rounded"
-									placeholder="25,30,100.." required="required" onchange="$('#nbPlacesLocalInput').val(this.value);">
+									placeholder="25,30,100.." required="required" onchange="$('#nbPlacesLocalInput').val(this.value);$('#applySearchLocalBtn').trigger('click');">
 							</div>
 							<div class="col-sm-6">
 							<h6 class="font-weight-bold pt-4 pb-1">Minimum of places:</h6>
@@ -196,7 +196,7 @@
 												size="16" type="text" id="from" class="form-control"
 												readonly style="background-color: white;"
 												required="required"
-												onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteFromLocalInput').val(this.value);" />
+												onchange="$('#disponibiliteFromLocalInput').val(this.value);$('#applySearchLocalBtn').trigger('click');validateDate();" />
 
 										</div>
 										<input type="hidden" id="dtp_input1" value="" /><br />
@@ -216,7 +216,7 @@
 												size="16" type="text" id="to" class="form-control"
 												style="background-color: white;" readonly
 												required="required"
-												onchange="$('.sessions').remove();$('#Specify').fadeIn();$('#SpecifyForm').fadeIn();$('#disponibiliteALocalInput').val(this.value);" />
+												onchange="$('#disponibiliteALocalInput').val(this.value);$('#applySearchLocalBtn').trigger('click');validateDate();" />
 										</div>
 										<input type="hidden" id="dtp_input2" value="" /><br />
 									</div>
@@ -224,21 +224,23 @@
 							</div>
 
 							<div id="msgInvalid"></div>
-							<!-- <div class="row">
-                              <div class="col-lg-6">
-                                <h6 class="font-weight-bold pt-4 pb-1">Total hours:</h6>
-                                <div class="row px-3">
-                                    <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="20,48,54..">
+							
+							<h6 class="font-weight-bold pt-4 pb-1">Specify Session:</h6>
+							<div class="row px-3">
+                                <div data-toggle="tooltip" data-placement="top" title="Morning: 08:00 AM To 12:00 PM and Afternoon: 02:00 PM To 06:00 PM" class="col-lg-3 mr-lg-4 my-2 rounded bg-white"  style="border: 1px solid #DEE2E6;">
+                                    <input type="radio" name="session" value="AllDay" id="AllDay" required="required">
+                                    <label for="personal" class="py-2">All Day</label>
                                 </div>
-                              </div>
-                              <div class="col-lg-6">
-                                <h6 class="font-weight-bold pt-4 pb-1">Hours per day:</h6>
-                              <div class="row px-3">
-                                  <input type="text" class="border w-100 p-2 bg-white text-capitalize rounded" placeholder="3,4,5..">
-                              </div>
-                              </div>
-                            </div> -->
-
+                                <div data-toggle="tooltip" data-placement="top" title="Morning: 08:00 AM To 12:00 PM" class="col-lg-3 mr-lg-4 my-2 rounded bg-white " style="border: 1px solid #DEE2E6;">
+                                    <input type="radio" name="session" value="Morning" id="Morning" required="required">
+                                    <label for="business" class="py-2">Morning</label>
+                                </div>
+                                <div data-toggle="tooltip" data-placement="top" title="Afternoon: 02:00 PM To 06:00 PM" class="col-lg-3 mr-lg-4 my-2 rounded bg-white " style="border: 1px solid #DEE2E6;">
+                                    <input type="radio" name="session" value="Afternoon" id="Afternoon" required="required">
+                                    <label for="business" class="py-2">Afternoon</label>
+                                </div>
+                                
+                            </div>
 
 							<h6 class="font-weight-bold pt-4 pb-2">Description:</h6>
 							<textarea name="Description" id="describe"
@@ -279,7 +281,7 @@
 									class="border w-100 p-2 bg-white text-capitalize rounded"
 									placeholder="Java Basics,..." required="required">
 							</div>
-							<div class="choose-file text-center my-3 py-4 rounded">
+							<div class="choose-file text-center my-3 py-4 rounded" style="border: 3px dashed #eaedef;">
 								<label for="file-upload"> <span
 									class="d-block font-weight-bold text-dark">Drop a
 										picture to upload</span> <span class="d-block">or</span> <span
@@ -293,10 +295,10 @@
 						</div>
 					</div>
 					<!-- Specify hours Day -->
-					<div id="SpecifyForm"></div>
+					<!--<div id="SpecifyForm"></div>
 					<button type="button" id="Specify">
 						<strong id="plus">+</strong>Specify the sessions
-					</button>
+					</button>-->
 				</fieldset>
 
 				<!-- Second form -->
@@ -829,7 +831,20 @@ function fixStepIndicator(n) {
 
 
   
- 
+function validateDate(){
+    $("#incorrect_day").hide();
+    var date2 = new Date(document.getElementById("to").value);
+    var date1 = new Date(document.getElementById("from").value);
+    var nbreJour=(date2.getTime()-date1.getTime())/86400000;
+    nbreJourAnterieur=nbreJour;
+   
+    if(nbreJour<0){
+       $("#incorrect_day").hide();
+      $("#msgInvalid").append('<p id="incorrect_day" style="color:red;font-weight:bold;">Check the days you choosed</p>')
+    }
+    
+
+  };
 
 </script>
 

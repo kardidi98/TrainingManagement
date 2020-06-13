@@ -224,12 +224,13 @@ public class FormationController {
 		//		ByCity=false;
 		//		FromSearch=false;
 		HttpSession session=request.getSession(true);
-		List<Formation> formation=formationRepository.findAll();
-		List<Formation> countformation=formationRepository.findAll();
+		List<Formation> formation=formationRepository.findByEtat();
+		List<Formation> countformation=formationRepository.findByEtat();
 		List<Client> TrainerList =clientRepository.findTrainers();
 
 		model.addAttribute("TrainerList", TrainerList);
 
+		
 		
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
@@ -242,6 +243,19 @@ public class FormationController {
 		model.addAttribute("cities", cityRepository.findAll());
 		
 		model.addAttribute("session", session.getAttribute("user"));
+		
+		for (Formation f : formation) {
+			if(formationRepository.getOne(f.getId()).getCanStart()==1) {
+				
+				try {
+					notificationService.sendNotificationIfArticleHasReachedMin(f.getUser().getEmail(), f);
+
+					
+				} catch (Exception e) {
+
+				}
+			}
+		}
 		
 		return "category";
 	}
@@ -302,6 +316,38 @@ public class FormationController {
 		
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+
+		return "category";
+	}
+	
+	@RequestMapping(value="/Search", method =RequestMethod.GET)
+	public String Search(Model model,HttpServletRequest request,@RequestParam(name="Title",defaultValue = "") String title) {
+		//		ByCategory=true;
+		//		ByCity=false;
+		//		FromSearch=false;
+		HttpSession session=request.getSession(true);
+		List<Formation> formation=formationRepository.findByTitle(title);
+		Long countFormation = formationRepository.countByTitle(title);
+
+
+		List<Client> TrainerList =clientRepository.findTrainers();
+
+		model.addAttribute("TrainerList", TrainerList);
+
+		
+		model.addAttribute("formation",formation);
+		model.addAttribute("count",countFormation);
+
+		//		model.addAttribute("ByCategory",ByCategory);
+		//		model.addAttribute("ByCity",ByCity);
+		//		model.addAttribute("FromSearch",FromSearch);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("key", title);
 		
 		model.addAttribute("session", session.getAttribute("user"));
 
@@ -571,25 +617,11 @@ public class FormationController {
 					
 					
 					formationRepository.insertIntoReservation(client.getId(),id);
-					try {
-						TimeUnit.SECONDS.sleep(2);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					Formation formationAccepted=formationRepository.getOne(id);
-					System.out.println(formationAccepted.getCanStart());
-					if(formationAccepted.getCanStart()==1) {
-						
-						try {
-							notificationService.sendNotificationIfArticleHasReachedMin(formation.getUser().getEmail(), formation);
-
-							
-						} catch (Exception e) {
-
-						}
-					}
-					return "redirect:listFormation";
+					
+					
+					
+					
+					return "redirect:TrainingList?id="+id;
 				}
 				else return "redirect:PlacesPleines";
 			}
@@ -597,6 +629,24 @@ public class FormationController {
 		else
 			return "redirect:DejaPostuler";
 
+	}
+	
+	@RequestMapping(value="/TrainingList", method =RequestMethod.GET)
+	public String TrainingList(Model model,HttpServletRequest request,Long id) {
+		Formation formation =formationRepository.getOne(id);
+		if(formation.getCanStart()==1) {
+			
+			try {
+				notificationService.sendNotificationIfArticleHasReachedMin(formation.getUser().getEmail(), formation);
+
+				
+			} catch (Exception e) {
+
+			}
+		}
+		
+		
+		return "redirect:listFormation";
 	}
 
 	@RequestMapping(value="/DejaPostuler", method =RequestMethod.GET)
@@ -726,8 +776,8 @@ public class FormationController {
 	public String advancedSearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
 		//		FromAdvancedSearch=false;
 		HttpSession session=request.getSession(true);
-		List<Formation> formation=formationRepository.findAll();
-		List<Formation> countformation=formationRepository.findAll();
+		List<Formation> formation=formationRepository.findByEtat();
+		List<Formation> countformation=formationRepository.findByEtat();
 		List<Client> TrainerList =clientRepository.findTrainers();
 
 		model.addAttribute("TrainerList", TrainerList);
