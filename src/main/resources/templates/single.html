@@ -171,6 +171,7 @@
 							<ul class="list-inline">
 								<li class="list-inline-item" th:text="'By '+ ${formateur.nom}"><i
 									class="fa fa-user-o"></i></li>
+									
 								<li class="list-inline-item"><i class="fa fa-folder-open-o"></i>
 									Category: <span th:text="${article.ArticleCat}"></span></li>
 								<li class="list-inline-item"><i
@@ -178,6 +179,7 @@
 									th:if="${article.Local}==null" th:text="${'Unkonwn'}"></span><span
 									th:if="${article.Local}!=null"
 									th:text="${article.Local.adresse}+', '+${article.Local.ville}"></span></li>
+									
 							</ul>
 						</div>
 
@@ -360,9 +362,23 @@
 				<div class="col-md-4 animated fadeInRightBig">
 					<div class="sidebar">
 						<div class="widget price text-left">
+							<p th:if="${article.etat=='Active'}">
+								<span id="price_info">State: </span><span style="color: rgba(35, 135, 64,0.8);"
+									th:text="${article.etat}"></span>
+							</p>
+							<p th:if="${article.etat=='Inactive'}">
+								<span id="price_info">State: </span><span style="color: red;"
+									th:text="${article.etat}"></span>
+							</p>
 							<p>
 								<span id="price_info">Price: </span><span>$</span><span
 									th:text="${article.Prix}"></span>
+							</p>
+							<p>
+								<span id="hour_info">From: </span><span th:text="${article.firstDay}"></span>
+							</p>
+							<p>
+								<span id="hour_info">To: </span><span th:text="${article.lastDay}"></span>
 							</p>
 							<p>
 								<span id="hour_info">Days: </span><span th:text="${Duration}"></span>

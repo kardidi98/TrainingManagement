@@ -104,7 +104,6 @@ ul li.active {
 </head>
 
 <body class="body-wrapper">
-
 	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
@@ -122,8 +121,8 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item "><a class="nav-link " id="Statistics"
-									th:href="@{/}">Charts</a></li>
+								<li class="nav-item "><a class="nav-link "
+									id="Statistics" th:href="@{/}">Charts</a></li>
 								<li class="nav-item "><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
 
@@ -146,8 +145,8 @@ ul li.active {
 
 									</div></li>
 
-								<li class="nav-item dropactive dropdown dropdown-slide"><a
-									class="nav-link  dropdown-toggle" href="#"
+								<li class="nav-item dropdown dropdown-slide dropactive"><a
+									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Trainings/Locals <span><i
 											class="fa fa-angle-down"></i></span>
@@ -156,6 +155,21 @@ ul li.active {
 
 										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a>
 										<a class="dropdown-item" th:href="@{Locals}">Locals</a>
+
+									</div></li>
+									
+									<li class="nav-item dropdown dropdown-slide"><a
+									class="nav-link dropdown-toggle" href="#"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Actions <span><i
+											class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Training Category</a>
+										<a class="dropdown-item" th:href="@{addLocalCategory}">Add Local Category</a>
+										
 
 									</div></li>
 
@@ -177,11 +191,11 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
-										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
+										
 										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
-									</div></li>
+									</div>
+									</li>
 
 
 

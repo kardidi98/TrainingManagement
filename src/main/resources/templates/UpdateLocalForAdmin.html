@@ -97,7 +97,6 @@ ul li.active {
 
 <body class="body-wrapper">
 
-
 	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
@@ -115,15 +114,15 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item"><a class="nav-link " id="Statistics"
-									th:href="@{/}">Charts</a></li>
+								<li class="nav-item"><a class="nav-link "
+									id="Statistics" th:href="@{/}">Charts</a></li>
 								<li class="nav-item "><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
 
 							</ul>
 
 							<ul class="navbar-nav  main-nav " id="dropdownlinks">
-								<li class="nav-item dropdown dropdown-slide"><a
+								<li class="nav-item dropdown dropdown-slide "><a
 									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Users <span><i
@@ -139,7 +138,7 @@ ul li.active {
 
 									</div></li>
 
-								<li class="nav-item dropdown dropdown-slide"><a
+								<li class="nav-item dropdown dropdown-slide dropactive"><a
 									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Trainings/Locals <span><i
@@ -149,6 +148,21 @@ ul li.active {
 
 										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a>
 										<a class="dropdown-item" th:href="@{Locals}">Locals</a>
+
+									</div></li>
+									
+									<li class="nav-item dropdown dropdown-slide"><a
+									class="nav-link dropdown-toggle" href="#"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Actions <span><i
+											class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Training Category</a>
+										<a class="dropdown-item" th:href="@{addLocalCategory}">Add Local Category</a>
+										
 
 									</div></li>
 
@@ -170,11 +184,11 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
-										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
+										
 										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
-									</div></li>
+									</div>
+									</li>
 
 
 
@@ -185,7 +199,7 @@ ul li.active {
 				</div>
 			</div>
 		</div>
-
+		<hr>
 	</section>
 
 	<section class="bg-gray py-5">
@@ -232,7 +246,7 @@ ul li.active {
 											<span class="add-on" style="float: right;"><i
 												class="fa fa-calendar fa-lg"> </i></span> <input
 												name="disponibiliteFrom" size="16" type="text"
-												id="disponibliteAPartir" class="form-control" readonly
+												id="disponibliteAPartir" class="form-control" readonly onchange="return validateDate();"
 												style="background-color: white;"
 												th:field="${local.disponibiliteFrom}" />
 
@@ -253,7 +267,7 @@ ul li.active {
 												class="fa fa-calendar fa-lg"> </i></span> <input
 												name="disponibiliteA" size="16" type="text"
 												id="disponibiliteA" class="form-control"
-												style="background-color: white;" readonly
+												style="background-color: white;" readonly onchange="return validateDate();"
 												th:field="${local.disponibiliteA}" />
 
 										</div>
@@ -614,7 +628,35 @@ ul li.active {
 
 	<script type="text/javascript">
 	
+	  $('.form_date').datetimepicker({
+	        //language:  'fr',
+	        weekStart: 1,
+	        todayBtn:  1,
+	        autoclose: 1,
+	        todayHighlight: 1,
+	        startView: 2,
+	        startDate: new Date(),
+	        minView: 2,
+	        forceParse: 0,
+	        format:'yyyy-mm-dd'
+	        });
 	
+	function validateDate(){
+		
+	    $("#incorrect_day").remove();
+	    var date2 = new Date(document.getElementById("disponibiliteA").value);
+	    var date1 = new Date(document.getElementById("disponibliteAPartir").value);
+	    var nbreJour=(date2.getTime()-date1.getTime())/86400000;
+	    nbreJourAnterieur=nbreJour;
+	    
+	    if(nbreJour<0){
+	    	
+	       $("#incorrect_day").hide();
+	      $("#msgInvalid").append('<p id="incorrect_day" style="color:red;font-weight:bold;">Check the days you choosed</p>')
+	    }
+	    
+
+	  };
 	
 //*******Afficher les locaux par ville*******
 

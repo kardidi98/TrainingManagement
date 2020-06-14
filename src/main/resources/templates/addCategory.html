@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Administrator: Add Category</title>
+<title>Administrator: Add Training Category</title>
 <link type="text/css"
 	href="../static/plugins/bootstrap/css/bootstrap-timepicker.min.css"
 	th:href="@{plugins/bootstrap/css/bootstrap-timepicker.min.css}" />
@@ -93,8 +93,6 @@ ul li.active {
 </head>
 
 <body class="body-wrapper" >
-
-
 	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
@@ -112,7 +110,7 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item"><a class="nav-link "
+								<li class="nav-item "><a class="nav-link "
 									id="Statistics" th:href="@{/}">Charts</a></li>
 								<li class="nav-item "><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
@@ -128,11 +126,9 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" id="Users"
-											th:href="@{Customers}">Customers</a> <a
-											class="dropdown-item" id="Trainers"
-											th:href="@{Trainers}">Trainers</a> <a
-											class="dropdown-item" id="fournisseurs"
+										<a class="dropdown-item" id="Users" th:href="@{Customers}">Customers</a>
+										<a class="dropdown-item" id="Trainers" th:href="@{Trainers}">Trainers</a>
+										<a class="dropdown-item" id="fournisseurs"
 											th:href="@{LocalProviders}">Local Providers</a>
 
 
@@ -146,8 +142,23 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a> <a
-											class="dropdown-item" th:href="@{Locals}">Locals</a>
+										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a>
+										<a class="dropdown-item" th:href="@{Locals}">Locals</a>
+
+									</div></li>
+									
+									<li class="nav-item dropdown dropdown-slide dropactive"><a
+									class="nav-link dropdown-toggle" href="#"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Actions <span><i
+											class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Training Category</a>
+										<a class="dropdown-item" th:href="@{addLocalCategory}">Add Local Category</a>
+										
 
 									</div></li>
 
@@ -169,11 +180,11 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
-										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
+										
 										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
-									</div></li>
+									</div>
+									</li>
 
 
 
@@ -184,7 +195,7 @@ ul li.active {
 				</div>
 			</div>
 		</div>
-	
+		<hr>
 	</section>
 
 	<section class="bg-gray py-4" >
@@ -203,7 +214,7 @@ ul li.active {
 						</div>
 
 						<div class="col-lg-6 ">
-							<h6 class="font-weight-bold pt-4 pb-1">Category</h6>
+							<h6 class="font-weight-bold pt-4 pb-1">Training Category</h6>
 							 <input
 								type="text" class="border w-100 p-2 bg-white text-capitalize"
 								placeholder="Write Here.." name="category">

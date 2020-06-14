@@ -794,8 +794,22 @@
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
 
 	<script type="text/javascript">
+	  $('.form_date').datetimepicker({
+	        //language:  'fr',
+	        weekStart: 1,
+	        todayBtn:  1,
+	        autoclose: 1,
+	        todayHighlight: 1,
+	        startView: 2,
+	        startDate: new Date(),
+	        minView: 2,
+	        forceParse: 0,
+	        format:'yyyy-mm-dd'
+	        });
+	
+	
 	function validateDate(){
-	    $("#incorrect_day").hide();
+	    $("#incorrect_day").remove();
 	    var date2 = new Date(document.getElementById("to").value);
 	    var date1 = new Date(document.getElementById("from").value);
 	    var nbreJour=(date2.getTime()-date1.getTime())/86400000;

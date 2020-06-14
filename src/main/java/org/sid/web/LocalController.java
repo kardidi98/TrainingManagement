@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
+import org.sid.dao.CategoryLocalRepository;
 import org.sid.dao.CategoryRepository;
 import org.sid.dao.CityRepository;
 import org.sid.dao.LocalRepository;
@@ -61,6 +62,9 @@ public class LocalController {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	@Autowired
+	private CategoryLocalRepository categorylocalRepository;
+	
 	@Value("${dir.Localimages}")
 	private String localImageDir;
 
@@ -73,6 +77,7 @@ public class LocalController {
 		}
 		model.addAttribute("local",new Local());
 		
+		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
 		
@@ -174,7 +179,7 @@ public class LocalController {
 				} catch (Exception e) {
 
 				}
-
+				model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 				model.addAttribute("categories", categoryRepository.findAll());
 				model.addAttribute("cities", cityRepository.findAll());
 				
@@ -193,6 +198,7 @@ public class LocalController {
 		picture5=local.getPicture5();
 		picture6=local.getPicture6();
 		
+		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
 		
@@ -405,7 +411,7 @@ public class LocalController {
 		} catch (Exception e) {
 
 		}
-
+		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
 		

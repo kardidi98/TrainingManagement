@@ -191,7 +191,7 @@
 												class="fa fa-calendar fa-lg"> </i></span> <input
 												name="disponibiliteFrom" size="16" type="text"
 												id="disponibliteAPartir" class="form-control" readonly
-												style="background-color: white;" />
+												style="background-color: white;" onchange="return validateDate();"/>
 
 										</div>
 										<input type="hidden" id="dtp_input1" value="" /><br />
@@ -210,7 +210,7 @@
 												class="fa fa-calendar fa-lg"> </i></span> <input
 												name="disponibiliteA" size="16" type="text"
 												id="disponibiliteA" class="form-control"
-												style="background-color: white;" readonly />
+												style="background-color: white;" readonly onchange="return validateDate();" />
 
 										</div>
 										<input type="hidden" id="dtp_input2" value="" /><br />
@@ -230,11 +230,8 @@
 							<h6 class="font-weight-bold pt-4 pb-1">Select Type:</h6>
 							<select name="category" id="inputGroupSelect"
 								class="w-100 rounded">
-								<option value="Duplex">Duplex</option>
-								<option value="Studio">Studio</option>
-								<option value="Office">Office</option>
-								<option value="F2">F2</option>
-								<option value="F3">F3</option>
+								<option th:each="localCat:${categoriesLocal}" th:value="${localCat.category}" th:text="${localCat.category}">Duplex</option>
+								
 
 							</select>
 							<div class="price">
@@ -555,7 +552,42 @@
 		th:src="@{plugins/google-map/gmap.js}"></script>
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
 
+<script type="text/javascript">
 
+function validateDate(){
+	
+    $("#incorrect_day").remove();
+    var date2 = new Date(document.getElementById("disponibiliteA").value);
+    var date1 = new Date(document.getElementById("disponibliteAPartir").value);
+    var nbreJour=(date2.getTime()-date1.getTime())/86400000;
+    nbreJourAnterieur=nbreJour;
+    
+    if(nbreJour<0){
+    	
+       $("#incorrect_day").hide();
+      $("#msgInvalid").append('<p id="incorrect_day" style="color:red;font-weight:bold;">Check the days you choosed</p>')
+    }
+    
+
+  };
+
+  $(function () {
+
+$('.form_date').datetimepicker({
+	weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    startDate: new Date(),
+    minView: 2,
+    forceParse: 0,
+    format:'yyyy-mm-dd',
+    //datesDisabled: ['2020-06-14','2020-06-15']
+    });
+    
+  });
+</script>
 </body>
 
 </html>

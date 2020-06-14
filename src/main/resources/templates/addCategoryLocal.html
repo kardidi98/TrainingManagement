@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Administrator</title>
+<title>Administrator: Add Local Category</title>
 <link type="text/css"
 	href="../static/plugins/bootstrap/css/bootstrap-timepicker.min.css"
 	th:href="@{plugins/bootstrap/css/bootstrap-timepicker.min.css}" />
@@ -89,10 +89,10 @@ ul li.active {
 }
 
 </style>
+
 </head>
 
-<body class="body-wrapper">
-
+<body class="body-wrapper" >
 	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
@@ -110,7 +110,7 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item dropactive"><a class="nav-link "
+								<li class="nav-item "><a class="nav-link "
 									id="Statistics" th:href="@{/}">Charts</a></li>
 								<li class="nav-item "><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
@@ -147,7 +147,7 @@ ul li.active {
 
 									</div></li>
 									
-									<li class="nav-item dropdown dropdown-slide"><a
+									<li class="nav-item dropdown dropdown-slide dropactive"><a
 									class="nav-link dropdown-toggle" href="#"
 									data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Actions <span><i
@@ -197,200 +197,50 @@ ul li.active {
 		</div>
 		<hr>
 	</section>
-	<section th:if="${session.user!=null}" class=" animated fadeInLeftBig">
-		<!-- Content Row -->
-		<div class="row dashboard">
 
-			<!-- Earnings (Monthly) Card Example -->
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card border-left-primary shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings
-									(Monthly)</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-							</div>
-							<div class="col-auto">
-								<i class="fa fa-calendar fa-2x text-gray-300"></i>
-							</div>
+	<section class="bg-gray py-4" >
+		<div class="container">
+			<form id="regForm" th:action="@{saveLocalCategory}" method="post"
+				enctype="multipart/form-data">
+				<!-- Post Your ad start -->
+
+
+				<!-- Second form -->
+				<fieldset class="updateForm border border-gary p-4 mb-5 rounded">
+					<div class="row ">
+						<div class="col-lg-12">
+							<h3>Add New Category</h3>
+							<hr>
 						</div>
-					</div>
-				</div>
-			</div>
 
-			<!-- Earnings (Monthly) Card Example -->
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card border-left-success shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings
-									(Annual)</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-							</div>
-							<div class="col-auto">
-								<i class="fa fa-dollar fa-2x text-gray-300"></i>
-							</div>
+						<div class="col-lg-6 ">
+							<h6 class="font-weight-bold pt-4 pb-1">Local Category</h6>
+							 <input
+								type="text" class="border w-100 p-2 bg-white text-capitalize"
+								placeholder="Write Here.." name="category">
+							
+
 						</div>
-					</div>
-				</div>
-			</div>
-
-
-			<!-- Pending Requests Card Example -->
-			<div class="col-xl-3 col-md-6 mb-4 ">
-				<div class="card border-left-warning shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-warning text-uppercase mb-1">Application
-									Users</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800"
-									th:text="${countusers}"></div>
-							</div>
-							<div class="col-auto">
-								<i class="fa fa-user fa-2x text-gray-300"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div id="charts" class="sections animated fadeInRightBig"
-		th:if="${session.user!=null}">
-
-		<section class="container">
-
-
-			<div class="row" id="pieAndBar">
-				<div class="col-xl-6 col-md-6 mb-4" id="bar"
-					style="width: 700px; height: 400px;"></div>
-				<div class="col-xl-5 col-md-6 mb-4" id="pie"
-					style="width: 700px; height: 400px;"></div>
-			</div>
-			<script type="text/javascript">
-				 $(function(){
-				        Highcharts.chart('bar', {
-				            chart: {
-				                type: 'column'
-				            },
-				            title: {
-				                text: 'Application usage statistics'
-				            },
-				            /*subtitle: {
-				                text: CurrentYear.getDate()+'/'+mois[CurrentYear.getMonth()]+'/'+CurrentYear.getFullYear()
-				            },*/
-				            xAxis: {
-				                categories: [[${surveyMap.keySet()}]],
-				                crosshair: true
-				            },
-				            yAxis: {
-				                min: 0,
-				                max:1000,
-				                title: {
-				                    text: 'Users'
-				                }
-				            },
-				            tooltip: {
-				                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-				                '<td style="padding:0"><b>{point.y:.1f} K</b></td></tr>',
-				                footerFormat: '</table>',
-				                shared: true,
-				                useHTML: true
-				            },
-				            plotOptions: {
-				                column: {
-				                    pointPadding: 0.2,
-				                    borderWidth: 0
-				                }
-				            },
-				            series: [{
-				                name: 'Users',
-				                data: [[${surveyMap.values()}]]
-				            }]
-				        });
-				        });
-					Highcharts.chart('pie', {
-						chart : {
-							type : 'pie',
-							options3d : {
-								enabled : true,
-								alpha : 50,
-								beta : 0
-							}
-						},
-						title : {
-							text : 'User ratings'
-						},
 						
-						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
-						},
-						plotOptions : {
-							pie : {
-								allowPointSelect : true,
-								cursor : 'pointer',
-								depth : 35,
-								dataLabels : {
-									enabled : true,
-									format : '{point.name}'
-								}
-							}
-						},
-						series : [ {
-							type : 'pie',
-							name : 'Percentage',
-							data : [ [ "1 star", [[${onestar}]] ], [ "2 stars", [[${twostars}]] ], [ "3 stars", [[${treestars}]] ] , [ "4 stars", [[${fourstars}]] ], [ "5 stars", [[${fivestars}]] ]    ]
-						} ]
-					});
-			</script>
-
-		</section>
-	</div>
-
-	
-	<section th:if="${session.user==null}">
-		<section class="login py-5 border-top-1">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-lg-5 col-md-8 align-item-center">
-						<div class="border rounded"
-							style="background-color: white; box-shadow: 0 0 10px rgba(128, 128, 128, 1);">
-							<center>
-								<h2 class="bg-gray p-4">Administrator Login</h2>
-								<a class="navbar-brand"> <img src="images/logo.png" alt=""
-									id="logo" width="150" />
-								</a>
-							</center>
-							<form th:action="@{Adminlogin}" method="post">
-								<fieldset class="p-4">
-									<div th:if="${error!=null}" th:text="${error}" id="error"
-										style="color: red; font-weight: bold; font-size: 15px;">
-
-									</div>
-									<input name="email" type="email" placeholder="Email"
-										class="border p-3 w-100 my-2" required /> <input
-										name="password" type="password" placeholder="Password"
-										class="border p-3 w-100 my-2" required />
-
-									<button type="submit"
-										class="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3"
-										style="float: right;">Log in</button>
-
-
-								</fieldset>
-							</form>
-						</div>
 					</div>
+					
+				</fieldset>
+
+
+				
+
+
+
+				<div align="right">
+					<input type="submit" class="btn btn-primary"
+						value="Add The New Category" />
+
 				</div>
-			</div>
-		</section>
+
+
+
+			</form>
+		</div>
 	</section>
 
 	<!--============================
@@ -475,7 +325,6 @@ ul li.active {
 		</div>
 	</footer>
 
-
 	<!-- JAVASCRIPTS -->
 	<script src="../static/plugins/jQuery/jquery-1.8.3.min.js"
 		th:src="@{plugins/jQuery/jquery-1.8.3.min.js}"></script>
@@ -516,77 +365,6 @@ ul li.active {
 		th:src="@{plugins/google-map/gmap.js}"></script>
 	<script src="../static/js/script.js" th:src="@{js/script.js}"></script>
 
-	<!-- <script type="text/javascript">
-		var mois = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-		$(".sections").hide();
-		$("#charts").fadeIn();
-		
-		function Afficher(e){
-			var value=e.innerHTML;
-			
-			if(value=="Charts"){
-				$(".sections").hide();
-				$("#charts").fadeIn();
-				
-			}
-			if(value=="Customers"){
-				$(".sections").hide();
-				$("#Customers").fadeIn();
-			}
-			if(value=="Trainers"){
-				$(".sections").hide();
-				$("#trainers").fadeIn();
-			}
-			if(value=="Local Providers"){
-				$(".sections").hide();
-				$("#LocalProviders").fadeIn();
-			}
-			if(value=="Comments"){
-				$(".sections").hide();
-				$("#Comments").fadeIn();
-			}
-			if(value=="Trainings"){
-				$(".sections").hide();
-				$("#trainings").fadeIn();
-			}
-			if(value=="Locals"){
-				$(".sections").hide();
-				$("#locals").fadeIn();
-			}
-		}
-	
-	
-		//Add active class to the current button (highlight it)
-		var header = document.getElementById("navglob");
-		var btns = header.getElementsByClassName("nav-item");
-		for (var i = 0; i < btns.length; i++) {
-			btns[i].addEventListener("click", function() {
-				var current = document.getElementsByClassName("dropactive");
-				if(current[0]){
-					current[0].className = current[0].className.replace(" dropactive",
-					"");
-				}
-				
-				this.className += " active";
-			});
-		}
-		function showtable(){
-			var header = document.getElementById("navglob");
-			var btns = header.getElementsByClassName("nav-item");
-			for (var i = 0; i < btns.length; i++) {
-					var current = document.getElementsByClassName("dropactive");
-					current[0].className = current[0].className.replace(" dropactive",
-							"");
-				
-			}
-		}
-		//*************Pagination***********
-
-		//*************Pagination***********
-		</script> -->
 </body>
 
 </html>
-
-
-

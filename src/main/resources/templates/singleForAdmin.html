@@ -57,7 +57,6 @@ ul li.active {
 </head>
 
 <body class="body-wrapper">
-
 	<section th:if="${session.user!=null}">
 		<div class="container">
 			<div class="row">
@@ -75,7 +74,7 @@ ul li.active {
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav  main-nav " id="navglob">
 
-								<li class="nav-item"><a class="nav-link "
+								<li class="nav-item dropactive"><a class="nav-link "
 									id="Statistics" th:href="@{/}">Charts</a></li>
 								<li class="nav-item "><a class="nav-link" id="comments"
 									th:href="@{Comments}">Comments</a></li>
@@ -91,11 +90,9 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" id="Users"
-											th:href="@{Customers}">Customers</a> <a
-											class="dropdown-item" id="Trainers"
-											th:href="@{Trainers}">Trainers</a> <a
-											class="dropdown-item" id="fournisseurs"
+										<a class="dropdown-item" id="Users" th:href="@{Customers}">Customers</a>
+										<a class="dropdown-item" id="Trainers" th:href="@{Trainers}">Trainers</a>
+										<a class="dropdown-item" id="fournisseurs"
 											th:href="@{LocalProviders}">Local Providers</a>
 
 
@@ -109,8 +106,23 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a> <a
-											class="dropdown-item" th:href="@{Locals}">Locals</a>
+										<a class="dropdown-item" th:href="@{Trainings}">Trainings</a>
+										<a class="dropdown-item" th:href="@{Locals}">Locals</a>
+
+									</div></li>
+									
+									<li class="nav-item dropdown dropdown-slide"><a
+									class="nav-link dropdown-toggle" href="#"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Actions <span><i
+											class="fa fa-angle-down"></i></span>
+								</a> <!-- Dropdown list -->
+									<div class="dropdown-menu">
+
+										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
+										<a class="dropdown-item" th:href="@{addCategory}">Add Training Category</a>
+										<a class="dropdown-item" th:href="@{addLocalCategory}">Add Local Category</a>
+										
 
 									</div></li>
 
@@ -132,11 +144,11 @@ ul li.active {
 								</a> <!-- Dropdown list -->
 									<div class="dropdown-menu">
 
-										<a class="dropdown-item" th:href="@{addCity}">Add City</a>
-										<a class="dropdown-item" th:href="@{addCategory}">Add Category</a>
+										
 										<a class="dropdown-item" th:href="@{logout}">Log out</a>
 
-									</div></li>
+									</div>
+									</li>
 
 
 
@@ -147,7 +159,7 @@ ul li.active {
 				</div>
 			</div>
 		</div>
-	
+		<hr>
 	</section>
 	<section class="page-title sections">
 		<!-- Container Start -->
@@ -366,9 +378,23 @@ ul li.active {
 				<div class="col-md-4 animated fadeInRightBig">
 					<div class="sidebar">
 						<div class="widget price text-left">
+						<p th:if="${article.etat=='Active'}">
+								<span id="price_info">State: </span><span style="color: rgba(35, 135, 64,0.8);"
+									th:text="${article.etat}"></span>
+							</p>
+							<p th:if="${article.etat=='Inactive'}">
+								<span id="price_info">State: </span><span style="color: red;"
+									th:text="${article.etat}"></span>
+							</p>
 							<p>
 								<span id="price_info">Price: </span><span>$</span><span
 									th:text="${article.Prix}"></span>
+							</p>
+							<p>
+								<span id="hour_info">From: </span><span th:text="${article.firstDay}"></span>
+							</p>
+							<p>
+								<span id="hour_info">To: </span><span th:text="${article.lastDay}"></span>
 							</p>
 							<p>
 								<span id="hour_info">Days: </span><span th:text="${Duration}"></span>

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.sid.dao.AdminRepository;
+import org.sid.dao.CategoryLocalRepository;
 import org.sid.dao.CategoryRepository;
 import org.sid.dao.CityRepository;
 import org.sid.dao.ClientRepository;
@@ -25,6 +26,7 @@ import org.sid.dao.FormationRepository;
 import org.sid.dao.LocalRepository;
 import org.sid.entities.Admin;
 import org.sid.entities.Category;
+import org.sid.entities.CategoryLocal;
 import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
@@ -62,6 +64,8 @@ public class AdminController {
 	private CityRepository cityRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryLocalRepository categorylocalRepository;
 	@Autowired
 	private CommentaireRepository commentRepository;
 	@Autowired
@@ -742,6 +746,30 @@ public class AdminController {
 		
 		model.addAttribute("session", session.getAttribute("user"));
 		return "redirect:/addCategory";
+	}
+	
+	@RequestMapping(value="/addLocalCategory", method =RequestMethod.GET)
+	public String addLocalCategory(Model model,HttpServletRequest request) {
+		HttpSession session=request.getSession(true);
+		model.addAttribute("category", new CategoryLocal());
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+		return "addCategoryLocal";
+	}
+	@RequestMapping(value="/saveLocalCategory", method =RequestMethod.POST)
+	public String saveLocalCategory(Model model,HttpServletRequest request,@RequestParam(name="category") String cat) {
+		HttpSession session=request.getSession(true);
+		CategoryLocal category= new CategoryLocal();
+		category.setCategory(cat);
+		categorylocalRepository.save(category);
+		
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
+		
+		model.addAttribute("session", session.getAttribute("user"));
+		return "redirect:/addLocalCategory";
 	}
 	
 	@RequestMapping(value="/deleteComment", method =RequestMethod.GET)

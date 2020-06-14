@@ -241,18 +241,18 @@
 
 
 
-  $('.form_date').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        startDate: new Date(),
-        minView: 2,
-        forceParse: 0,
-        format:'yyyy-mm-dd'
-        });
+//  $('.form_date').datetimepicker({
+//        //language:  'fr',
+//        weekStart: 1,
+//        todayBtn:  1,
+//        autoclose: 1,
+//        todayHighlight: 1,
+//        startView: 2,
+//        startDate: new Date(),
+//        minView: 2,
+//        forceParse: 0,
+//        format:'yyyy-mm-dd'
+//        });
 
 
     

@@ -48,7 +48,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FormationController {
 
-
+	
+	
+	
 	@Autowired
 	private NotificationService notificationService;
 	
@@ -79,10 +81,11 @@ public class FormationController {
 	@Value("${dir.images}")
 	private String imageDir;
 
-	//	private boolean ByCategory=false;
-	//	private boolean ByCity=false;
-	//	private boolean FromSearch=false;
-	//	private boolean FromAdvancedSearch=false;
+	@Value("${dir.Localimages}")
+	private String localimageDir;
+	
+	@Value("${dir.userimages}")
+	private String userimageDir;
 
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
@@ -91,8 +94,38 @@ public class FormationController {
 		if(session.getAttribute("user")!=null && obj instanceof Admin) {
 			return "redirect:/";
 		}
+		//***********************************Creation des fichiers images*************************************
 		
+		 Path path1 = Paths.get(imageDir);
+		 Path path2 = Paths.get(localimageDir);
+		 Path path3 = Paths.get(userimageDir);
 		
+		 if (!Files.exists(path1)) {
+	            try {
+	                Files.createDirectories(path1);
+	            } catch (IOException e) {
+	                //fail to create directory
+	                e.printStackTrace();
+	            }
+	        }
+		 if (!Files.exists(path2)) {
+	            try {
+	                Files.createDirectories(path1);
+	            } catch (IOException e) {
+	                //fail to create directory
+	                e.printStackTrace();
+	            }
+	        }
+		 if (!Files.exists(path3)) {
+	            try {
+	                Files.createDirectories(path1);
+	            } catch (IOException e) {
+	                //fail to create directory
+	                e.printStackTrace();
+	            }
+	        }
+		 
+		//***********************************Creation des fichiers images*************************************
 		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
 
 		List<Commentaire> commentaires=commentaireController.findRecent(5);
@@ -133,6 +166,8 @@ public class FormationController {
 		model.addAttribute("localCategories",localCategories);
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
+
+//		model.addAttribute("activeTraining",formationRepository.findTrainingLocal());
 		return "Ad-listing";		
 	}
 
