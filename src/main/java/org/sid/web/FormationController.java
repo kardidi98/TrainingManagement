@@ -48,12 +48,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FormationController {
 
-	
-	
-	
+
+
+
 	@Autowired
 	private NotificationService notificationService;
-	
+
 	@Autowired
 	private LocalService localService;
 
@@ -69,7 +69,7 @@ public class FormationController {
 
 	@Autowired
 	private LocalController localController;
-	
+
 	@Autowired
 	private CityRepository cityRepository;
 	@Autowired
@@ -83,9 +83,11 @@ public class FormationController {
 
 	@Value("${dir.Localimages}")
 	private String localimageDir;
-	
+
 	@Value("${dir.userimages}")
 	private String userimageDir;
+	
+	private boolean ShouldExpandRole=false;
 
 	@RequestMapping(value="/TrainingManagement", method = RequestMethod.GET)
 	public String home(Model model,HttpServletRequest request) {
@@ -94,44 +96,44 @@ public class FormationController {
 		if(session.getAttribute("user")!=null && obj instanceof Admin) {
 			return "redirect:/";
 		}
-		//***********************************Creation des fichiers images*************************************
-		
-		 Path path1 = Paths.get(imageDir);
-		 Path path2 = Paths.get(localimageDir);
-		 Path path3 = Paths.get(userimageDir);
-		
-		 if (!Files.exists(path1)) {
-	            try {
-	                Files.createDirectories(path1);
-	            } catch (IOException e) {
-	                //fail to create directory
-	                e.printStackTrace();
-	            }
-	        }
-		 if (!Files.exists(path2)) {
-	            try {
-	                Files.createDirectories(path1);
-	            } catch (IOException e) {
-	                //fail to create directory
-	                e.printStackTrace();
-	            }
-	        }
-		 if (!Files.exists(path3)) {
-	            try {
-	                Files.createDirectories(path1);
-	            } catch (IOException e) {
-	                //fail to create directory
-	                e.printStackTrace();
-	            }
-	        }
-		 
-		//***********************************Creation des fichiers images*************************************
+		//***********************************Creation des dossiers images*************************************
+
+		Path path1 = Paths.get(imageDir);
+		Path path2 = Paths.get(localimageDir);
+		Path path3 = Paths.get(userimageDir);
+
+		if (!Files.exists(path1)) {
+			try {
+				Files.createDirectories(path1);
+			} catch (IOException e) {
+				//fail to create directory
+				e.printStackTrace();
+			}
+		}
+		if (!Files.exists(path2)) {
+			try {
+				Files.createDirectories(path1);
+			} catch (IOException e) {
+				//fail to create directory
+				e.printStackTrace();
+			}
+		}
+		if (!Files.exists(path3)) {
+			try {
+				Files.createDirectories(path1);
+			} catch (IOException e) {
+				//fail to create directory
+				e.printStackTrace();
+			}
+		}
+
+		//***********************************Creation des dossiers images*************************************
 		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
 
 		List<Commentaire> commentaires=commentaireController.findRecent(5);
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
-		
+
 
 
 		List<Client> TrainerList =clientRepository.findTrainers();
@@ -141,8 +143,8 @@ public class FormationController {
 		model.addAttribute("TrainerList", TrainerList);
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
-		
+
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "index";		
@@ -151,13 +153,32 @@ public class FormationController {
 	public String AddArticle(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		List<Local> local=localController.findAllToAdd();
-
+		Client client=(Client) session.getAttribute("user");
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
+		if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole1().equals("Trainer")) {
+		
+
+			if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") || 
+					!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider")) {
+				ShouldExpandRole=true;
+			}
+			
+			
+			model.addAttribute("ShouldExpandRole", ShouldExpandRole);
+
+			List<Formation> formation=formationRepository.findReservedTraining(client.getId());
+			model.addAttribute("myformation",formation);
+
+			model.addAttribute("categories", categoryRepository.findAll());
+			model.addAttribute("cities", cityRepository.findAll());
+			
+			return "user-profile";
+		}
 		model.addAttribute("formation",new Formation());
 		model.addAttribute("locaux", local);
-		
+
 		List<Local> allLocals= localService.getLocals();
 		List<String> localVilles=localService.getLocalsVilles();
 		List<String> localCategories=localService.getLocalsCategories();
@@ -167,7 +188,7 @@ public class FormationController {
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
 
-//		model.addAttribute("activeTraining",formationRepository.findTrainingLocal());
+		//		model.addAttribute("activeTraining",formationRepository.findTrainingLocal());
 		return "Ad-listing";		
 	}
 
@@ -198,13 +219,13 @@ public class FormationController {
 
 		}
 
-		
+
 		formationRepository.save(formation);
 		if(!(file.isEmpty())) {
 			formation.setSignificantPhoto(file.getOriginalFilename());
 			file.transferTo(new File(imageDir+formation.getId()));
 		}
-		
+
 		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
 				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
 				"<p>" + 
@@ -241,7 +262,7 @@ public class FormationController {
 				+ "</tr>"
 				+ "</tbody>"+"<p>Go check other information.</p>";
 
-	
+
 
 		try {
 			notificationService.sendNotification(client,message);
@@ -265,33 +286,22 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		
-		
+
+
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countformation.size());
 
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
-		
-		for (Formation f : formation) {
-			if(formationRepository.getOne(f.getId()).getCanStart()==1) {
-				
-				try {
-					notificationService.sendNotificationIfArticleHasReachedMin(f.getUser().getEmail(), f);
 
-					
-				} catch (Exception e) {
 
-				}
-			}
-		}
-		
+
 		return "category";
 	}
 
@@ -312,17 +322,17 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		
+
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -341,22 +351,22 @@ public class FormationController {
 
 		List<Client> TrainerList =clientRepository.findTrainers();
 
-		
+
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
 	}
-	
+
 	@RequestMapping(value="/Search", method =RequestMethod.GET)
 	public String Search(Model model,HttpServletRequest request,@RequestParam(name="Title",defaultValue = "") String title) {
 		//		ByCategory=true;
@@ -371,19 +381,19 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		
+
 		model.addAttribute("formation",formation);
 		model.addAttribute("count",countFormation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
 		//		model.addAttribute("ByCity",ByCity);
 		//		model.addAttribute("FromSearch",FromSearch);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("key", title);
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -411,10 +421,10 @@ public class FormationController {
 		List<Local> local=localController.ListeLocals(client.getId());
 
 		model.addAttribute("local",local);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "dashboard-my-ads";
 	}
 
@@ -428,7 +438,7 @@ public class FormationController {
 
 	@RequestMapping(value="/delete", method =RequestMethod.GET)
 	public String delete(Long id,HttpServletRequest request) {
-		
+
 		HttpSession session=request.getSession(true);
 		Client client =(Client) session.getAttribute("user");
 		Formation formation=formationRepository.getOne(id);
@@ -467,8 +477,8 @@ public class FormationController {
 				+ "<td><strong>To: </strong></td>"+"<td>"+formation.getLastDay()+"</td>"
 				+ "</tr>"
 				+ "</tbody>";
-		
-		
+
+
 
 		List<String> clientsEmails= formationRepository.findParticipants(id);
 
@@ -502,14 +512,14 @@ public class FormationController {
 
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "single";
 
 	}
-	
-	
+
+
 
 	@RequestMapping(value="/editArticle", method =RequestMethod.GET)
 	public String editArticle(Model model,Long id,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
@@ -519,7 +529,7 @@ public class FormationController {
 
 		model.addAttribute("article",a);
 		List<Local> local=localController.findAll();
-		
+
 		model.addAttribute("locaux",local);
 		TrainingPicture=a.getSignificantPhoto();
 		List<Local> allLocals= localService.getLocals();
@@ -528,10 +538,10 @@ public class FormationController {
 		model.addAttribute("locaux",allLocals);
 		model.addAttribute("localVilles",localVilles);
 		model.addAttribute("localCategories",localCategories);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "UpdateArticle";
 	}
 
@@ -612,9 +622,9 @@ public class FormationController {
 				+ "<td><strong>To: </strong></td>"+"<td>"+formation.getLastDay()+"</td>"
 				+ "</tr>"
 				+ "</tbody>"+"<p>Go check other information.</p>";
-		
-		
-		
+
+
+
 		List<String> clientsEmails= formationRepository.findParticipants(formation.getId());
 
 		try {
@@ -641,21 +651,21 @@ public class FormationController {
 		model.addAttribute("count", countFormation);
 		if(verifyIfExist.size()==0) {
 			if(formation.equals(null)) {
-				
+
 				formationRepository.insertIntoReservation(client.getId(),id);
-				
+
 				return "redirect:listFormation";
 			}
 			else {
-				
+
 				if(formation.getNbPlaces()>countFormation) {
-					
-					
+
+
 					formationRepository.insertIntoReservation(client.getId(),id);
-					
-					
-					
-					
+
+
+
+
 					return "redirect:TrainingList?id="+id;
 				}
 				else return "redirect:PlacesPleines";
@@ -665,22 +675,22 @@ public class FormationController {
 			return "redirect:DejaPostuler";
 
 	}
-	
+
 	@RequestMapping(value="/TrainingList", method =RequestMethod.GET)
 	public String TrainingList(Model model,HttpServletRequest request,Long id) {
 		Formation formation =formationRepository.getOne(id);
 		if(formation.getCanStart()==1) {
-			
+
 			try {
 				notificationService.sendNotificationIfArticleHasReachedMin(formation.getUser().getEmail(), formation);
 
-				
+
 			} catch (Exception e) {
 
 			}
 		}
-		
-		
+
+
 		return "redirect:listFormation";
 	}
 
@@ -688,7 +698,7 @@ public class FormationController {
 	public String DejaPostuler(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
 		List<Formation> formation=formationRepository.findAll();
-		
+
 		model.addAttribute("formation",formation);
 		if(session.getAttribute("user")==null) return "CategoryVisiteur";
 
@@ -715,15 +725,19 @@ public class FormationController {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
 
+		ShouldExpandRole=true;
+
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
+
+
 		List<Formation> formation=formationRepository.findReservedTraining(client.getId());
 		model.addAttribute("myformation",formation);
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "user-profile";
 	}
 
@@ -752,7 +766,7 @@ public class FormationController {
 
 		List<Client> TrainerList =clientRepository.findTrainers();
 
-		
+
 		model.addAttribute("formation",formation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
@@ -760,10 +774,10 @@ public class FormationController {
 		//		model.addAttribute("FromSearch",FromSearch);
 
 		model.addAttribute("count",countformation.size());
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -786,7 +800,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-	
+
 		model.addAttribute("formation",formation);
 
 		//		model.addAttribute("ByCategory",ByCategory);
@@ -794,10 +808,10 @@ public class FormationController {
 		//		model.addAttribute("FromSearch",FromSearch);
 
 		model.addAttribute("count",countformation.size());
-		
+
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "category";
@@ -826,7 +840,7 @@ public class FormationController {
 
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "RechercheAvancee";
 	}
 
@@ -841,7 +855,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		
+
 		model.addAttribute("formation",formation);
 
 		model.addAttribute("count",countformation.size());
@@ -854,7 +868,7 @@ public class FormationController {
 
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "RechercheAvancee";
@@ -870,7 +884,7 @@ public class FormationController {
 
 		model.addAttribute("TrainerList", TrainerList);
 
-		
+
 		model.addAttribute("formation",formation);
 		//		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
 		model.addAttribute("MinPrice",MinPrice);

@@ -7,6 +7,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Profile: TrainingManagement</title>
+<!-- ALERT -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 <link type="text/css"
 	href="../static/plugins/bootstrap/css/bootstrap-timepicker.min.css"
 	th:href="@{plugins/bootstrap/css/bootstrap-timepicker.min.css}" />
@@ -54,14 +57,11 @@
 <link href="../static/css/style.css" th:href="@{css/style.css}"
 	rel="stylesheet">
 
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-
+<style type="text/css">
+.swal2-select {
+	display: none;
+}
+</style>
 </head>
 
 <body class="body-wrapper">
@@ -114,8 +114,9 @@
 								style="margin-right: 39px;">
 								<li class="nav-item w-100" style="margin-bottom: 10px;">
 									<form class="search" method="get" th:action="@{Search}">
-										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..."/>
-										<input class="searchButton" type="submit" />
+										<input name="Title" class="searchTerm  rounded"
+											placeholder="Training Title..." /> <input
+											class="searchButton" type="submit" />
 									</form>
 								</li>
 
@@ -154,6 +155,9 @@
 	<!--==================================
 =            User Profile            =
 ===================================-->
+
+
+
 
 	<section class="user-profile section">
 		<div class="container">
@@ -439,6 +443,22 @@
 			</div>
 		</div>
 	</section>
+
+	<div th:if="${ShouldExpandRole==true}">
+		<script type="text/javascript">
+
+Swal.fire({
+    title: 'Expand your role first !',
+    type: 'info',
+    confirmButtonColor: "#0076A3",
+   
+    animation:true
+   
+    
+});
+
+</script>
+	</div>
 
 
 	<!--============================

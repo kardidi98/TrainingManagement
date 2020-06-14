@@ -113,8 +113,9 @@
 								class="navbar-nav  ml-auto main-nav" style="margin-right: 39px;">
 								<li class="nav-item w-100" style="margin-bottom: 10px;">
 									<form class="search" method="get" th:action="@{Search}">
-										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..." />
-										<input class="searchButton" type="submit" />
+										<input name="Title" class="searchTerm  rounded"
+											placeholder="Training Title..." /> <input
+											class="searchButton" type="submit" />
 									</form>
 								</li>
 
@@ -150,8 +151,9 @@
 								class="navbar-nav ml-auto mt-10 ">
 								<li class="nav-item w-100" style="margin-right: 10px;">
 									<form class="search" method="get" th:action="@{Search}">
-										<input name="Title" class="searchTerm  rounded" placeholder="Training Title..." />
-										<input class="searchButton" type="submit" />
+										<input name="Title" class="searchTerm  rounded"
+											placeholder="Training Title..." /> <input
+											class="searchButton" type="submit" />
 									</form>
 								</li>
 								<li class="nav-item"><a
@@ -184,23 +186,22 @@
 							learn <br> everyday in local communities around the world
 						</p>
 						<div class="short-popular-category-list text-center">
-							<h2 class="animated fadeInLeftBig">Popular Category</h2>
-							<ul class="list-inline animated fadeInRightBig">
+							<h2 class="animated fadeInLeftBig" style="color: #FEC12F;">Start
+								Now</h2>
+
+							<br>
+							<ul class="list-inline animated fadeInRightBig"
+								style="display: flex; justify-content: center;">
 								<li class="list-inline-item"><a
-									th:href="@{listFormationParCategory(cat=('Development'))}"><i
-										class="fa fa-terminal"></i> Development</a></li>
+									style="padding: 15px; font-size: 15px; border-bottom: 2px solid #7DCCD0;"
+									class="rounded" th:href="@{listFormation}"> Find Training</a></li>
 								<li class="list-inline-item"><a
-									th:href="@{listFormationParCategory(cat=('Electronics'))}"><i
-										class="fa fa-laptop"></i> Electronics</a></li>
-								<li class="list-inline-item"><a
-									th:href="@{listFormationParCategory(cat=('Programmation'))}"><i
-										class="fa fa-keyboard-o"></i> Programmation</a></li>
-								<li class="list-inline-item"><a
-									th:href="@{listFormationParCategory(cat=('Finance & Comptability'))}"><i
-										class="fa fa-dollar"></i> Finance & Comptability</a></li>
-								<li class="list-inline-item"><a
-									th:href="@{listFormationParCategory(cat=('Business'))}"><i
-										class="fa fa-briefcase"></i> Business</a></li>
+									style="padding: 15px; font-size: 15px; border-bottom: 2px solid #055BB5;"
+									class="rounded" th:href="@{AddArticle}"> Post Training</a></li>
+								<li class="list-inline-item "><a
+									style="padding: 15px; font-size: 15px; border-bottom: 2px solid #FF8300;"
+									class="rounded" th:href="@{AddLocal}"> Post Local</a></li>
+
 
 							</ul>
 						</div>
@@ -370,58 +371,58 @@
 
 						<div class="col-md-6 col-xm-12">
 							<h2>Post and Search a Training</h2>
-							<p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
-								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
-								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
-								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
-								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
-								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+							<p style="text-align: justify;">Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Nunc est justo, aliquam nec tempor
+								fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus
+								dictum tincidunt magna id euismod. Nam sollicitudin mi quis orci
+								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur
 								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
-								commodo et libero. Quisque et rutrum arcu. Vivamus dictum
-								tincidunt magna id euismod. Nam sollicitudin mi quis orci
-								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
-								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
-								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
-								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
-								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
-								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+								commodo et libero. Quisque et rutrum arcu. Lorem ipsum dolor sit
+								amet, consectetur adipiscing elit. Nunc est justo, aliquam nec
+								tempor fermentum, commodo et libero. Quisque et rutrum arcu.
+								Vivamus dictum tincidunt magna id euismod. Nam sollicitudin mi
+								quis orci lobortis feugiat. Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Nunc est justo, aliquam nec tempor
+								fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus
+								dictum tincidunt magna id euismod. Nam sollicitudin mi quis orci
+								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur
 								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
-								commodo et libero. Quisque et rutrum arcu.</p>
+								commodo et libero. Quisque et rutrum arcu. Lorem ipsum dolor sit
+								amet, consectetur adipiscing elit. Nunc est justo, aliquam nec
+								tempor fermentum, commodo et libero. Quisque et rutrum arcu.</p>
 						</div>
 					</div>
 					&nbsp;
-					<hr/>
+					<hr />
 					&nbsp;
 					<div class="row">
-					<div class="col-sm-6 col-xm-12">
-						<h2>Post and Search a Local</h2>
-						<p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
-								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
-								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
-								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
-								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
-								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+						<div class="col-sm-6 col-xm-12">
+							<h2>Post and Search a Local</h2>
+							<p style="text-align: justify;">Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Nunc est justo, aliquam nec tempor
+								fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus
+								dictum tincidunt magna id euismod. Nam sollicitudin mi quis orci
+								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur
 								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
-								commodo et libero. Quisque et rutrum arcu. Vivamus dictum
-								tincidunt magna id euismod. Nam sollicitudin mi quis orci
-								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc est justo, aliquam nec tempor fermentum, commodo et libero.
-								Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
-								euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem
-								ipsum dolor sit amet, consectetur adipiscing elit. Nunc est
-								justo, aliquam nec tempor fermentum, commodo et libero. Quisque
-								et rutrum arcu. Lorem ipsum dolor sit amet, consectetur
+								commodo et libero. Quisque et rutrum arcu. Lorem ipsum dolor sit
+								amet, consectetur adipiscing elit. Nunc est justo, aliquam nec
+								tempor fermentum, commodo et libero. Quisque et rutrum arcu.
+								Vivamus dictum tincidunt magna id euismod. Nam sollicitudin mi
+								quis orci lobortis feugiat. Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Nunc est justo, aliquam nec tempor
+								fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus
+								dictum tincidunt magna id euismod. Nam sollicitudin mi quis orci
+								lobortis feugiat. Lorem ipsum dolor sit amet, consectetur
 								adipiscing elit. Nunc est justo, aliquam nec tempor fermentum,
-								commodo et libero. Quisque et rutrum arcu.</p>
-								</div>
+								commodo et libero. Quisque et rutrum arcu. Lorem ipsum dolor sit
+								amet, consectetur adipiscing elit. Nunc est justo, aliquam nec
+								tempor fermentum, commodo et libero. Quisque et rutrum arcu.</p>
+						</div>
 						<div class="col-sm-6 col-xm-12">
 							<img alt="local" src="images/local.png" class="img-fluid">
 						</div>
 
-						
+
 					</div>
 
 				</div>

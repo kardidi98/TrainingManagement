@@ -18,6 +18,7 @@ import org.apache.commons.io.IOUtils;
 import org.sid.dao.CategoryLocalRepository;
 import org.sid.dao.CategoryRepository;
 import org.sid.dao.CityRepository;
+import org.sid.dao.FormationRepository;
 import org.sid.dao.LocalRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Formation;
@@ -56,31 +57,58 @@ public class LocalController {
 	private String picture6;
 	@Autowired
 	private LocalRepository localRepository;
-	
+
+	@Autowired
+	private FormationRepository formationRepository;
+
 	@Autowired
 	private CityRepository cityRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private CategoryLocalRepository categorylocalRepository;
-	
+
 	@Value("${dir.Localimages}")
 	private String localImageDir;
+
+	private boolean ShouldExpandRole=false;
 
 
 	@RequestMapping(value="/AddLocal", method = RequestMethod.GET)
 	public String formulaireLocal(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
+		Client client=(Client) session.getAttribute("user");
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
+
+		if(!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider")) {
+
+
+			if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") || 
+					!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider")) {
+				ShouldExpandRole=true;
+			}
+
+
+			model.addAttribute("ShouldExpandRole", ShouldExpandRole);
+
+			List<Formation> formation=formationRepository.findReservedTraining(client.getId());
+			model.addAttribute("myformation",formation);
+
+			model.addAttribute("categories", categoryRepository.findAll());
+			model.addAttribute("cities", cityRepository.findAll());
+
+			return "user-profile";
+
+		}
 		model.addAttribute("local",new Local());
-		
+
 		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "Local-Listing";		
 	}
 
@@ -182,7 +210,7 @@ public class LocalController {
 				model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 				model.addAttribute("categories", categoryRepository.findAll());
 				model.addAttribute("cities", cityRepository.findAll());
-				
+
 				return "redirect:EditAds";	
 	}
 
@@ -197,11 +225,11 @@ public class LocalController {
 		picture4=local.getPicture4();
 		picture5=local.getPicture5();
 		picture6=local.getPicture6();
-		
+
 		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "Update-Local";
 	}
 
@@ -369,11 +397,11 @@ public class LocalController {
 		local.setVille(ville);
 		local.setOwner((Client) session.getAttribute("user"));
 
-		
-		
+
+
 
 		localRepository.save(local);
-		
+
 		String messageToAdmin="<div class='container'><div style='text-align:center;'><h1 style='color:blue;'>Training Management</h1></div>"+
 				"<div style='color: black;box-shadow:0 0 10px rgba(0, 0, 0, 0.5);border-radius:5px;'><h1>Hi Administators</h1>"+
 				"<p>" + 
@@ -414,7 +442,7 @@ public class LocalController {
 		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
-		
+
 		return "redirect:EditAds";	
 	}
 
@@ -430,7 +458,7 @@ public class LocalController {
 	public List<Local> ListeLocals(Long uId) {
 
 		List<Local> local= localRepository.findByUserId(uId);
-		
+
 
 		return local;
 
@@ -480,9 +508,9 @@ public class LocalController {
 		}
 		localRepository.localDeleted(id);
 		localRepository.deleteById(id);
-		
-		
-		
+
+
+
 		return "redirect:EditAds";
 	}
 	@RequestMapping(value="/findAll", method =RequestMethod.GET)
@@ -503,7 +531,7 @@ public class LocalController {
 		return localRepository.getOne(id);
 	}
 
-	
+
 
 
 
