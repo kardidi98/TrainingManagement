@@ -403,13 +403,13 @@
 							<h4>
 								<a th:text="${formateur.nom} +' ' +${formateur.prenom}"></a>
 							</h4>
-							<p class="member-time" th:text="${formateur.job}"></p>
+							<p class="member-time" th:text="${formateur.job}+', '+${article.expertise}"></p>
 
 							<ul class="list-inline mt-15">
 								<div class="row">
 									<div class="col-sm-6">
 										<li class="list-inline-item"><a
-											th:href="@{editTrainerProfil(id=${formateur.id})}"
+											th:href="@{editTrainerProfil(id=${formateur.id},training=${article.id})}"
 											class="btn btn-contact d-inline-block  btn-primary px-lg-4 my-1 px-md-3"
 											style="color: white;">Profile</a></li>
 									</div>
@@ -425,7 +425,7 @@
 							</ul>
 						</div>
 
-						<div class="widget rate">
+						<div class="widget rate" th:if="${article.lastDay.before(#dates.createNow())}">
 
 							<h5 class="widget-header text-center">Your rating</h5>
 
@@ -477,7 +477,7 @@
 				Your are the trainer
 			</div>
 
-			<div th:if="${formateur.email != session.user.email}">
+			<div th:if="${formateur.email != session.user.email} and ${article.lastDay.after(#dates.createNow())}">
 				<center>
 					<a th:href="@{SendRequest(id=${article.id})}"><button
 							class="text-white add-button-local rounded"

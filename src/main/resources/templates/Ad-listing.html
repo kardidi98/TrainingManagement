@@ -242,7 +242,7 @@
 									style="border: 1px solid #DEE2E6;">
 									<input type="radio" name="session" value="AllDay" id="AllDay"
 										required="required"> <label for="personal"
-										class="py-2">All Day</label>
+										class="py-2" style="color: black;">All Day</label>
 								</div>
 								<div data-toggle="tooltip" data-placement="top"
 									title="Morning: 08:00 AM To 12:00 PM"
@@ -250,7 +250,7 @@
 									style="border: 1px solid #DEE2E6;">
 									<input type="radio" name="session" value="Morning" id="Morning"
 										required="required"> <label for="business"
-										class="py-2">Morning</label>
+										class="py-2" style="color: black;">Morning</label>
 								</div>
 								<div data-toggle="tooltip" data-placement="top"
 									title="Afternoon: 02:00 PM To 06:00 PM"
@@ -258,7 +258,7 @@
 									style="border: 1px solid #DEE2E6;">
 									<input type="radio" name="session" value="Afternoon"
 										id="Afternoon" required="required"> <label
-										for="business" class="py-2">Afternoon</label>
+										for="business" class="py-2" style="color: black;">Afternoon</label>
 								</div>
 
 							</div>
@@ -287,15 +287,32 @@
 								</div>
 							</div>
 
-							<h6 class="font-weight-bold pt-4 pb-1" style="margin-top: 0;">Select
-								Article Difficulty:</h6>
-							<select name="difficulty" id="difficulty" class="w-100 rounded">
+							<div class="row">
+								<div class="col-sm-6">
+									<h6 class="font-weight-bold pt-4 pb-1" style="margin-top: 0;">Select
+										Article Difficulty:</h6>
+									<select name="difficulty" id="difficulty" class="w-100 rounded">
 
-								<option value="Hard">Hard</option>
-								<option value="Medium">Medium</option>
-								<option value="Easy">Easy</option>
+										<option value="Hard">Hard</option>
+										<option value="Medium">Medium</option>
+										<option value="Easy">Easy</option>
 
-							</select>
+									</select>
+								</div>
+								<div class="col-sm-6">
+									<h6 class="font-weight-bold pt-4 pb-1" style="margin-top: 0;">Select
+										Trainer Expertise:</h6>
+									<select class="w-100 rounded" name="expertise">
+										<option value="Biginner">Beginner</option>
+										<option value="Medium">Medium</option>
+										<option value="Expert">Expert</option>
+
+									</select>
+
+								</div>
+							</div>
+
+
 							<!--  -->
 							<h6 class="font-weight-bold pt-1 pb-1">Requirements:</h6>
 							<div class="row px-3">
@@ -522,15 +539,15 @@
 									</div>
 								</div>
 
-								<center >
-									<a >
+								<center>
+									<a>
 										<p class="btn-primary rounded choose_local"
 											style="margin-bottom: 15px;" th:id="${local.id}"
 											onclick="document.getElementById('choosen').value=this.id;$('.card').css('box-shadow','0 0 0');$('#local'+this.id).css('box-shadow','0 0 15px grey');$('#local'+this.id).css('transition','ease 0.3s');$('#local'+this.id).css('transform','scale(1.01)');">
 											Choose</p>
 									</a>
 								</center>
-								
+
 								<!-- Modal -->
 								<div class="modal fade" th:id="'LocalDetails'+${local.id}"
 									tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"

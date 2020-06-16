@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +20,8 @@ import org.apache.commons.io.IOUtils;
 import org.sid.dao.CategoryRepository;
 import org.sid.dao.CityRepository;
 import org.sid.dao.ClientRepository;
+import org.sid.dao.CommentaireRepository;
+import org.sid.dao.FormationRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Commentaire;
 import org.sid.entities.Formation;
@@ -51,12 +54,16 @@ public class ClientController {
 	private CityRepository cityRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private FormationRepository formationRepository;
 
 
 	@Autowired
 	private ClientRepository clientRepository;
 	@Value("${dir.userimages}")
 	private String imageDir;
+	
+	private boolean isAutorised=true;
 
 	@RequestMapping(value="/home",method=RequestMethod.GET)
 	public String logout(Model model,HttpSession session) {
@@ -152,6 +159,17 @@ public class ClientController {
 		if(client==null) {
 			return "register";
 		}
+		
+		if(client.getBlocked().equals("blocked")) {
+			isAutorised=false;
+			error=null;
+			model.addAttribute("error",error);
+			model.addAttribute("client",new Client());
+			model.addAttribute("Autorised", isAutorised);
+			return "login";
+		}
+		isAutorised=true;
+		
 		if(client.getPassword().equals(password)) {
 			session=request.getSession(true);
 			session.setAttribute("user", client);
@@ -170,12 +188,13 @@ public class ClientController {
 		return "redirect:TrainingManagement";
 	}
 	@RequestMapping(value="/editTrainerProfil",method=RequestMethod.GET)
-	public String editTrainerProfil(Model model,HttpServletRequest request,Long id) {
+	public String editTrainerProfil(Model model,HttpServletRequest request,Long id,Long training) {
 		HttpSession session=request.getSession(true);
 		Client client=(Client) session.getAttribute("user");
 
 		Client trainer=clientRepository.getOne(id);
 		model.addAttribute("trainer", trainer);
+		model.addAttribute("expertise", formationRepository.getOne(training).getExpertise());
 		model.addAttribute("session", session.getAttribute("user"));
 
 

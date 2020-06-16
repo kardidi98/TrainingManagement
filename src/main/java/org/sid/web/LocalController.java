@@ -83,11 +83,11 @@ public class LocalController {
 			return "login";
 		}
 
-		if(!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider")) {
+		if(!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole2().equals("Local Provider")) {
 
 
 			if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") || 
-					!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider")) {
+					!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole2().equals("Local Provider")) {
 				ShouldExpandRole=true;
 			}
 

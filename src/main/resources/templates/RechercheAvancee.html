@@ -270,12 +270,10 @@ input.currency {
 										<option th:each="city:${cities}" th:text="${city.ville}" th:value="${city.ville}"></option>
 							</select> <select class="form-control w-100 " name="TypeLocal"
 								required="required">
-								<option value="default">Select a type of Local</option>
-								<option value="Studio">Studio</option>
-								<option value="Duplex">Duplex</option>
-								<option value="Office">Office</option>
-								<option value="F2">F2</option>
-								<option value="F3">F3</option>
+								<option value="default">Select Local Category</option>
+								<option th:each="localCat:${categoriesLocal}" th:value="${localCat.category}" th:text="${localCat.category}"></option>
+								
+								
 							</select>
 
 						</div>
@@ -287,7 +285,7 @@ input.currency {
 							<select class="form-control w-100" name="Trainer"
 								required="required">
 								<option value="default">Select trainer expertise</option>
-								<option value="Biginner">Biginner</option>
+								<option value="Biginner">Beginner</option>
 								<option value="Medium">Medium</option>
 								<option value="Expert">Expert</option>
 

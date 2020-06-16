@@ -49,7 +49,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class FormationController {
 
 
-
+	@Autowired
+	private CategoryLocalRepository categorylocalRepository;
 
 	@Autowired
 	private NotificationService notificationService;
@@ -77,6 +78,8 @@ public class FormationController {
 
 	@Autowired
 	private ClientRepository clientRepository;
+	@Autowired
+	private CommentaireRepository commentaireRepository;
 
 	@Value("${dir.images}")
 	private String imageDir;
@@ -112,7 +115,7 @@ public class FormationController {
 		}
 		if (!Files.exists(path2)) {
 			try {
-				Files.createDirectories(path1);
+				Files.createDirectories(path2);
 			} catch (IOException e) {
 				//fail to create directory
 				e.printStackTrace();
@@ -120,7 +123,7 @@ public class FormationController {
 		}
 		if (!Files.exists(path3)) {
 			try {
-				Files.createDirectories(path1);
+				Files.createDirectories(path3);
 			} catch (IOException e) {
 				//fail to create directory
 				e.printStackTrace();
@@ -130,7 +133,7 @@ public class FormationController {
 		//***********************************Creation des dossiers images*************************************
 		List<Formation> trendyTrainings=formationRepository.trendyTrainings();
 
-		List<Commentaire> commentaires=commentaireController.findRecent(5);
+		List<Commentaire> commentaires=commentaireRepository.findRecent(5);
 		model.addAttribute("commentaires", commentaires);
 		model.addAttribute("commentaire",new Commentaire());
 
@@ -138,17 +141,20 @@ public class FormationController {
 
 		List<Client> TrainerList =clientRepository.findTrainers();
 
+		model.addAttribute("categories", categoryRepository.findAll());
+		model.addAttribute("cities", cityRepository.findAll());
 
 		model.addAttribute("trendyTrainings", trendyTrainings);
 		model.addAttribute("TrainerList", TrainerList);
-		model.addAttribute("categories", categoryRepository.findAll());
-		model.addAttribute("cities", cityRepository.findAll());
+		
 
 
 		model.addAttribute("session", session.getAttribute("user"));
 
 		return "index";		
 	}
+	
+	
 	@RequestMapping(value="/AddArticle", method = RequestMethod.GET)
 	public String AddArticle(Model model,HttpServletRequest request) {
 		HttpSession session=request.getSession(true);
@@ -414,6 +420,19 @@ public class FormationController {
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
+		
+		
+
+//		Client formateur=article.getUser();
+//		Long countFormation=formationRepository.countByIdFormation(id);
+//		model.addAttribute("countAvailablePlaces",article.getNbPlaces()-countFormation);
+
+
+
+
+		
+		
+		
 		List<Formation> formation=formationRepository.findByUserId(client.getId());
 
 		model.addAttribute("myformation",formation);
@@ -822,7 +841,7 @@ public class FormationController {
 	}
 
 	@RequestMapping(value="/advancedSearch",method=RequestMethod.GET)
-	public String advancedSearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page) {
+	public String advancedSearch(Model model,HttpServletRequest request) {
 		//		FromAdvancedSearch=false;
 		HttpSession session=request.getSession(true);
 		List<Formation> formation=formationRepository.findByEtat();
@@ -837,7 +856,7 @@ public class FormationController {
 
 		model.addAttribute("session", session.getAttribute("user"));
 
-
+		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
 
@@ -864,8 +883,7 @@ public class FormationController {
 		model.addAttribute("MinPrice",MinPrice);
 		model.addAttribute("MaxPrice",MaxPrice);
 		model.addAttribute("Rating",Rating);
-		//		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
-
+		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());
 
@@ -874,7 +892,7 @@ public class FormationController {
 		return "RechercheAvancee";
 	}
 	@RequestMapping(value="/advancedresearch",method=RequestMethod.GET)
-	public String advancedresearch(Model model,HttpServletRequest request,@RequestParam(name="page",defaultValue = "0") int page,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
+	public String advancedresearch(Model model,HttpServletRequest request,@RequestParam(name="StartDate",defaultValue = "2020-01-01") Date StartDate,@RequestParam(name="EndDate",defaultValue = "2020-01-01") Date EndDate,@RequestParam(name="Category") String Category,@RequestParam(name="Difficulty") String Difficulty,@RequestParam(name="Rating", defaultValue = "0") int Rating,@RequestParam("City") String City,@RequestParam("TypeLocal") String TypeLocal,@RequestParam("Trainer") String Trainer,@RequestParam("MinPrice") int MinPrice,@RequestParam("MaxPrice")int MaxPrice ) {
 		//		FromAdvancedSearch=true;
 		List<Formation> formation=formationRepository.rechercherformationAvancee(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
 		List<Formation> countformation = formationRepository.countResultFormation(StartDate, EndDate, Category, Difficulty, Rating, City, TypeLocal, Trainer, MinPrice, MaxPrice);
@@ -886,11 +904,12 @@ public class FormationController {
 
 
 		model.addAttribute("formation",formation);
-		//		model.addAttribute("FromAdvancedSearch",FromAdvancedSearch);
+		
 		model.addAttribute("MinPrice",MinPrice);
 		model.addAttribute("MaxPrice",MaxPrice);
 		model.addAttribute("Rating",Rating);
 		model.addAttribute("count",countformation.size());
+		model.addAttribute("categoriesLocal", categorylocalRepository.findAll());
 
 		model.addAttribute("categories", categoryRepository.findAll());
 		model.addAttribute("cities", cityRepository.findAll());

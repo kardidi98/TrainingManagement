@@ -36,7 +36,7 @@ public class Client implements Serializable{
 	private String Address;
 	private String profile;
 	private String picture;
-	private String expertise;
+	
 	private String blocked;
 	private String etendreRole1;
 	private String etendreRole2;
@@ -64,7 +64,7 @@ public class Client implements Serializable{
 
 
 	public Client(long id, String nom, String prenom, String email, String password, String type, String job,
-			String address, String profile, String picture, String expertise, String blocked, String etendreRole1,
+			String address, String profile, String picture, String blocked, String etendreRole1,
 			String etendreRole2, List<Formation> formation, List<Local> locaux, List<Formation> formationReservee,
 			List<Commentaire> commentaires, List<Rating> myRatings) {
 		this.id = id;
@@ -77,7 +77,7 @@ public class Client implements Serializable{
 		Address = address;
 		this.profile = profile;
 		this.picture = picture;
-		this.expertise = expertise;
+		
 		this.blocked = blocked;
 		this.etendreRole1 = etendreRole1;
 		this.etendreRole2 = etendreRole2;
@@ -250,14 +250,6 @@ public class Client implements Serializable{
 		this.myRatings = myRatings;
 	}
 	
-	
-	public String getExpertise() {
-		return expertise;
-	}
-
-	public void setExpertise(String expertise) {
-		this.expertise = expertise;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

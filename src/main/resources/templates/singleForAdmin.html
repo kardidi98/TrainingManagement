@@ -419,7 +419,7 @@ ul li.active {
 							<h4>
 								<a th:text="${formateur.nom} +' ' +${formateur.prenom}+' / ID='+${formateur.id}"></a>
 							</h4>
-							<p class="member-time" th:text="${formateur.job}"></p>
+							<p class="member-time" th:text="${formateur.job}+', '+${article.expertise}"></p>
 						</div>
 
 						

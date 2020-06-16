@@ -35,6 +35,7 @@ public class Formation implements Serializable {
 	private String ArticleCat;
 	private int Prix;
 	private String Requirements;
+	private String expertise;
 	@Column(columnDefinition = "LONGTEXT")
 	private String Description;
 	private java.sql.Date firstDay;
@@ -59,11 +60,13 @@ public class Formation implements Serializable {
 
 
 	
+	
+	
 
 	public Formation(Long id, String title, int nbPlaces, int minPlaces, int canStart, String difficulty,
-			String articleCat, int prix, String requirements, String description, java.sql.Date firstDay,
-			java.sql.Date lastDay, String significantPhoto, String etat, String session, Client user,
-			List<Client> clientBeneficiants, org.sid.entities.Local local, List<Rating> ratings) {
+			String articleCat, int prix, String requirements, String expertise, String description,
+			java.sql.Date firstDay, java.sql.Date lastDay, String significantPhoto, String etat, String session,
+			Client user, List<Client> clientBeneficiants, org.sid.entities.Local local, List<Rating> ratings) {
 		this.id = id;
 		Title = title;
 		NbPlaces = nbPlaces;
@@ -73,6 +76,7 @@ public class Formation implements Serializable {
 		ArticleCat = articleCat;
 		Prix = prix;
 		Requirements = requirements;
+		this.expertise = expertise;
 		Description = description;
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
@@ -84,8 +88,20 @@ public class Formation implements Serializable {
 		Local = local;
 		this.ratings = ratings;
 	}
-	
-	
+
+
+
+	public String getExpertise() {
+		return expertise;
+	}
+
+
+
+	public void setExpertise(String expertise) {
+		this.expertise = expertise;
+	}
+
+
 
 	public String getSession() {
 		return session;
