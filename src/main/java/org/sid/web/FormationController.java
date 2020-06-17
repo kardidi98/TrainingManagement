@@ -163,11 +163,11 @@ public class FormationController {
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
-		if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole1().equals("Trainer")) {
+		if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole2().equals("Trainer")) {
 		
 
-			if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") || 
-					!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider")) {
+			if(!client.getType().equals("Trainer") && !client.getEtendreRole1().equals("Trainer") && !client.getEtendreRole2().equals("Trainer") || 
+					!client.getType().equals("Local Provider") && !client.getEtendreRole1().equals("Local Provider") && !client.getEtendreRole2().equals("Local Provider")) {
 				ShouldExpandRole=true;
 			}
 			
